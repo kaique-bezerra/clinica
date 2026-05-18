@@ -41,28 +41,27 @@ function DashboardRecepcionista() {
             </li>
 
             <li>
-
                 <Link className="link" to="/pacientes">
             <li>
                     Cadastro de pacientes
             </li>
                 </Link>
-
-                
             </li>
-
+                <Link className="link" to="/agendamento">
             <li>
               Agendamento
             </li>
-
+                </Link>
+                    <Link className="link" to="/calendario">
             <li>
               Calendário
             </li>
-
+                </Link>
+            <Link className="link" to="/prontuario">
             <li>
-              Consultas
+              prontuário
             </li>
-
+            </Link>
           </ul>
 
         </nav>
@@ -82,7 +81,7 @@ function DashboardRecepcionista() {
           <div className="welcome-text">
 
             <h1>
-              Bem-vinda, Maria 👋
+              Bem-vinda, Maria 
             </h1>
 
             <p>

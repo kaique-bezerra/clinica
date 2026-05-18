@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Pacientes from "./pages/pacientes";
+import Agendamento from "./pages/Agendamento";
+import Prontuario from "./pages/Prontuario";
+import Calendario from "./pages/Calendario";
 
 function App() {
   return (
@@ -18,6 +21,16 @@ function App() {
 
         {/* Página Cadastro de Pacientes */}
         <Route path="/pacientes" element={<Pacientes />} />
+
+        {/* Página Agendamento */}
+        <Route path="/agendamento" element={<Agendamento />} />
+
+        {/* Página Prontuário */}
+        <Route path="/prontuario" element={<Prontuario />} />
+
+        {/* Página Calendário */}
+        <Route path="/calendario" element={<Calendario />} />
+        
 
       </Routes>
 

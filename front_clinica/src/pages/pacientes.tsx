@@ -1,4 +1,6 @@
 import "./Pacientes.css";
+import { Link } from "react-router-dom";
+
 
 import { useState } from "react";
 
@@ -34,26 +36,29 @@ function Pacientes() {
         <nav className="menu">
 
           <ul>
-
+            <Link className="link" to="/dashboard">
             <li>
               Dashboard
             </li>
-
+                </Link>
             <li className="active">
               Cadastro de Pacientes
             </li>
-
+                <Link className="link" to="/agendamento">
             <li>
               Agendamento
             </li>
-
+                </Link>
+                <Link className="link" to="/calendario">
             <li>
               Calendário
             </li>
-
+                </Link>
+            <Link className="link" to="/prontuario">
             <li>
-              Consultas
+                prontuário
             </li>
+                </Link>
 
           </ul>
 
@@ -216,6 +221,6 @@ function Pacientes() {
 
     </div>
   );
-}
+}  
 
 export default Pacientes;
