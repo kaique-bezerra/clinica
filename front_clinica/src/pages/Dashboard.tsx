@@ -1,8 +1,9 @@
 import "./Dashboard.css";
+import { Link } from "react-router-dom";
 
 import { useState } from "react";
 
-function Dashboard() {
+function DashboardRecepcionista() {
 
   /* CONTROLE MENU */
   const [menuAberto, setMenuAberto] = useState(false);
@@ -40,11 +41,18 @@ function Dashboard() {
             </li>
 
             <li>
-              Pacientes
+
+                <Link className="link" to="/pacientes">
+            <li>
+                    Cadastro de pacientes
+            </li>
+                </Link>
+
+                
             </li>
 
             <li>
-              Consultas
+              Agendamento
             </li>
 
             <li>
@@ -52,11 +60,7 @@ function Dashboard() {
             </li>
 
             <li>
-              Prontuários
-            </li>
-
-            <li>
-              Usuários
+              Consultas
             </li>
 
           </ul>
@@ -71,6 +75,25 @@ function Dashboard() {
           menuAberto ? "expanded" : ""
         }`}
       >
+
+        {/* WELCOME CARD */}
+        <section className="welcome-card">
+
+          <div className="welcome-text">
+
+            <h1>
+              Bem-vinda, Maria 👋
+            </h1>
+
+            <p>
+              Você possui 12 consultas agendadas para hoje.
+              Gerencie os pacientes, acompanhe os horários
+              e mantenha a agenda da clínica organizada.
+            </p>
+
+          </div>
+
+        </section>
 
         {/* CARDS */}
         <section className="cards-container">
@@ -89,8 +112,8 @@ function Dashboard() {
 
           {/* CARD 3 */}
           <div className="card">
-            <h2>87</h2>
-            <p>Consultas no Mês</p>
+            <h2>5</h2>
+            <p>Consultas Canceladas</p>
           </div>
 
         </section>
@@ -107,6 +130,7 @@ function Dashboard() {
                 <th>Paciente</th>
                 <th>Horário</th>
                 <th>Médico</th>
+                <th>Status</th>
               </tr>
             </thead>
 
@@ -116,18 +140,21 @@ function Dashboard() {
                 <td>Maria Silva</td>
                 <td>14:00</td>
                 <td>Dr. João</td>
+                <td>Agendada</td>
               </tr>
 
               <tr>
                 <td>Carlos Henrique</td>
                 <td>15:00</td>
                 <td>Dra. Ana</td>
+                <td>Agendada</td>
               </tr>
 
               <tr>
                 <td>Fernanda Lima</td>
                 <td>16:30</td>
                 <td>Dr. Pedro</td>
+                <td>Cancelada</td>
               </tr>
 
             </tbody>
@@ -142,4 +169,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DashboardRecepcionista;
