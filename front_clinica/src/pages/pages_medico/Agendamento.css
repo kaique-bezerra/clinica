@@ -1,4 +1,3 @@
-/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -52,7 +51,6 @@
     margin-left: 250px;
 }
 
-/* FORM */
 .form-section {
     background: white;
     padding: 20px;
@@ -78,7 +76,6 @@ button {
     cursor: pointer;
 }
 
-/* TABELA */
 .table-section {
     background: white;
     padding: 20px;

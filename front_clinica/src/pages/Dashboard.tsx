@@ -105,7 +105,6 @@ function DashboardRecepcionista() {
 
         </section>
 
-        {/* TABELA CONSULTAS */}
         <section className="appointments-section">
 
           <h2>Próximos Agendamentos</h2>

@@ -32,7 +32,6 @@ function Agendamento() {
   return (
     <div className="agendamento-container">
 
-      {/* BOTÃO MENU */}
       <button
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
@@ -40,7 +39,6 @@ function Agendamento() {
         ☰
       </button>
 
-      {/* SIDEBAR */}
       <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
 
         <div className="logo">
@@ -78,10 +76,8 @@ function Agendamento() {
 
       </aside>
 
-      {/* CONTEÚDO */}
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
 
-        {/* TÍTULO */}
         <section className="page-header">
 
           <h1>Agendamento de Consultas</h1>
@@ -90,7 +86,6 @@ function Agendamento() {
 
         </section>
 
-        {/* FORMULÁRIO */}
         <section className="form-section">
 
           <select
@@ -129,7 +124,6 @@ function Agendamento() {
             Agendar Consulta
           </button>
 
-          {/* MENSAGEM */}
           {mensagem && (
             <p style={{ marginTop: "10px" }}>
               {mensagem}
@@ -138,7 +132,6 @@ function Agendamento() {
 
         </section>
 
-        {/* LISTA DE CONSULTAS */}
         <section className="table-section">
 
           <h2>Consultas Agendadas</h2>

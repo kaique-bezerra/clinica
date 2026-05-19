@@ -6,13 +6,11 @@ import { useState } from "react";
 
 function Pacientes() {
 
-  /* CONTROLE MENU */
   const [menuAberto, setMenuAberto] = useState(false);
 
   return (
     <div className="pacientes-container">
 
-      {/* BOTÃO MENU */}
       <button
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
@@ -20,19 +18,16 @@ function Pacientes() {
         ☰
       </button>
 
-      {/* SIDEBAR */}
       <aside
         className={`sidebar ${
           menuAberto ? "open" : "closed"
         }`}
       >
 
-        {/* LOGO */}
         <div className="logo">
           <h2>MedSync</h2>
         </div>
 
-        {/* MENU */}
         <nav className="menu">
 
           <ul>
@@ -62,14 +57,11 @@ function Pacientes() {
 
       </aside>
 
-      {/* CONTEÚDO */}
       <main
         className={`main-content ${
           menuAberto ? "expanded" : ""
         }`}
       >
-
-        {/* TÍTULO */}
         <section className="page-header">
 
           <h1>Cadastro de Pacientes</h1>

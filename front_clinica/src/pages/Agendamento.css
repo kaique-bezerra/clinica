@@ -1,11 +1,9 @@
-/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* CONTAINER */
 .agendamento-container {
     width: 100%;
     min-height: 100vh;
@@ -13,7 +11,6 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* BOTÃO MENU */
 .menu-button {
     position: fixed;
     top: 20px;
@@ -26,7 +23,6 @@
     cursor: pointer;
 }
 
-/* SIDEBAR */
 .sidebar {
     position: fixed;
     top: 0;
@@ -47,7 +43,7 @@
     transform: translateX(0);
 }
 
-/* MAIN */
+
 .main-content {
     padding: 100px 30px;
 }
@@ -56,7 +52,6 @@
     margin-left: 250px;
 }
 
-/* FORM */
 .form-section {
     background: white;
     padding: 20px;
@@ -82,7 +77,6 @@ button {
     cursor: pointer;
 }
 
-/* TABELA */
 .table-section {
     background: white;
     padding: 20px;

@@ -28,7 +28,6 @@ function Login() {
             />
           </div>
 
-          {/* CAMPO SENHA */}
           <div className="input-group">
             <label>Senha</label>
 
@@ -38,7 +37,6 @@ function Login() {
             />
           </div>
 
-          {/* BOTÃO */}
           <button
             type="button"
             className="login-button"
@@ -47,7 +45,7 @@ function Login() {
             Entrar
           </button>
           <Link to="/perfil-medico">
-            <p className="linkp">clique aqui para acessar o perfil médico</p>
+            <p className="linkp">Acessar Perfil Médico</p>
           </Link>
 
         </form>

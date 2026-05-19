@@ -1,5 +1,6 @@
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 function LoginM() {
 
@@ -13,7 +14,9 @@ function LoginM() {
         <div className="login-header">
           <h1>MedSync</h1>
           <p>Sistema Administrativo da Clínica</p>
+
         </div>
+          <p className="perfil">PERFIL MÉDICO</p>
 
         <form className="login-form">
 
@@ -42,6 +45,9 @@ function LoginM() {
           >
             Entrar
           </button>
+          <Link to="/">
+            <p className="linkp">Acessar Perfil Atendente</p>
+          </Link>
 
         </form>
 

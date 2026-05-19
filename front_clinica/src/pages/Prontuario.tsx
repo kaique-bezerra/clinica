@@ -35,7 +35,6 @@ function Prontuario() {
   return (
     <div className="prontuario-container">
 
-      {/* BOTÃO MENU */}
       <button
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
@@ -43,7 +42,6 @@ function Prontuario() {
         ☰
       </button>
 
-      {/* SIDEBAR */}
       <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
 
         <div className="logo">
