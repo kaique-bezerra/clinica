@@ -36,19 +36,17 @@ function Calendario() {
         <nav className="menu">
 
           <ul>
-                <Link className="link" to="/dashboard">
+                <Link className="link" to="/dashboard-medico">
             <li>Dashboard</li>
                 </Link>
-            <Link className="link" to="/pacientes">
-            <li>Pacientes</li>
-                </Link>
-                <Link className="link" to="/agendamento">
-            <li>Agendamento</li>
-                </Link>
-                <Link className="link" to="/calendario">
+            
+                
+                <Link className="link" to="/calendario-medico">
             <li className="active">Calendário</li>
                 </Link>
-                
+                <Link className="link" to="/prontuario-medico">
+            <li>Prontuário</li>
+                </Link>
 
 
           </ul>

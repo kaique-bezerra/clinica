@@ -51,27 +51,22 @@ function Agendamento() {
           <ul>
 
             <li>
-              <Link className="link" to="/dashboard">
+              <Link className="link" to="/dashboard-medico">
                 Dashboard
               </Link>
             </li>
-                          <Link className="link" to="/pacientes">
-
-            <li>
-                cadastro de pacientes
-            </li>
-              </Link>
-              <Link className="link" to="/agendamento">
-            <li className="active">
-                Agendamento
-            </li>
-              </Link>
-              <Link className="link" to="/calendario">
+            
+             
+              <Link className="link" to="/calendario-medico">
             <li>
                 Calendário
             </li>
               </Link>
-             
+              <Link className="link" to="/prontuario-medico">
+            <li>
+                prontuário
+            </li>
+              </Link>
 
           </ul>
         </nav>

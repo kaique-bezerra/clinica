@@ -1,6 +1,6 @@
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
-import imagem from "../assets/WhatsApp Image 2026-05-18 at 6.56.09 PM.jpeg";
+import imagem from "../../assets/WhatsApp Image 2026-05-18 at 6.56.09 PM.jpeg";
 import { useState } from "react";
 
 function DashboardRecepcionista() {
@@ -40,23 +40,19 @@ function DashboardRecepcionista() {
             </li>
 
             <li>
-                <Link className="link" to="/pacientes">
-            <li>
-                    Cadastro de pacientes
+                
             </li>
-                </Link>
-            </li>
-                <Link className="link" to="/agendamento">
-            <li>
-              Agendamento
-            </li>
-                </Link>
-                    <Link className="link" to="/calendario">
+                
+                    <Link className="link" to="/calendario-medico">
             <li>
               Calendário
             </li>
                 </Link>
-            
+            <Link className="link" to="/prontuario-medico">
+            <li>
+              prontuário
+            </li>
+            </Link>
           </ul>
 
         </nav>
@@ -78,7 +74,7 @@ function DashboardRecepcionista() {
             
              </div>
             <h1>
-              Bem-vinda Maria 
+              Bem-vindo, Dr. João!
             </h1>
 
             <p>

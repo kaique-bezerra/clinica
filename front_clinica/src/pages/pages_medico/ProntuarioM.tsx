@@ -53,18 +53,17 @@ function Prontuario() {
         <nav className="menu">
 
           <ul>
-            <Link className="link" to="/dashboard">
+            <Link className="link" to="/dashboard-medico">
             <li>Dashboard</li>
                 </Link>
-            <Link className="link" to="/pacientes">
-              <li>cadastro de pacientes</li>
-            </Link>
-            <Link className="link" to="/agendamento">
-              <li>Agendamento</li>
-            </Link>
-            <Link className="link" to="/calendario">
+           
+            
+            <Link className="link" to="/calendario-medico">
               <li>Calendário</li>
             </Link>
+            <Link className="link" to="/prontuario-medico">
+            <li className="active">Prontuário</li>
+                </Link>
 
           </ul>
 

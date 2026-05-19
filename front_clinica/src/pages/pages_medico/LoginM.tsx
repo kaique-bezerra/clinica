@@ -1,7 +1,7 @@
 import "./Login.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Login() {
+function LoginM() {
 
   const navigate = useNavigate();
 
@@ -14,10 +14,8 @@ function Login() {
         {/* TÍTULO */}
         <div className="login-header">
           <h1>MedSync</h1>
-          <p>Sistema Administrativo da Clínica
-          </p>
+          <p>Sistema Administrativo da Clínica</p>
         </div>
-        <p className="perfil">            PERFIL ATENDENTE</p>
 
         {/* FORMULÁRIO */}
         <form className="login-form">
@@ -46,13 +44,10 @@ function Login() {
           <button
             type="button"
             className="login-button"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/dashboard-medico")}
           >
             Entrar
           </button>
-          <Link to="/perfil-medico">
-            <p>clicle aqui para acessa o perfil médico</p>
-          </Link>
 
         </form>
 
@@ -62,4 +57,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginM;

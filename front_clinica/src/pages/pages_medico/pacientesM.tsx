@@ -40,13 +40,9 @@ function Pacientes() {
             <li>
               Dashboard
             </li>
-                </Link>
-            <li className="active">
-              Cadastro de Pacientes
-            </li>
-                <Link className="link" to="/agendamento">
+                
             <li>
-              Agendamento
+             
             </li>
                 </Link>
                 <Link className="link" to="/calendario">
@@ -54,7 +50,11 @@ function Pacientes() {
               Calendário
             </li>
                 </Link>
-           
+            <Link className="link" to="/prontuario">
+            <li>
+                prontuário
+            </li>
+                </Link>
 
           </ul>
 
