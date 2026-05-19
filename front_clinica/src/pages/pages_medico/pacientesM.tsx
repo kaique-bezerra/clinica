@@ -81,12 +81,10 @@ function Pacientes() {
 
         </section>
 
-        {/* FORMULÁRIO */}
         <section className="form-section">
 
           <form className="patient-form">
 
-            {/* LINHA 1 */}
             <div className="form-row">
 
               <div className="input-group">
@@ -109,7 +107,6 @@ function Pacientes() {
 
             </div>
 
-            {/* LINHA 2 */}
             <div className="form-row">
 
               <div className="input-group">
@@ -129,7 +126,6 @@ function Pacientes() {
 
             </div>
 
-            {/* LINHA 3 */}
             <div className="form-row">
 
               <div className="input-group full-width">
@@ -143,7 +139,6 @@ function Pacientes() {
 
             </div>
 
-            {/* BOTÃO */}
             <button
               type="button"
               className="save-button"
@@ -155,7 +150,6 @@ function Pacientes() {
 
         </section>
 
-        {/* LISTAGEM */}
         <section className="patients-table-section">
 
           <div className="table-header">
@@ -170,7 +164,6 @@ function Pacientes() {
 
           </div>
 
-          {/* TABELA */}
           <table>
 
             <thead>

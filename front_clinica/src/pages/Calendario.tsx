@@ -18,7 +18,6 @@ function Calendario() {
   return (
     <div className="calendario-container">
 
-      {/* BOTÃO MENU */}
       <button
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
@@ -26,7 +25,6 @@ function Calendario() {
         ☰
       </button>
 
-      {/* SIDEBAR */}
       <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
 
         <div className="logo">

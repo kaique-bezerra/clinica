@@ -83,22 +83,18 @@ function DashboardRecepcionista() {
 
         </section>
 
-        {/* CARDS */}
         <section className="cards-container">
 
-          {/* CARD 1 */}
           <div className="card">
             <h2>12</h2>
             <p>Consultas Hoje</p>
           </div>
 
-          {/* CARD 2 */}
           <div className="card">
             <h2>245</h2>
             <p>Pacientes Cadastrados</p>
           </div>
 
-          {/* CARD 3 */}
           <div className="card">
             <h2>5</h2>
             <p>Consultas Canceladas</p>
@@ -106,7 +102,6 @@ function DashboardRecepcionista() {
 
         </section>
 
-        {/* TABELA CONSULTAS */}
         <section className="appointments-section">
 
           <h2>Próximos Agendamentos</h2>

@@ -62,9 +62,6 @@
     transition: 0.3s;
 }
 
-
-/* MENU FECHADO */
-
 .sidebar.closed {
     transform: translateX(-100%);
 }
@@ -159,22 +156,13 @@
 
 .card {
     flex: 1;
-
     min-width: 220px;
-
     background-color: white;
-
     padding: 25px;
-
     border-radius: 16px;
-
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
-
     transition: 0.3s;
 }
-
-
-/* HOVER CARD */
 
 .card:hover {
     transform: translateY(-5px);

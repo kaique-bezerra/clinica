@@ -117,9 +117,6 @@
 
 }
 
-/* ========================================
-   MENU
-======================================== */
 
 .menu ul {
     list-style: none;
@@ -139,27 +136,16 @@
 .Dashboard .cadastro-button {
     background-color: #2563eb;
     
-
-   
 }
-
-/* HOVER MENU */
 
 .menu li:hover {
     background-color: #1e293b;
 }
 
-
-/* ITEM ATIVO */
-
 .active {
     background-color: #2563eb;
 }
 
-
-/* ========================================
-   CONTEÚDO PRINCIPAL
-======================================== */
 
 .main-content {
     flex: 1;
@@ -170,16 +156,10 @@
 }
 
 
-/* QUANDO MENU ABERTO */
-
 .main-content.expanded {
     margin-left: 250px;
 }
 
-
-/* ========================================
-   CARDS
-======================================== */
 
 .cards-container {
     display: flex;
@@ -232,9 +212,6 @@
 }
 
 
-/* ========================================
-   TABELA CONSULTAS
-======================================== */
 
 .appointments-section {
     background-color: white;
@@ -278,12 +255,10 @@ td {
 }
 
 
-/* HOVER LINHAS */
 
 tbody tr:hover {
     background-color: #f8fafc;
 }
-/* LINK MENU */
 
 .link {
     text-decoration: none;
