@@ -6,13 +6,11 @@ import { useState } from "react";
 
 function Pacientes() {
 
-  /* CONTROLE MENU */
   const [menuAberto, setMenuAberto] = useState(false);
 
   return (
     <div className="pacientes-container">
 
-      {/* BOTÃO MENU */}
       <button
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
@@ -20,19 +18,16 @@ function Pacientes() {
         ☰
       </button>
 
-      {/* SIDEBAR */}
       <aside
         className={`sidebar ${
           menuAberto ? "open" : "closed"
         }`}
       >
 
-        {/* LOGO */}
         <div className="logo">
           <h2>MedSync</h2>
         </div>
 
-        {/* MENU */}
         <nav className="menu">
 
           <ul>
@@ -62,14 +57,12 @@ function Pacientes() {
 
       </aside>
 
-      {/* CONTEÚDO */}
       <main
         className={`main-content ${
           menuAberto ? "expanded" : ""
         }`}
       >
 
-        {/* TÍTULO */}
         <section className="page-header">
 
           <h1>Cadastro de Pacientes</h1>
@@ -81,12 +74,10 @@ function Pacientes() {
 
         </section>
 
-        {/* FORMULÁRIO */}
         <section className="form-section">
 
           <form className="patient-form">
 
-            {/* LINHA 1 */}
             <div className="form-row">
 
               <div className="input-group">
@@ -109,7 +100,6 @@ function Pacientes() {
 
             </div>
 
-            {/* LINHA 2 */}
             <div className="form-row">
 
               <div className="input-group">
@@ -129,7 +119,6 @@ function Pacientes() {
 
             </div>
 
-            {/* LINHA 3 */}
             <div className="form-row">
 
               <div className="input-group full-width">
@@ -143,7 +132,6 @@ function Pacientes() {
 
             </div>
 
-            {/* BOTÃO */}
             <button
               type="button"
               className="save-button"
@@ -155,7 +143,6 @@ function Pacientes() {
 
         </section>
 
-        {/* LISTAGEM */}
         <section className="patients-table-section">
 
           <div className="table-header">
@@ -170,7 +157,6 @@ function Pacientes() {
 
           </div>
 
-          {/* TABELA */}
           <table>
 
             <thead>

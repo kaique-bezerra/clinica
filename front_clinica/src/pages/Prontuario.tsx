@@ -72,10 +72,8 @@ function Prontuario() {
 
       </aside>
 
-      {/* CONTEÚDO */}
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
 
-        {/* HEADER */}
         <section className="page-header">
 
           <h1>Prontuário Eletrônico</h1>
@@ -86,7 +84,6 @@ function Prontuario() {
 
         </section>
 
-        {/* CONSULTA */}
         <section className="form-section">
 
           <label>Selecione a Consulta</label>
@@ -103,7 +100,6 @@ function Prontuario() {
 
         </section>
 
-        {/* FORMULÁRIO MÉDICO */}
         <section className="form-section">
 
           <div className="input-group">
@@ -154,7 +150,6 @@ function Prontuario() {
 
         </section>
 
-        {/* HISTÓRICO */}
         <section className="history-section">
 
           <h2>Histórico do Paciente</h2>

@@ -17,25 +17,12 @@ function App() {
 
       <Routes>
 
-        {/* Página Login */}
         <Route path="/" element={<Login />} />
-
-        {/* Página Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
-
-        {/* Página Cadastro de Pacientes */}
         <Route path="/pacientes" element={<Pacientes />} />
-
-        {/* Página Agendamento */}
         <Route path="/agendamento" element={<Agendamento />} />
-
-        {/* Página Prontuário */}
         <Route path="/prontuario" element={<Prontuario />} />
-
-        {/* Página Calendário */}
         <Route path="/calendario" element={<Calendario />} />
-        
-        {/* Páginas Médico */}
         <Route path="/perfil-medico" element={<LoginM />} />
         <Route path="/dashboard-medico" element={<DashboardM />} />
         <Route path="/pacientes-medico" element={<PacientesM />} />

@@ -8,21 +8,17 @@ function Login() {
   return (
     <div className="login-container">
 
-      {/* CARD LOGIN */}
       <div className="login-card">
 
-        {/* TÍTULO */}
         <div className="login-header">
           <h1>MedSync</h1>
           <p>Sistema Administrativo da Clínica
           </p>
         </div>
-        <p className="perfil">            PERFIL ATENDENTE</p>
+        <p className="perfil">PERFIL ATENDENTE</p>
 
-        {/* FORMULÁRIO */}
         <form className="login-form">
 
-          {/* CAMPO EMAIL */}
           <div className="input-group">
             <label>E-mail</label>
 
@@ -51,7 +47,7 @@ function Login() {
             Entrar
           </button>
           <Link to="/perfil-medico">
-            <p>clicle aqui para acessa o perfil médico</p>
+            <p className="linkp">clique aqui para acessar o perfil médico</p>
           </Link>
 
         </form>

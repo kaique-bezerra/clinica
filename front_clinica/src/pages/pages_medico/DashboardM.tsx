@@ -5,13 +5,11 @@ import { useState } from "react";
 
 function DashboardRecepcionista() {
 
-  /* CONTROLE MENU */
   const [menuAberto, setMenuAberto] = useState(false);
 
   return (
     <div className="dashboard-container">
 
-      {/* BOTÃO MENU */}
       <button
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
@@ -19,18 +17,16 @@ function DashboardRecepcionista() {
         ☰
       </button>
 
-      {/* SIDEBAR */}
       <aside
         className={`sidebar ${
           menuAberto ? "open" : "closed"
         }`}
       >
 
-        {/* LOGO */}
+
         <div className="logo">
         </div>
 
-        {/* MENU */}
         <nav className="menu">
 
           <ul>

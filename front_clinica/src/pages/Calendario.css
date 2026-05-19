@@ -1,11 +1,9 @@
-/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* CONTAINER */
 .calendario-container {
     width: 100%;
     min-height: 100vh;
@@ -13,7 +11,6 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* BOTÃO MENU */
 .menu-button {
     position: fixed;
     top: 20px;
@@ -26,7 +23,6 @@
     cursor: pointer;
 }
 
-/* SIDEBAR */
 .sidebar {
     position: fixed;
     top: 0;
@@ -46,7 +42,6 @@
     transform: translateX(0);
 }
 
-/* MAIN */
 .main-content {
     padding: 100px 30px;
 }
@@ -55,7 +50,6 @@
     margin-left: 250px;
 }
 
-/* HEADER */
 .page-header {
     margin-bottom: 30px;
 }
@@ -69,14 +63,12 @@
     color: #64748b;
 }
 
-/* CALENDÁRIO */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
 }
 
-/* DIA */
 .day-card {
     background: white;
     padding: 15px;
@@ -89,7 +81,6 @@
     color: #2563eb;
 }
 
-/* CONSULTA */
 .appointment {
     background: #f1f5f9;
     padding: 10px;

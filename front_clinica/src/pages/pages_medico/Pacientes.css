@@ -1,6 +1,4 @@
-/* ========================================
-   RESET
-======================================== */
+
 
 * {
     margin: 0;
@@ -9,9 +7,7 @@
 }
 
 
-/* ========================================
-   CONTAINER
-======================================== */
+
 
 .pacientes-container {
     width: 100%;
@@ -21,11 +17,6 @@
 
     font-family: Arial, Helvetica, sans-serif;
 }
-
-
-/* ========================================
-   BOTÃO MENU
-======================================== */
 
 .menu-button {
     position: fixed;
@@ -49,11 +40,6 @@
 
     font-size: 20px;
 }
-
-
-/* ========================================
-   SIDEBAR
-======================================== */
 
 .sidebar {
     position: fixed;
@@ -83,10 +69,6 @@
 }
 
 
-/* ========================================
-   LOGO
-======================================== */
-
 .logo {
     text-align: center;
 
@@ -97,10 +79,6 @@
     font-size: 28px;
 }
 
-
-/* ========================================
-   MENU
-======================================== */
 
 .menu ul {
     list-style: none;
@@ -126,11 +104,6 @@
     background-color: #2563eb;
 }
 
-
-/* ========================================
-   CONTEÚDO
-======================================== */
-
 .main-content {
     padding: 100px 30px 30px 30px;
 
@@ -140,11 +113,6 @@
 .main-content.expanded {
     margin-left: 250px;
 }
-
-
-/* ========================================
-   HEADER
-======================================== */
 
 .page-header {
     margin-bottom: 30px;
@@ -162,10 +130,6 @@
     color: #64748b;
 }
 
-
-/* ========================================
-   FORMULÁRIO
-======================================== */
 
 .form-section {
     background-color: white;
@@ -187,9 +151,6 @@
     gap: 20px;
 }
 
-
-/* LINHAS */
-
 .form-row {
     display: flex;
 
@@ -197,9 +158,6 @@
 
     flex-wrap: wrap;
 }
-
-
-/* INPUT GROUP */
 
 .input-group {
     flex: 1;
@@ -213,9 +171,6 @@
     width: 100%;
 }
 
-
-/* LABEL */
-
 .input-group label {
     margin-bottom: 8px;
 
@@ -223,9 +178,6 @@
 
     color: #334155;
 }
-
-
-/* INPUT */
 
 .input-group input {
     padding: 14px;
@@ -242,9 +194,6 @@
 .input-group input:focus {
     border-color: #2563eb;
 }
-
-
-/* BOTÃO */
 
 .save-button {
     background-color: #2563eb;
@@ -268,11 +217,6 @@
     background-color: #1d4ed8;
 }
 
-
-/* ========================================
-   TABELA
-======================================== */
-
 .patients-table-section {
     background-color: white;
 
@@ -282,9 +226,6 @@
 
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
 }
-
-
-/* HEADER TABELA */
 
 .table-header {
     display: flex;
@@ -309,9 +250,6 @@
 
     width: 280px;
 }
-
-
-/* TABELA */
 
 table {
     width: 100%;

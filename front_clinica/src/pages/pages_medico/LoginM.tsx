@@ -8,19 +8,15 @@ function LoginM() {
   return (
     <div className="login-container">
 
-      {/* CARD LOGIN */}
       <div className="login-card">
 
-        {/* TÍTULO */}
         <div className="login-header">
           <h1>MedSync</h1>
           <p>Sistema Administrativo da Clínica</p>
         </div>
 
-        {/* FORMULÁRIO */}
         <form className="login-form">
 
-          {/* CAMPO EMAIL */}
           <div className="input-group">
             <label>E-mail</label>
 
@@ -30,7 +26,6 @@ function LoginM() {
             />
           </div>
 
-          {/* CAMPO SENHA */}
           <div className="input-group">
             <label>Senha</label>
 
@@ -40,7 +35,6 @@ function LoginM() {
             />
           </div>
 
-          {/* BOTÃO */}
           <button
             type="button"
             className="login-button"
