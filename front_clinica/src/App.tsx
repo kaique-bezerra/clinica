@@ -1,16 +1,14 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Pacientes from "./pages/pacientes";
-import Agendamento from "./pages/Agendamento";
-import Prontuario from "./pages/Prontuario";
-import Calendario from "./pages/Calendario";
-import LoginM from "./pages/pages_medico/LoginM";
-import PacientesM from "./pages/pages_medico/pacientesM";
-import CalendarioM from "./pages/pages_medico/CalendarioM";
-import ProntuarioM from "./pages/pages_medico/ProntuarioM";
-import DashboardM from "./pages/pages_medico/DashboardM";
+import Agendamento from "./pages/Recepcionista/Agendamento/Agendamento";
+import Calendario from "./pages/Recepcionista/Calendário/Calendario";
+import Dashboard from "./pages/Recepcionista/Dashboard/Dashboard";
+import Login from "./pages/Recepcionista/Login/Login";
+import Pacientes from "./pages/Recepcionista/cadastroDePacientes/pacientes";
+import CalendarioM from "./pages/pages_medico/Calendário/CalendarioM";
+import DashboardM from "./pages/pages_medico/Dashboard/DashboardM";
+import LoginM from "./pages/pages_medico/Login/LoginM";
+import ProntuarioM from "./pages/pages_medico/Prontuario/ProntuarioM";
 function App() {
   return (
     <BrowserRouter>
@@ -21,11 +19,9 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/pacientes" element={<Pacientes />} />
         <Route path="/agendamento" element={<Agendamento />} />
-        <Route path="/prontuario" element={<Prontuario />} />
         <Route path="/calendario" element={<Calendario />} />
         <Route path="/perfil-medico" element={<LoginM />} />
         <Route path="/dashboard-medico" element={<DashboardM />} />
-        <Route path="/pacientes-medico" element={<PacientesM />} />
         <Route path="/calendario-medico" element={<CalendarioM />} />
         <Route path="/prontuario-medico" element={<ProntuarioM />} />
       </Routes>
