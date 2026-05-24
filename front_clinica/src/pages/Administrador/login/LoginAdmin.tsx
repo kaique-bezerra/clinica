@@ -38,17 +38,6 @@ function UserDoctorIcon() {
   );
 }
 
-function AdminIcon() {
-  return (
-    <svg
-      className="admin-button-icon"
-      aria-hidden="true"
-      focusable="false"
-      viewBox="0 0 24 24">
-      <path d="M12 21.5a.76.76 0 0 1-.29-.06C7.07 19.51 4.5 15.61 4.5 10.46V6.75c0-.32.2-.61.51-.71l6.75-2.25c.16-.05.32-.05.48 0l6.75 2.25c.31.1.51.39.51.71v3.71c0 5.15-2.57 9.05-7.21 10.98a.76.76 0 0 1-.29.06ZM6 7.29v3.17c0 4.41 2.13 7.69 6 9.47 3.87-1.78 6-5.06 6-9.47V7.29l-6-2-6 2Zm6 8.21a.75.75 0 0 1-.75-.75v-1.5h-1.5a.75.75 0 0 1 0-1.5h1.5v-1.5a.75.75 0 0 1 1.5 0v1.5h1.5a.75.75 0 0 1 0 1.5h-1.5v1.5a.75.75 0 0 1-.75.75Z" />
-    </svg>
-  );
-}
 
 function SecurityIcon() {
   return (
