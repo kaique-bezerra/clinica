@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/heart-pulse-solid-full.svg";
-import "./LoginRecepcionista.css";
+import "../../Recepcionista/Login/LoginRecepcionista.css";
 
 function EmailIcon() {
   return (
@@ -62,7 +62,7 @@ function SecurityIcon() {
   );
 }
 
-function LoginRecepcionista() {
+function LoginAdmin() {
   const navigate = useNavigate();
 
   return (
@@ -76,17 +76,17 @@ function LoginRecepcionista() {
           <p>Sistema Administrativo da Clínica</p>
         </div>
 
-        <p className="perfil">PERFIL RECEPCIONISTA</p>
+        <p className="perfil">PERFIL ADMINISTRADOR</p>
 
         <form className="login-form">
           <div className="input-group">
-            <label className="field-label" htmlFor="email-recepcionista">
+            <label className="field-label" htmlFor="email-admin">
               <EmailIcon />
               <span>E-mail</span>
             </label>
 
             <input
-              id="email-recepcionista"
+              id="email-admin"
               type="email"
               name="email"
               autoComplete="email"
@@ -95,13 +95,13 @@ function LoginRecepcionista() {
           </div>
 
           <div className="input-group">
-            <label className="field-label" htmlFor="password-recepcionista">
+            <label className="field-label" htmlFor="password-admin">
               <LockIcon />
               <span>Senha</span>
             </label>
 
             <input
-              id="password-recepcionista"
+              id="password-admin"
               type="password"
               name="password"
               autoComplete="current-password"
@@ -112,7 +112,7 @@ function LoginRecepcionista() {
           <button
             type="button"
             className="login-button"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/dashboard-admin")}
           >
             Entrar
           </button>
@@ -122,14 +122,14 @@ function LoginRecepcionista() {
           </div>
 
           <div className="login-actions-panel">
-            <Link className="secondary-login-button" to="/perfil-medico">
+            <Link className="secondary-login-button" to="/">
               <UserDoctorIcon />
-              <span>Acessar Perfil Médico</span>
+              <span>Acessar Perfil Recepcionista</span>
             </Link>
 
-            <button className="admin-login-button" type="button" onClick={()=>navigate("/perfil-admin")}>
-              <AdminIcon />
-              <span>Acessar Perfil Admin</span>
+            <button className="secondary-login-button" type="button" onClick={()=>navigate("/perfil-medico")}>
+              <UserDoctorIcon />
+              <span>Acessar Perfil Médico</span>
             </button>
 
             <p className="security-message">
@@ -143,4 +143,4 @@ function LoginRecepcionista() {
   );
 }
 
-export default LoginRecepcionista;
+export default LoginAdmin;

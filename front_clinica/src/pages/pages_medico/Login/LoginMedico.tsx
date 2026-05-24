@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/heart-pulse-solid-full.svg";
-import "./LoginMedico.css";
+import "../../Recepcionista/Login/LoginRecepcionista.css";
 
 function EmailIcon() {
   return (
@@ -127,7 +127,7 @@ function LoginMedico() {
               <span>Acessar Perfil Recepcionista</span>
             </Link>
 
-            <button className="admin-login-button" type="button">
+            <button className="admin-login-button" type="button" onClick={()=>navigate("/perfil-admin")}>
               <AdminIcon />
               <span>Acessar Perfil Admin</span>
             </button>
