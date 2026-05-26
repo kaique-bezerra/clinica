@@ -12,6 +12,9 @@ import ProntuarioM from "./pages/pages_medico/Prontuario/ProntuarioM";
 import LoginAdmin from "./pages/Administrador/login/LoginAdmin";
 import DashboardAdmin from "./pages/Administrador/dashboard/DashboardAdmin";
 import CalendarioAdmin from "./pages/Administrador/Calendario/CalendarioAdmin";
+import ProntuarioAdmin from "./pages/Administrador/prontuario/ProntuarioAdmin";
+import AgendamentoDeConsultaAdmin from "./pages/Administrador/AgendamentoConsultas/AgendamentoConsultasAdmin";
+import CadastroDePacientesAdmin from "./pages/Administrador/cadastroDePacientes/CadastroDePacientesAdmin";
 function App() {
   return (
     <BrowserRouter>
@@ -30,6 +33,10 @@ function App() {
         <Route path="/perfil-admin" element={<LoginAdmin />} />
         <Route path="/dashboard-admin" element={<DashboardAdmin/>}/>
         <Route path="/calendario-admin" element={<CalendarioAdmin/>}/>
+        <Route path="/prontuario-admin" element={<ProntuarioAdmin/>} />
+        <Route path="/agendamento-admin" element={<AgendamentoDeConsultaAdmin/>} />
+        <Route path="/cadastroDePacientes-admin" element={<CadastroDePacientesAdmin/>} />
+
 
       </Routes>
 

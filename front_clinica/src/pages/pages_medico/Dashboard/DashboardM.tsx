@@ -1,9 +1,9 @@
 import "./Dashboard.css";
 import { Link } from "react-router-dom";
-import imagem from "../../../assets/WhatsApp Image 2026-05-18 at 6.56.09 PM.jpeg";
+import imagem from "../../../assets/logo.jpeg";
 import { useState } from "react";
 
-function DashboardRecepcionista() {
+function DashboardM() {
 
   const [menuAberto, setMenuAberto] = useState(false);
 
@@ -147,4 +147,4 @@ function DashboardRecepcionista() {
   );
 }
 
-export default DashboardRecepcionista;
+export default DashboardM;
