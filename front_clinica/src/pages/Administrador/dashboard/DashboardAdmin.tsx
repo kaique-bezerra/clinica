@@ -1,9 +1,9 @@
-import "./Dashboard.css";
+import "../../Recepcionista/Dashboard/Dashboard.css";
 import { Link } from "react-router-dom";
 import imagem from "../../../assets/WhatsApp Image 2026-05-18 at 6.56.09 PM.jpeg";
 import { useState } from "react";
 
-function DashboardRecepcionista() {
+function DashboardAdmin() {
 
   const [menuAberto, setMenuAberto] = useState(false);
 
@@ -30,20 +30,34 @@ function DashboardRecepcionista() {
         <nav className="menu">
 
           <ul>
-
-            <li className="active">
+            <Link className="link" to="/dashboard-admin"><li className="active">
               Dashboard
-            </li>
-                    <Link className="link" to="/calendario-medico">
-            <li>
+            </li></Link>
+            
+            <Link className="link" to="/calendario-admin"><li>
               Calendário
-            </li>
-                </Link>
-            <Link className="link" to="/prontuario-medico">
-            <li>
+            </li></Link>
+
+            <Link className="link" to="/prontuario-admin"><li>
               prontuário
-            </li>
-            </Link>
+            </li></Link>
+
+            <Link className="link" to="/agendamento-admin"><li>
+                Agendamento de Consultas
+            </li></Link>
+
+            <Link className="link" to="/cadastroDePacientes-admin"><li>
+                Cadastro de pacientes
+            </li></Link>
+
+            <Link className="link" to="/cadastroDeUsuarios-admin"><li>
+                Cadastro de Usuários
+            </li></Link>
+            
+            <Link className="link" to="/cadastroDeMedicos-admin"><li>
+                Gerenciamento de Médicos
+            </li></Link>
+
           </ul>
 
         </nav>
@@ -65,11 +79,11 @@ function DashboardRecepcionista() {
             
              </div>
             <h1>
-              Bem-vindo, Dr. João!
+              Bem-vindo, Administrador!
             </h1>
 
             <p>
-              Você possui 12 consultas agendadas para hoje.
+              A clínica possui 12 consultas agendadas para hoje.
               Gerencie os pacientes, acompanhe os horários
               e mantenha a agenda da clínica organizada.
             </p>
@@ -147,4 +161,4 @@ function DashboardRecepcionista() {
   );
 }
 
-export default DashboardRecepcionista;
+export default DashboardAdmin;

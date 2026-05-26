@@ -10,6 +10,8 @@ import DashboardM from "./pages/pages_medico/Dashboard/DashboardM";
 import LoginMedico from "./pages/pages_medico/Login/LoginMedico";
 import ProntuarioM from "./pages/pages_medico/Prontuario/ProntuarioM";
 import LoginAdmin from "./pages/Administrador/login/LoginAdmin";
+import DashboardAdmin from "./pages/Administrador/dashboard/DashboardAdmin";
+import CalendarioAdmin from "./pages/Administrador/Calendario/CalendarioAdmin";
 function App() {
   return (
     <BrowserRouter>
@@ -26,6 +28,9 @@ function App() {
         <Route path="/calendario-medico" element={<CalendarioM />} />
         <Route path="/prontuario-medico" element={<ProntuarioM />} />
         <Route path="/perfil-admin" element={<LoginAdmin />} />
+        <Route path="/dashboard-admin" element={<DashboardAdmin/>}/>
+        <Route path="/calendario-admin" element={<CalendarioAdmin/>}/>
+
       </Routes>
 
     </BrowserRouter>

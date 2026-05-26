@@ -290,7 +290,7 @@
 }
 a:not(.secondary-login-button) {
   text-decoration: none;
-  color: #070707;
+  color: #f1f0f0;
 }
 
 a:not(.secondary-login-button):hover{
