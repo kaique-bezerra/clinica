@@ -60,6 +60,11 @@ function CalendarioAdmin() {
             <Link className="link" to="/cadastroDeMedicos-admin"><li>
                 Gerenciamento de Médicos
             </li></Link>
+            <Link className="link" to="/perfil-admin">
+            <li>
+              Sair
+              </li>    
+            </Link>
 
           </ul>
 

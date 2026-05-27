@@ -45,6 +45,11 @@ function DashboardM() {
               prontuário
             </li>
             </Link>
+            <Link className="link" to="/perfil-medico">
+            <li>
+              Sair
+              </li>    
+            </Link>
           </ul>
 
         </nav>

@@ -45,6 +45,12 @@ function Calendario() {
             <li>Prontuário</li>
                 </Link>
 
+                <Link className="link" to="/perfil-medico">
+            <li>
+              Sair
+              </li>    
+            </Link>
+
 
           </ul>
 

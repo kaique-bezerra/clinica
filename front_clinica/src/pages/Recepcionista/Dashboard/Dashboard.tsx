@@ -52,7 +52,11 @@ function DashboardRecepcionista() {
               Calendário
             </li>
                 </Link>
-            
+                <Link className="link" to="/">
+            <li>
+              Sair
+              </li>    
+            </Link>
           </ul>
 
         </nav>

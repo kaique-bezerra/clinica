@@ -53,6 +53,11 @@ function MedicosAdmin() {
             <Link className="link" to="/cadastroDeMedicos-admin"><li className="active">
                 Gerenciamento de Médicos
             </li></Link>
+            <Link className="link" to="/perfil-admin">
+            <li>
+              Sair
+              </li>    
+            </Link>
 
           </ul>
         </nav>

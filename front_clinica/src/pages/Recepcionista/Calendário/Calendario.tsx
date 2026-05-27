@@ -46,6 +46,11 @@ function Calendario() {
                 <Link className="link" to="/calendario">
             <li className="active">Calendário</li>
                 </Link>
+                <Link className="link" to="/">
+            <li>
+              Sair
+              </li>    
+            </Link>
                 
 
 

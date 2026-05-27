@@ -8,62 +8,65 @@ function DashboardAdmin() {
   const [menuAberto, setMenuAberto] = useState(false);
 
   return (
-    <div className="dashboard-container">
+   <div className="dashboard-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰
-      </button>
+  <button
+    className="menu-button"
+    onClick={() => setMenuAberto(!menuAberto)}
+  >
+    ☰
+  </button>
 
-      <aside
-        className={`sidebar ${
-          menuAberto ? "open" : "closed"
-        }`}
-      >
+  <aside
+    className={`sidebar ${
+      menuAberto ? "open" : "closed"
+    }`}
+  >
 
+    <div className="logo">
+      <h2>MedSync</h2>
+    </div>
 
-        <div className="logo">
-          <h2>MedSync</h2>
-        </div>
+    <nav className="menu">
 
-        <nav className="menu">
+      <ul>
+        <Link className="link" to="/dashboard-admin">
+          <li className="active">Dashboard</li>
+        </Link>
 
-          <ul>
-            <Link className="link" to="/dashboard-admin"><li className="active">
-              Dashboard
-            </li></Link>
-            
-            <Link className="link" to="/calendario-admin"><li>
-              Calendário
-            </li></Link>
+        <Link className="link" to="/calendario-admin">
+          <li>Calendário</li>
+        </Link>
 
-            <Link className="link" to="/prontuario-admin"><li>
-              prontuário
-            </li></Link>
+        <Link className="link" to="/prontuario-admin">
+          <li>Prontuário</li>
+        </Link>
 
-            <Link className="link" to="/agendamento-admin"><li>
-                Agendamento de Consultas
-            </li></Link>
+        <Link className="link" to="/agendamento-admin">
+          <li>Agendamento de Consultas</li>
+        </Link>
 
-            <Link className="link" to="/cadastroDePacientes-admin"><li>
-                Cadastro de pacientes
-            </li></Link>
+        <Link className="link" to="/cadastroDePacientes-admin">
+          <li>Cadastro de pacientes</li>
+        </Link>
 
-            <Link className="link" to="/cadastroDeUsuarios-admin"><li>
-                Cadastro de Usuários
-            </li></Link>
-            
-            <Link className="link" to="/cadastroDeMedicos-admin"><li>
-                Gerenciamento de Médicos
-            </li></Link>
+        <Link className="link" to="/cadastroDeUsuarios-admin">
+          <li>Cadastro de Usuários</li>
+        </Link>
 
-          </ul>
+        <Link className="link" to="/cadastroDeMedicos-admin">
+          <li>Gerenciamento de Médicos</li>
+        </Link>
 
-        </nav>
+        <Link className="link" to="/perfil-admin">
+          <li>Sair</li>
+        </Link>
+      </ul>
 
-      </aside>
+    </nav>
+
+  </aside>
+
 
       <main
         className={`main-content ${

@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import logo from "../../../assets/heart-pulse-solid-full.svg";
 import "../../Recepcionista/Login/LoginRecepcionista.css";
 
@@ -65,6 +66,30 @@ function SecurityIcon() {
 function LoginMedico() {
   const navigate = useNavigate();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("medico_email");
+    const savedPassword = localStorage.getItem("medico_password");
+
+    if (savedEmail) {
+      setEmail(savedEmail);
+    }
+
+    if (savedPassword) {
+      setPassword(savedPassword);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("medico_email", email);
+  }, [email]);
+
+  useEffect(() => {
+    localStorage.setItem("medico_password", password);
+  }, [password]);
+
   return (
     <div className="login-container">
       <div className="login-card">
@@ -73,6 +98,7 @@ function LoginMedico() {
             <img src={logo} alt="" />
             <h1>MedSync</h1>
           </div>
+
           <p>Sistema Administrativo da Clínica</p>
         </div>
 
@@ -91,6 +117,8 @@ function LoginMedico() {
               name="email"
               autoComplete="email"
               placeholder="Digite seu e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -106,6 +134,8 @@ function LoginMedico() {
               name="password"
               autoComplete="current-password"
               placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -127,7 +157,11 @@ function LoginMedico() {
               <span>Acessar Perfil Recepcionista</span>
             </Link>
 
-            <button className="admin-login-button" type="button" onClick={()=>navigate("/perfil-admin")}>
+            <button
+              className="admin-login-button"
+              type="button"
+              onClick={() => navigate("/perfil-admin")}
+            >
               <AdminIcon />
               <span>Acessar Perfil Admin</span>
             </button>

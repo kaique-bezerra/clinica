@@ -63,6 +63,12 @@ function Prontuario() {
             <li className="active">Prontuário</li>
                 </Link>
 
+                <Link className="link" to="/perfil-medico">
+            <li>
+              Sair
+              </li>    
+            </Link>
+
           </ul>
 
         </nav>

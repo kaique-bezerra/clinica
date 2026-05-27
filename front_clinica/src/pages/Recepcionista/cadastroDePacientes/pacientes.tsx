@@ -49,6 +49,11 @@ function Pacientes() {
               Calendário
             </li>
                 </Link>
+                <Link className="link" to="/">
+            <li>
+              Sair
+              </li>    
+            </Link>
            
 
           </ul>
