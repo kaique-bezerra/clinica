@@ -63,8 +63,8 @@ function Pacientes() {
         }`}
       >
 
+        <div>
         <section className="page-header">
-
           <h1>Cadastro de Pacientes</h1>
 
           <p>
@@ -73,7 +73,8 @@ function Pacientes() {
           </p>
 
         </section>
-
+        </div>
+        <div>
         <section className="form-section">
 
           <form className="patient-form">
@@ -142,6 +143,7 @@ function Pacientes() {
           </form>
 
         </section>
+        </div>
 
         <section className="patients-table-section">
 

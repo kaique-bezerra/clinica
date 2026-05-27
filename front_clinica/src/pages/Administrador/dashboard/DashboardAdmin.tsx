@@ -1,6 +1,6 @@
 import "../../Recepcionista/Dashboard/Dashboard.css";
 import { Link } from "react-router-dom";
-import imagem from "../../../assets/logo.jpeg";
+import imagem from "../../../assets/logo2.jpeg";
 import { useState } from "react";
 
 function DashboardAdmin() {
@@ -25,6 +25,7 @@ function DashboardAdmin() {
 
 
         <div className="logo">
+          <h2>MedSync</h2>
         </div>
 
         <nav className="menu">
