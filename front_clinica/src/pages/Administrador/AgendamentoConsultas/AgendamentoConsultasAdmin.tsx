@@ -1,6 +1,5 @@
 import "../../Recepcionista/Agendamento/Agendamento.css";
 import { Link } from "react-router-dom";
-
 import { useState } from "react";
 
 function AgendamentoDeConsultaAdmin() {
@@ -17,11 +16,11 @@ function AgendamentoDeConsultaAdmin() {
   function agendarConsulta() {
 
     if (!paciente || !medico || !data || !hora) {
-      setMensagem("❌ Preencha todos os campos!");
+      setMensagem(" Preencha todos os campos!");
       return;
     }
 
-    setMensagem("✅ Consulta agendada com sucesso!");
+    setMensagem(" Consulta agendada com sucesso!");
 
     setPaciente("");
     setMedico("");
@@ -29,14 +28,21 @@ function AgendamentoDeConsultaAdmin() {
     setHora("");
   }
 
+    let mensagemTela = null;
+
+  if (mensagem !== "") {
+    mensagemTela = (
+      <p style={{ marginTop: "10px" }}>
+        {mensagem}
+      </p>
+    );
+  }
+
   return (
     <div className="agendamento-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰
+      <button className="menu-button" onClick={() => setMenuAberto(!menuAberto)}>
+        ☰ Menu
       </button>
 
       <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
@@ -76,11 +82,9 @@ function AgendamentoDeConsultaAdmin() {
                 Gerenciamento de Médicos
             </li></Link>
 
-            <Link className="link" to="/perfil-admin">
-            <li>
+            <Link className="link" to="/perfil-admin"><li>
               Sair
-              </li>    
-            </Link>
+              </li></Link>
 
           </ul>
 
@@ -100,48 +104,29 @@ function AgendamentoDeConsultaAdmin() {
 
         <section className="form-section">
 
-          <select
-            value={paciente}
-            onChange={(e) => setPaciente(e.target.value)}
-          >
+          <select value={paciente}onChange={(e) => setPaciente(e.target.value)}>
             <option value="">Selecione o paciente</option>
             <option>Maria Silva</option>
             <option>Carlos Henrique</option>
             <option>Fernanda Lima</option>
           </select>
 
-          <select
-            value={medico}
-            onChange={(e) => setMedico(e.target.value)}
-          >
+          <select value={medico}onChange={(e) => setMedico(e.target.value)}>
             <option value="">Selecione o médico</option>
             <option>Dr. João</option>
             <option>Dra. Ana</option>
             <option>Dr. Pedro</option>
           </select>
 
-          <input
-            type="date"
-            value={data}
-            onChange={(e) => setData(e.target.value)}
-          />
+          <input type="date" value={data} onChange={(e) => setData(e.target.value)}/>
 
-          <input
-            type="time"
-            value={hora}
-            onChange={(e) => setHora(e.target.value)}
-          />
+          <input type="time" value={hora} onChange={(e) => setHora(e.target.value)}/>
 
           <button onClick={agendarConsulta}>
             Agendar Consulta
           </button>
 
-          {mensagem && (
-            <p style={{ marginTop: "10px" }}>
-              {mensagem}
-            </p>
-          )}
-
+          {mensagemTela}
         </section>
 
         <section className="table-section">

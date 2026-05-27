@@ -1,18 +1,59 @@
 import "./CadastroDeUsuarioAdmin.css";
 import { Link } from "react-router-dom";
-
 import { useState } from "react";
 
 function CadastroDeUsuarioAdmin() {
   const [menuAberto, setMenuAberto] = useState(false);
 
+  const [nome,setNome] = useState(" ");
+  const [email,setEmail] = useState(" ");
+  const [telefone,setTelefone] = useState(" ");
+  const [senha,setSenha] = useState(" ");
+  const [perfil, setPerfil] = useState(" ");
+
+
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>){
+    event.preventDefault();
+
+    console.log("Usuário cadastrado com sucesso!");
+
+  }
+    const [mensagem, setMensagem] = useState("");
+
+
+    function agendarConsulta() {
+
+    if (!nome || !email || !telefone || !senha || !perfil) {
+      setMensagem(" Preencha todos os campos!");
+      return;
+    }
+
+    setMensagem(" Usuário cadastrado com sucesso!");
+
+    setNome("");
+    setEmail("");
+    setTelefone("");
+    setSenha("");
+    setPerfil("");
+  }
+
+    let mensagemTela = null;
+
+  if (mensagem !== "") {
+    mensagemTela = (
+      <p style={{ marginTop: "10px" }}>
+        {mensagem}
+      </p>
+    );
+  }
+  
   return (
     <div className="usuarios-container">
       <button
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
       >
-        ☰
+        ☰ Menu
       </button>
 
       <aside
@@ -78,7 +119,7 @@ function CadastroDeUsuarioAdmin() {
         </section>
 
         <section className="form-section">
-          <form className="user-form">
+          <form className="user-form" onSubmit={handleSubmit}>
             <div className="form-row">
               <div className="input-group">
                 <label>Nome Completo</label>
@@ -86,6 +127,7 @@ function CadastroDeUsuarioAdmin() {
                 <input
                   type="text"
                   placeholder="Digite o nome do usuário"
+                  value={nome} onChange={(e)=> setNome(e.target.value)}
                 />
               </div>
 
@@ -95,6 +137,8 @@ function CadastroDeUsuarioAdmin() {
                 <input
                   type="email"
                   placeholder="Digite o email"
+                  value={email} onChange={(e)=> setEmail(e.target.value)}
+
                 />
               </div>
             </div>
@@ -106,13 +150,14 @@ function CadastroDeUsuarioAdmin() {
                 <input
                   type="text"
                   placeholder="(83) 99999-9999"
+                  value={telefone} onChange={(e)=> setTelefone(e.target.value)}
                 />
               </div>
 
               <div className="input-group">
                 <label>Perfil</label>
 
-                <select>
+                <select value={perfil} onChange={(e)=> setPerfil(e.target.value)}>
                   <option>Selecione</option>
                   <option>Administrador</option>
                   <option>Recepcionista</option>
@@ -137,16 +182,19 @@ function CadastroDeUsuarioAdmin() {
                 <input
                   type="password"
                   placeholder="Confirme a senha"
+                  value={senha} onChange={(e)=> setSenha(e.target.value)}
                 />
               </div>
             </div>
 
             <button
-              type="button"
+              type="submit"
               className="save-button"
+              onClick={agendarConsulta}
             >
               Cadastrar Usuário
             </button>
+            {mensagemTela}
           </form>
         </section>
 

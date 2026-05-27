@@ -1,12 +1,20 @@
 import "./Pacientes.css";
 import { Link } from "react-router-dom";
 
-
 import { useState } from "react";
 
 function Pacientes() {
 
   const [menuAberto, setMenuAberto] = useState(false);
+
+  function handleSubmit(
+    event: React.SubmitEvent<HTMLFormElement>
+  ) {
+
+    event.preventDefault();
+
+    console.log("Paciente cadastrado com sucesso!");
+  }
 
   return (
     <div className="pacientes-container">
@@ -15,7 +23,7 @@ function Pacientes() {
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
       >
-        ☰
+        ☰ Menu
       </button>
 
       <aside
@@ -82,7 +90,7 @@ function Pacientes() {
         <div>
         <section className="form-section">
 
-          <form className="patient-form">
+          <form className="patient-form" onSubmit={handleSubmit}>
 
             <div className="form-row">
 
@@ -139,7 +147,7 @@ function Pacientes() {
             </div>
 
             <button
-              type="button"
+              type="submit"
               className="save-button"
             >
               Cadastrar Paciente

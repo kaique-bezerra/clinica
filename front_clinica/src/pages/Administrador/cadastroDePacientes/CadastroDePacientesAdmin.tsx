@@ -1,21 +1,60 @@
 import "../../Recepcionista/cadastroDePacientes/Pacientes.css";
 import { Link } from "react-router-dom";
-
-
 import { useState } from "react";
 
 function CadastroDePacientesAdmin() {
 
   const [menuAberto, setMenuAberto] = useState(false);
 
+  const [paciente, setPaciente] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [telefone,setTelefone] = useState("");
+  const [data, setData] = useState("");
+  const [convenio,setConvenio] = useState("");
+
+
+  function handleSubmit(
+    event: React.SubmitEvent<HTMLFormElement>
+  ) {
+
+    event.preventDefault();
+
+    console.log("Paciente cadastrado com sucesso!");
+  }
+
+    const [mensagem, setMensagem] = useState("");
+
+  function agendarConsulta() {
+
+    if (!paciente || !cpf || !telefone || !data || !convenio) {
+      setMensagem(" Preencha todos os campos!");
+      return;
+    }
+
+    setMensagem(" Consulta agendada com sucesso!");
+
+    setPaciente("");
+    setCpf("");
+    setTelefone("");
+    setData("");
+    setConvenio("");
+  }
+
+    let mensagemTela = null;
+
+  if (mensagem !== "") {
+    mensagemTela = (
+      <p style={{ marginTop: "10px" }}>
+        {mensagem}
+      </p>
+    );
+  }
+
   return (
     <div className="pacientes-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰
+      <button className="menu-button" onClick={() => setMenuAberto(!menuAberto)}>
+        ☰ Menu
       </button>
 
       <aside
@@ -89,7 +128,7 @@ function CadastroDePacientesAdmin() {
 
         <section className="form-section">
 
-          <form className="patient-form">
+          <form className="patient-form" onSubmit={handleSubmit} >
 
             <div className="form-row">
 
@@ -99,7 +138,8 @@ function CadastroDePacientesAdmin() {
                 <input
                   type="text"
                   placeholder="Digite o nome do paciente"
-                />
+                  value={paciente} onChange={(e)=> setPaciente(e.target.value)}
+                  />
               </div>
 
               <div className="input-group">
@@ -108,6 +148,8 @@ function CadastroDePacientesAdmin() {
                 <input
                   type="text"
                   placeholder="000.000.000-00"
+                  value={cpf} onChange={(e)=> setCpf(e.target.value)}
+
                 />
               </div>
 
@@ -121,13 +163,15 @@ function CadastroDePacientesAdmin() {
                 <input
                   type="text"
                   placeholder="(83) 99999-9999"
+                  value={telefone} onChange={(e)=> setTelefone(e.target.value)}
                 />
               </div>
 
               <div className="input-group">
                 <label>Data de Nascimento</label>
 
-                <input type="date" />
+                <input type="date" 
+                value={data} onChange={(e)=> setData(e.target.value)}/>
               </div>
 
             </div>
@@ -140,18 +184,17 @@ function CadastroDePacientesAdmin() {
                 <input
                   type="text"
                   placeholder="Digite o convênio"
+                  value={convenio} onChange={(e)=> setConvenio(e.target.value)}
                 />
               </div>
 
             </div>
 
-            <button
-              type="button"
-              className="save-button"
-            >
+            <button type="submit" className="save-button" onClick={agendarConsulta}>
               Cadastrar Paciente
             </button>
 
+          {mensagemTela}
           </form>
 
         </section>

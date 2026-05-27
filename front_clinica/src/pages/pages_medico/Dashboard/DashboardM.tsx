@@ -14,7 +14,7 @@ function DashboardM() {
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
       >
-        ☰
+        ☰ Menu
       </button>
 
       <aside

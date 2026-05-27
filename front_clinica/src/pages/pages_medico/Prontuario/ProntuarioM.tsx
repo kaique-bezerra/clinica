@@ -19,11 +19,11 @@ function Prontuario() {
   function salvarProntuario() {
 
     if (!consultaSelecionada || !queixa || !diagnostico) {
-      setMensagem("❌ Preencha os campos obrigatórios!");
+      setMensagem(" Preencha os campos obrigatórios!");
       return;
     }
 
-    setMensagem("✅ Prontuário salvo com sucesso!");
+    setMensagem(" Prontuário salvo com sucesso!");
 
     setQueixa("");
     setDiagnostico("");
@@ -39,7 +39,7 @@ function Prontuario() {
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
       >
-        ☰
+        ☰ Menu
       </button>
 
       <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>

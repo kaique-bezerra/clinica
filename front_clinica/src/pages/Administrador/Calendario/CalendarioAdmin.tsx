@@ -21,7 +21,7 @@ function CalendarioAdmin() {
         className="menu-button"
         onClick={() => setMenuAberto(!menuAberto)}
       >
-        ☰
+        ☰ Menu
       </button>
 
       <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
