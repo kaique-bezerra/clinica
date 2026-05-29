@@ -1,11 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/heart-pulse-solid-full.svg";
-import "../../Recepcionista/Login/LoginRecepcionista.css";
 import { AdminIcon, EmailIcon, LockIcon, SecurityIcon, UserDoctorIcon } from "../../../components/Icones";
+import "../../Recepcionista/Login/LoginRecepcionista.css";
 
 
-function LoginMedico() {
+function LoginPaciente(){
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -31,8 +32,8 @@ function LoginMedico() {
   useEffect(() => {
     localStorage.setItem("medico_password", password);
   }, [password]);
-
-  return (
+    return(
+        
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
@@ -44,7 +45,7 @@ function LoginMedico() {
           <p>Sistema Administrativo da Clínica</p>
         </div>
 
-        <p className="perfil"><UserDoctorIcon/> PERFIL MÉDICO</p>
+        <p className="perfil"><UserDoctorIcon/> PERFIL PACIENTE</p>
 
         <form className="login-form">
           <div className="input-group">
@@ -122,7 +123,8 @@ function LoginMedico() {
         </form>
       </div>
     </div>
-  );
+  
+    );
 }
 
-export default LoginMedico;
+export default LoginPaciente;

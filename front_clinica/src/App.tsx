@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import LoginPaciente from "./pages/Paciente/login/LoginPaciente";
 import Agendamento from "./pages/Recepcionista/Agendamento/Agendamento";
 import Calendario from "./pages/Recepcionista/Calendário/Calendario";
 import Dashboard from "./pages/Recepcionista/Dashboard/Dashboard";
@@ -40,6 +40,8 @@ function App() {
         <Route path="/cadastroDePacientes-admin" element={<CadastroDePacientesAdmin/>} />
         <Route path="/cadastroDeUsuarios-admin" element={<CadastroDeUsuarioAdmin/>} />
         <Route path="/cadastroDeMedicos-admin" element={<MedicosAdmin/>} />
+        <Route path="/perfil-paciente" element={<LoginPaciente />} />
+
 
 
       </Routes>
