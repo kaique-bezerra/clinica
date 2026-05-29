@@ -1,7 +1,7 @@
-import "./Dashboard.css";
-import { Link } from "react-router-dom";
-import imagem from "../../../assets/logo2.jpeg";
 import { useState } from "react";
+import imagem from "../../../assets/logo2.jpeg";
+import "./Dashboard.css";
+import MenuLateral from "../componentes/MenuLateral";
 
 function DashboardRecepcionista() {
 
@@ -10,58 +10,8 @@ function DashboardRecepcionista() {
   return (
     <div className="dashboard-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰ Menu
-      </button>
-
-      <aside
-        className={`sidebar ${
-          menuAberto ? "open" : "closed"
-        }`}
-      >
-
-        <div className="logo">
-          <h2>MedSync</h2>
-        </div>
-
-        <nav className="menu">
-
-          <ul>
-
-            <li className="active">
-              Dashboard
-            </li>
-
-            <li>
-                <Link className="link" to="/pacientes">
-            <li>
-                    Cadastro de pacientes
-            </li>
-                </Link>
-            </li>
-                <Link className="link" to="/agendamento">
-            <li>
-              Agendamento
-            </li>
-                </Link>
-                    <Link className="link" to="/calendario">
-            <li>
-              Calendário
-            </li>
-                </Link>
-                <Link className="link" to="/">
-            <li>
-              Sair
-              </li>    
-            </Link>
-          </ul>
-
-        </nav>
-
-      </aside>
+    <MenuLateral menuAberto={menuAberto}
+    setMenuAberto={setMenuAberto}/>
 
       <main
         className={`main-content ${

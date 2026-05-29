@@ -1,7 +1,7 @@
-import "./Dashboard.css";
-import { Link } from "react-router-dom";
-import imagem from "../../../assets/logo2.jpeg";
 import { useState } from "react";
+import imagem from "../../../assets/logo2.jpeg";
+import MenuLateral from "../componentes/MenuLateral";
+import "./Dashboard.css";
 
 function DashboardM() {
 
@@ -10,51 +10,8 @@ function DashboardM() {
   return (
     <div className="dashboard-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰ Menu
-      </button>
-
-      <aside
-        className={`sidebar ${
-          menuAberto ? "open" : "closed"
-        }`}
-      >
-
-
-        <div className="logo">
-          <h2>MedSync</h2>
-        </div>
-
-        <nav className="menu">
-
-          <ul>
-
-            <li className="active">
-              Dashboard
-            </li>
-                    <Link className="link" to="/calendario-medico">
-            <li>
-              Calendário
-            </li>
-                </Link>
-            <Link className="link" to="/prontuario-medico">
-            <li>
-              prontuário
-            </li>
-            </Link>
-            <Link className="link" to="/perfil-medico">
-            <li>
-              Sair
-              </li>    
-            </Link>
-          </ul>
-
-        </nav>
-
-      </aside>
+    <MenuLateral menuAberto={menuAberto}
+    setMenuAberto={setMenuAberto}/>
 
       <main
         className={`main-content ${

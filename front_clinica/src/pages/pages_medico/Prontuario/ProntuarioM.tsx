@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import MenuLateral from "../componentes/MenuLateral";
 import "./Prontuario.css";
 
 import { useState } from "react";
@@ -35,45 +35,8 @@ function Prontuario() {
   return (
     <div className="prontuario-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰ Menu
-      </button>
-
-      <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
-
-        <div className="logo">
-          <h2>MedSync</h2>
-        </div>
-
-        <nav className="menu">
-
-          <ul>
-            <Link className="link" to="/dashboard-medico">
-            <li>Dashboard</li>
-                </Link>
-           
-            
-            <Link className="link" to="/calendario-medico">
-              <li>Calendário</li>
-            </Link>
-            <Link className="link" to="/prontuario-medico">
-            <li className="active">Prontuário</li>
-                </Link>
-
-                <Link className="link" to="/perfil-medico">
-            <li>
-              Sair
-              </li>    
-            </Link>
-
-          </ul>
-
-        </nav>
-
-      </aside>
+    <MenuLateral menuAberto={menuAberto}
+    setMenuAberto={setMenuAberto}/>
 
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
 

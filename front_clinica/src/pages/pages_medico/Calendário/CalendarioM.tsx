@@ -1,6 +1,6 @@
-import "./Calendario.css";
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import MenuLateral from "../componentes/MenuLateral";
+import "./Calendario.css";
 
 function Calendario() {
 
@@ -17,46 +17,8 @@ function Calendario() {
   return (
     <div className="calendario-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰ Menu
-      </button>
-
-      <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
-
-        <div className="logo">
-          <h2>MedSync</h2>
-        </div>
-
-        <nav className="menu">
-
-          <ul>
-                <Link className="link" to="/dashboard-medico">
-            <li>Dashboard</li>
-                </Link>
-            
-                
-                <Link className="link" to="/calendario-medico">
-            <li className="active">Calendário</li>
-                </Link>
-                <Link className="link" to="/prontuario-medico">
-            <li>Prontuário</li>
-                </Link>
-
-                <Link className="link" to="/perfil-medico">
-            <li>
-              Sair
-              </li>    
-            </Link>
-
-
-          </ul>
-
-        </nav>
-
-      </aside>
+    <MenuLateral menuAberto={menuAberto}
+    setMenuAberto={setMenuAberto}/>
 
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
 

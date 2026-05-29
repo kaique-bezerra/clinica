@@ -1,7 +1,7 @@
 import "./Agendamento.css";
-import { Link } from "react-router-dom";
 
 import { useState } from "react";
+import MenuLateral from "../componentes/MenuLateral";
 
 function Agendamento() {
 
@@ -32,54 +32,8 @@ function Agendamento() {
   return (
     <div className="agendamento-container">
 
-      <button
-        className="menu-button"
-        onClick={() => setMenuAberto(!menuAberto)}
-      >
-        ☰ Menu
-      </button>
-
-      <aside className={`sidebar ${menuAberto ? "open" : "closed"}`}>
-
-        <div className="logo">
-          <h2>MedSync</h2>
-        </div>
-
-        <nav className="menu">
-          <ul>
-
-            <li>
-              <Link className="link" to="/dashboard">
-                Dashboard
-              </Link>
-            </li>
-                          <Link className="link" to="/pacientes">
-
-            <li>
-                cadastro de pacientes
-            </li>
-              </Link>
-              <Link className="link" to="/agendamento">
-            <li className="active">
-                Agendamento
-            </li>
-              </Link>
-              <Link className="link" to="/calendario">
-            <li>
-                Calendário
-            </li>
-              </Link>
-              <Link className="link" to="/">
-            <li>
-              Sair
-              </li>    
-            </Link>
-             
-
-          </ul>
-        </nav>
-
-      </aside>
+    <MenuLateral menuAberto={menuAberto}
+    setMenuAberto={setMenuAberto}/>
 
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
 
