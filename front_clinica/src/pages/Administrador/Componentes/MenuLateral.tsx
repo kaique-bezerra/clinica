@@ -21,6 +21,7 @@ const MenuLateral=({ menuAberto, setMenuAberto}:{menuAberto: boolean, setMenuAbe
         <nav className="menu">
 
           <ul>
+
             <Link className="link" to="/dashboard-admin"><li>
               Dashboard
             </li></Link>
@@ -59,7 +60,7 @@ const MenuLateral=({ menuAberto, setMenuAberto}:{menuAberto: boolean, setMenuAbe
         </nav>
 
       </aside>
-</div>
+        </div>
 );
 }
 

@@ -85,7 +85,7 @@ function LoginPaciente(){
           <button
             type="button"
             className="login-button"
-            onClick={() => navigate("/dashboard-medico")}
+            onClick={() => navigate("/dashboard-paciente")}
           >
             Entrar
           </button>

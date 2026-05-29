@@ -17,6 +17,11 @@ import AgendamentoDeConsultaAdmin from "./pages/Administrador/AgendamentoConsult
 import CadastroDePacientesAdmin from "./pages/Administrador/cadastroDePacientes/CadastroDePacientesAdmin";
 import CadastroDeUsuarioAdmin from "./pages/Administrador/cadastroDeUsuarios/CadastroDeUsuarioAdmin";
 import MedicosAdmin from "./pages/Administrador/gerenciamentodeMedicos.tsx/Medicos-admin";
+import DashboardPaciente from "./pages/Paciente/Dashboard/DashboardPaciente";
+import CalendarioPaciente from "./pages/Paciente/CalendarioDeConsultas/CalendarioPaciente";
+import ExamesPaciente from "./pages/Paciente/exames/ExamesPaciente";
+import PrescricoesPaciente from "./pages/Paciente/Prescricoes/PrescricoesPaciente";
+
 function App() {
   return (
     <BrowserRouter>
@@ -41,8 +46,10 @@ function App() {
         <Route path="/cadastroDeUsuarios-admin" element={<CadastroDeUsuarioAdmin/>} />
         <Route path="/cadastroDeMedicos-admin" element={<MedicosAdmin/>} />
         <Route path="/perfil-paciente" element={<LoginPaciente />} />
-
-
+        <Route path="/dashboard-paciente" element={<DashboardPaciente />} />
+        <Route path="/calendario-paciente" element={<CalendarioPaciente />} />
+        <Route path="/exames-paciente" element={<ExamesPaciente />} />
+        <Route path="/prescricoes-paciente" element={<PrescricoesPaciente />} />
 
       </Routes>
 
