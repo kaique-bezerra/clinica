@@ -45,7 +45,7 @@ const MenuLateral= ({menuAberto, setMenuAberto}:{menuAberto: boolean, setMenuAbe
                 Chat
             </li></Link>
 
-            <Link className="link" to="/perfil-paciente"><li>
+            <Link className="link" to="/login-paciente"><li>
               Sair
             </li></Link>
 

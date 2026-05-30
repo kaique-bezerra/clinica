@@ -21,6 +21,7 @@ import DashboardPaciente from "./pages/Paciente/Dashboard/DashboardPaciente";
 import CalendarioPaciente from "./pages/Paciente/CalendarioDeConsultas/CalendarioPaciente";
 import ExamesPaciente from "./pages/Paciente/exames/ExamesPaciente";
 import PrescricoesPaciente from "./pages/Paciente/Prescricoes/PrescricoesPaciente";
+import PerfilPaciente from "./pages/Paciente/perfil/PerfilPaciente";
 
 function App() {
   return (
@@ -45,11 +46,12 @@ function App() {
         <Route path="/cadastroDePacientes-admin" element={<CadastroDePacientesAdmin/>} />
         <Route path="/cadastroDeUsuarios-admin" element={<CadastroDeUsuarioAdmin/>} />
         <Route path="/cadastroDeMedicos-admin" element={<MedicosAdmin/>} />
-        <Route path="/perfil-paciente" element={<LoginPaciente />} />
+        <Route path="/login-paciente" element={<LoginPaciente />} />
         <Route path="/dashboard-paciente" element={<DashboardPaciente />} />
         <Route path="/calendario-paciente" element={<CalendarioPaciente />} />
         <Route path="/exames-paciente" element={<ExamesPaciente />} />
         <Route path="/prescricoes-paciente" element={<PrescricoesPaciente />} />
+        <Route path="/perfil-paciente" element={<PerfilPaciente />} />
 
       </Routes>
 

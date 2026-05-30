@@ -98,7 +98,7 @@ function LoginAdmin() {
               <span>Acessar Perfil Recepcionista</span>
             </Link>
 
-            <Link className="secondary-login-button" to="/perfil-paciente">
+            <Link className="secondary-login-button" to="/login-paciente">
               <UserDoctorIcon/>
               <span>Acessar Perfil Paciente</span>
             </Link>

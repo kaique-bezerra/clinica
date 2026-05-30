@@ -86,7 +86,7 @@ function CalendarioPaciente() {
         <section className="section-consultas">
 
           <h2 className="titulo-section">
-            Consultas Passadas
+            CONSULTAS PASSADAS
           </h2>
 
           <div className="calendar-grid">
@@ -129,7 +129,7 @@ function CalendarioPaciente() {
         <section className="section-consultas">
 
           <h2 className="titulo-section">
-            Consultas Atuais e Futuras
+            CONSULTAS ATUAIS E FUTURAS
           </h2>
 
           <div className="calendar-grid">

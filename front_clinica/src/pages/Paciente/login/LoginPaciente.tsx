@@ -101,9 +101,9 @@ function LoginPaciente(){
               <span>Acessar Perfil Recepcionista</span>
             </Link>
 
-            <Link className="secondary-login-button" to="/perfil-paciente">
+            <Link className="secondary-login-button" to="/perfil-medico">
               <UserDoctorIcon/>
-              <span>Acessar Perfil Paciente</span>
+              <span>Acessar Perfil Médico</span>
             </Link>
 
             <button
