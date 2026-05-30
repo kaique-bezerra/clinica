@@ -2,6 +2,7 @@ import { useState } from "react";
 import imagem from "../../../assets/logo2.jpeg";
 import MenuLateral from "../componentes/MenuLateral";
 import "./DashboardPaciente.css";
+import ChatFlutuante from "../componentes/ChatFlutuante";
 
 function DashboardPaciente() {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -13,6 +14,8 @@ function DashboardPaciente() {
         menuAberto={menuAberto}
         setMenuAberto={setMenuAberto}
       />
+
+      <ChatFlutuante/>
 
       <main
         className={`main-content ${

@@ -22,6 +22,7 @@ import CalendarioPaciente from "./pages/Paciente/CalendarioDeConsultas/Calendari
 import ExamesPaciente from "./pages/Paciente/exames/ExamesPaciente";
 import PrescricoesPaciente from "./pages/Paciente/Prescricoes/PrescricoesPaciente";
 import PerfilPaciente from "./pages/Paciente/perfil/PerfilPaciente";
+import ConversasPaciente from "./pages/Paciente/Chat/ConversasPaciente";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
         <Route path="/exames-paciente" element={<ExamesPaciente />} />
         <Route path="/prescricoes-paciente" element={<PrescricoesPaciente />} />
         <Route path="/perfil-paciente" element={<PerfilPaciente />} />
+        <Route path="/conversas-paciente" element={<ConversasPaciente />} />
 
       </Routes>
 

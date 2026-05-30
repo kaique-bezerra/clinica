@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MenuLateral from "../componentes/MenuLateral";
 import "./CalendarioPaciente.css";
+import ChatFlutuante from "../componentes/ChatFlutuante";
 
 function CalendarioPaciente() {
 
@@ -65,6 +66,8 @@ function CalendarioPaciente() {
         menuAberto={menuAberto}
         setMenuAberto={setMenuAberto}
       />
+
+      <ChatFlutuante/>
 
       <main
         className={`main-content ${

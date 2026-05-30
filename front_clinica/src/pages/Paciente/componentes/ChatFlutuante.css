@@ -1,0 +1,205 @@
+.syncia-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+
+  width: 72px;
+  height: 72px;
+
+  border: none;
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #0f172a
+  );
+
+  color: white;
+
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.35);
+
+  transition: all 0.35s ease;
+
+  z-index: 999;
+  padding-left: 0;
+}
+
+.syncia-button:hover {
+  width: 280px;
+
+  box-shadow:
+    0 15px 35px rgba(37, 99, 235, 0.45);
+
+  transform: translateY(-3px);
+}
+
+.syncia-icon {
+  min-width: 72px;
+  height: 70px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+.sparkle {
+  position: absolute;
+
+  top: 14px;
+  right: 10px;
+
+  font-size: 12px;
+}
+
+.syncia-content {
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+  white-space: nowrap;
+
+  transition: opacity 0.3s ease;
+
+  text-align: left;
+}
+
+.syncia-button:hover .syncia-content {
+  opacity: 1;
+}
+
+.syncia-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.syncia-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Efeito de brilho */
+
+.syncia-button::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.25),
+    transparent
+  );
+
+  transition: left 0.8s ease;
+}
+
+.syncia-button:hover::before {
+  left: 120%;
+}
+
+.chat-popup {
+  position: fixed;
+
+  bottom: 100px;
+  right: 25px;
+
+  width: 350px;
+  height: 500px;
+
+  background: white;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow: 0px 4px 20px rgba(0,0,0,.15);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  background-color: #2563eb;
+
+  color: white;
+
+  padding: 15px;
+
+  font-weight: bold;
+}
+
+.chat-body {
+  flex: 1;
+
+  padding: 15px;
+
+  background: #f8fafc;
+
+  overflow-y: auto;
+}
+
+.mensagem {
+  padding: 10px 15px;
+
+  border-radius: 12px;
+
+  margin-bottom: 10px;
+
+  max-width: 80%;
+}
+
+.ia {
+  background: white;
+}
+
+.usuario {
+  background: #dbeafe;
+
+  margin-left: auto;
+}
+
+.chat-footer {
+  display: flex;
+
+  padding: 10px;
+
+  gap: 10px;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+.chat-footer input {
+  flex: 1;
+
+  padding: 10px;
+}
+
+.chat-footer button {
+  padding: 10px 15px;
+
+  background: #2563eb;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+}
