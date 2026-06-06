@@ -1,4 +1,4 @@
 package clinica_back.clinica_back.Usuario;
 
-public class UsuarioControle {
+public class UsuarioService {
 }

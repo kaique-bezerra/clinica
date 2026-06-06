@@ -1,5 +1,5 @@
 package clinica_back.clinica_back.Usuario.Administrador;
 
-public class AdministradorControle {
+public class AdministradorController {
 
 }

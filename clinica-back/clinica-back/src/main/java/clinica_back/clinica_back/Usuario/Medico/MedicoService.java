@@ -1,4 +1,4 @@
 package clinica_back.clinica_back.Usuario.Medico;
 
-public class MedicoEntidade {
+public class MedicoService {
 }

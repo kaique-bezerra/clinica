@@ -1,6 +1,6 @@
 package clinica_back.clinica_back.Usuario.Paciente;
 
-import clinica_back.clinica_back.Usuario.UsuarioEntidade;
+import clinica_back.clinica_back.Usuario.UsuarioEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +19,9 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class PacienteEntidade extends UsuarioEntidade {
+public class PacienteEntity extends UsuarioEntity {
 
+    @NotBlank
     @Column(nullable = false, length = 1)
     private char sexo;
 
