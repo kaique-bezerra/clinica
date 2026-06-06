@@ -1,6 +1,6 @@
 package clinica_back.clinica_back.Usuario.Medico;
 
-import clinica_back.clinica_back.Usuario.UsuarioEntity;
+import clinica_back.clinica_back.Usuario.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class MedicoEntity extends UsuarioEntity {
+public class Medico extends Usuario {
 
     @NotBlank
     @Size(max = 15)

@@ -1,6 +1,6 @@
-package clinica_back.clinica_back.Usuario.Administrador;
+package clinica_back.clinica_back.Usuario.Recepcionista;
 
-import clinica_back.clinica_back.Usuario.UsuarioEntity;
+import clinica_back.clinica_back.Usuario.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -10,12 +10,12 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "Admin")
+@Table(name = "Recepcionista")
 @PrimaryKeyJoinColumn(name = "id_usuario")
 @Getter
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class AdministradorEntity extends UsuarioEntity {
+public class Recepcionista extends Usuario {
 
 }
