@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "Medico")
+@Table(name = "medico")
 @PrimaryKeyJoinColumn(name = "id_usuario")
 @Getter
 @Setter
@@ -21,7 +21,7 @@ public class Medico extends Usuario {
 
     @NotBlank
     @Size(max = 15)
-    @Column(nullable = false,unique = true, length = 15)
+    @Column(nullable = false, unique = true, length = 15)
     private String crm;
 
     @NotBlank

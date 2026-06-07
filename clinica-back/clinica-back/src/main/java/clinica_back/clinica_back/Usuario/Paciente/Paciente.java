@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.Date;
 
 @Entity
-@Table(name = "Paciente")
+@Table(name = "paciente")
 @PrimaryKeyJoinColumn(name = "id_usuario")
 @Getter
 @Setter

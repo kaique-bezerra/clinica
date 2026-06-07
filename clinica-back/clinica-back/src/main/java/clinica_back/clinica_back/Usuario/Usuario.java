@@ -1,8 +1,18 @@
 package clinica_back.clinica_back.Usuario;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +20,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
@@ -52,4 +62,10 @@ public class Usuario {
     @Size(max = 255)
     @Column(nullable = false, length = 255)
     private String senha;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 13)
+    private PerfilUsuario perfil;
+
 }

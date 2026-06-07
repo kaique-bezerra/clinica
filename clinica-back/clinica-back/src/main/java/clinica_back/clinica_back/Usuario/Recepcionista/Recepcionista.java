@@ -10,7 +10,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "Recepcionista")
+@Table(name = "recepcionista")
 @PrimaryKeyJoinColumn(name = "id_usuario")
 @Getter
 @Setter
