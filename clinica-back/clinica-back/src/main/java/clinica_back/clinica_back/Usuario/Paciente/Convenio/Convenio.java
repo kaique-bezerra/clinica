@@ -1,6 +1,6 @@
-package clinica_back.clinica_back.Usuario.Paciente.DadosClinicos;
+package clinica_back.clinica_back.Usuario.Paciente.Convenio;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,19 +17,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DadosClinicos {
+public class Convenio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_dadosClinicos;
+    private Long id_convenio;
 
     @NotBlank
-    @Column(length = 3)
-    private String tipo_sanguineo;
+    @Column(length = 30, nullable = false)
+    private String plano;
 
-    @Column(precision = 3, scale = 2)
-    private BigDecimal altura;
+    @NotBlank
+    @Column(length = 20, nullable = false)
+    private String numero;
 
-    @Column(precision = 5, scale = 2)
-    private BigDecimal peso;
+    @Column(nullable = false)
+    private LocalDate data;
 }
