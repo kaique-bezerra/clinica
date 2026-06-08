@@ -23,7 +23,8 @@ public class Convenio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_convenio;
+    @Column(name = "id_convenio")
+    private Long idConvenio;
 
     @NotBlank
     @Column(length = 30, nullable = false)
