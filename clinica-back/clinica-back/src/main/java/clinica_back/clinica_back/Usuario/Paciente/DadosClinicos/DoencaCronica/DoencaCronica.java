@@ -1,4 +1,4 @@
-package clinica_back.clinica_back.Usuario.Paciente.DadosClinicos.Alergia;
+package clinica_back.clinica_back.Usuario.Paciente.DadosClinicos.DoencaCronica;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,16 +18,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "alergia")
-public class Alergia {
+@Table(name = "doenca_cronica")
+public class DoencaCronica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_alergia")
-    private Long idAlergia;
+    @Column(name = "id_doenca_cronica")
+    private Long idDoencaCronica;
 
     @NotBlank
     @Size(max = 50)
-    @Column(nullable = false, name = "nome_alergia", length = 50)
-    private String nomeAlergia;
+    @Column(nullable = false, name = "nome_doenca", length = 50)
+    private String nomeDoenca;
 }
