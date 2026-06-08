@@ -36,7 +36,7 @@ public class LogAuditoria {
     @NotNull
     @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
-    private AcaoAuditoria acao;
+    private AcaoAuditoriaEnum acao;
 
     @NotBlank
     @Size(max = 50)

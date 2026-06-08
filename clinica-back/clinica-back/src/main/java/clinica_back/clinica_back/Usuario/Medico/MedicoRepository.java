@@ -1,4 +1,6 @@
 package clinica_back.clinica_back.Usuario.Medico;
 
-public interface MedicoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MedicoRepository extends JpaRepository<Medico, Long> {
 }

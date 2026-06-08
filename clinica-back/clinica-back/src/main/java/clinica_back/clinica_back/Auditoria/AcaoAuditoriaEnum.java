@@ -1,6 +1,6 @@
 package clinica_back.clinica_back.Auditoria;
 
-public enum AcaoAuditoria {
+public enum AcaoAuditoriaEnum {
     INSERT,
     UPDATE,
     DELETE,

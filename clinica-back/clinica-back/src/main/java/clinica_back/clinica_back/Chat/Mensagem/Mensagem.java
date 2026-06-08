@@ -45,5 +45,5 @@ public class Mensagem {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PapelMensagem papel;
+    private PapelMensagemEnum papel;
 }
