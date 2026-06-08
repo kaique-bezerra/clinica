@@ -3,13 +3,8 @@ package clinica_back.clinica_back.Consulta.HorarioDisponivel;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +23,9 @@ public class HorarioDisponivel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_horario_disponivel")
     private Long idHorarioDisponivel;
+
+    @NotNull
+    @JoinColumn(name = "id_usuario_med", nullable = false)
 
     @Column(name = "data_disponivel", nullable = false)
     private LocalDate dataDisponivel;

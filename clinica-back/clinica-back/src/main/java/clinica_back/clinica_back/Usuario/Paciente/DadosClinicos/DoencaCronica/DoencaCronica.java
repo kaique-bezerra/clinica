@@ -1,11 +1,6 @@
 package clinica_back.clinica_back.Usuario.Paciente.DadosClinicos.DoencaCronica;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,6 +20,9 @@ public class DoencaCronica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_doenca_cronica")
     private Long idDoencaCronica;
+
+    @JoinColumn(name = "id_dadosClinicos",nullable = false)
+
 
     @NotBlank
     @Size(max = 50)
