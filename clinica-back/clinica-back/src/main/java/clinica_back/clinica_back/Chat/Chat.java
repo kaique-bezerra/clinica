@@ -2,14 +2,10 @@ package clinica_back.clinica_back.Chat;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +23,9 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_chat")
     private Long idChat;
+
+    @NotNull
+    @JoinColumn(name = "id_usuario_pac", nullable = false)
 
     // updatable evita q a hora possa ser alterada depois q for criada...
     @CreationTimestamp // O hibernate adc a data e hora automaticamente, com o horário atual...
