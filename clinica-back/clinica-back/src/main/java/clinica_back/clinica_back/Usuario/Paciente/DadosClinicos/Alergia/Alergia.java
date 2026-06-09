@@ -1,6 +1,14 @@
 package clinica_back.clinica_back.Usuario.Paciente.DadosClinicos.Alergia;
 
-import jakarta.persistence.*;
+import clinica_back.clinica_back.Usuario.Paciente.DadosClinicos.DadosClinicos;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,7 +29,9 @@ public class Alergia {
     @Column(name = "id_alergia")
     private Long idAlergia;
 
-    @JoinColumn(name = "id_dadosClinicos",nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_dadosClinicos", nullable = false)
+    private DadosClinicos dadosClinicos;
 
     @NotBlank
     @Size(max = 50)

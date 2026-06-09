@@ -2,7 +2,15 @@ package clinica_back.clinica_back.Usuario.Paciente.Convenio;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.*;
+import clinica_back.clinica_back.Usuario.Paciente.Paciente;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,7 +32,9 @@ public class Convenio {
     private Long idConvenio;
 
     @NotNull
+    @ManyToOne
     @JoinColumn(name = "id_usuario_pac", nullable = false)
+    private Paciente paciente;
 
     @NotBlank
     @Column(length = 30, nullable = false)

@@ -1,17 +1,21 @@
 package clinica_back.clinica_back.Chat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import clinica_back.clinica_back.Chat.Mensagem.Mensagem;
 import clinica_back.clinica_back.Usuario.Paciente.Paciente;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -33,7 +37,7 @@ public class Chat {
     private Long idChat;
 
     @NotNull
-    @OneToOne // Ainda não decidi se será one to one ou Manytoone
+    @ManyToOne
     @JoinColumn(name = "id_usuario_pac", nullable = false)
     private Paciente paciente;
 
@@ -41,4 +45,7 @@ public class Chat {
     @CreationTimestamp // O hibernate adc a data e hora automaticamente, com o horário atual...
     @Column(nullable = false, name = "hora_criacao", updatable = false)
     private LocalDateTime horaCriacao;
+
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mensagem> mensagens;
 }
