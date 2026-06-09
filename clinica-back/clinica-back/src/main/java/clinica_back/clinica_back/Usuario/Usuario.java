@@ -1,5 +1,7 @@
 package clinica_back.clinica_back.Usuario;
 
+import clinica_back.clinica_back.Usuario.Endereco.Endereco;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -67,5 +71,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 13)
     private PerfilUsuario perfil;
+
+    @NotNull
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Endereco endereco;
 
 }

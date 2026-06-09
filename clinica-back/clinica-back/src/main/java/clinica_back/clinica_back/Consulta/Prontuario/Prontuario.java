@@ -1,5 +1,6 @@
 package clinica_back.clinica_back.Consulta.Prontuario;
 
+import clinica_back.clinica_back.Consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,6 +23,8 @@ public class Prontuario {
     private Long idProntuario;
 
     @JoinColumn(name = "id_consulta",nullable = false,unique = true)
+    @OneToOne
+    private Consulta consulta;
 
     @NotBlank
     @Size(max = 255)

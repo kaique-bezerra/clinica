@@ -1,7 +1,17 @@
 package clinica_back.clinica_back.Usuario.Medico;
 
+import java.util.List;
+
+import clinica_back.clinica_back.Consulta.HorarioDisponivel.HorarioDisponivel;
 import clinica_back.clinica_back.Usuario.Usuario;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -33,5 +43,8 @@ public class Medico extends Usuario {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private StatusMedico status;
+
+    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HorarioDisponivel> horariosDisponiveis;
 
 }

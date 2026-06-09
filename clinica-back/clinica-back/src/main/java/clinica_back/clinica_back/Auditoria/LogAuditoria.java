@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import clinica_back.clinica_back.Usuario.Usuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,7 +28,9 @@ public class LogAuditoria {
     private Long idLogAuditoria;
 
     @NotNull
-    @JoinColumn(name = "id_usuario",nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
     @NotNull
     @Column(nullable = false, length = 20)
@@ -44,6 +47,7 @@ public class LogAuditoria {
     @Column(nullable = false, length = 255)
     private String descricao;
 
+    @NotNull
     @Column(nullable = false, name = "id_afetado")
     private Long idAfetado;
 

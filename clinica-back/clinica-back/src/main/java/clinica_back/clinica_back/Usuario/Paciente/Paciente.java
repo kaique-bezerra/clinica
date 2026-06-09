@@ -33,4 +33,6 @@ public class Paciente extends Usuario {
     @NotNull
     @Column(nullable = false)
     private Date data_nascimento;
+
+    
 }
