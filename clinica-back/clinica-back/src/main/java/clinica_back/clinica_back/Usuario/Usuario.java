@@ -71,7 +71,7 @@ public class Usuario {
     @Column(nullable = false, length = 13)
     private PerfilUsuario perfil;
 
-    @NotNull
+    // o @ note null pode da problema porque o hibernaide valida antes de persistir 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private Endereco endereco;
 
