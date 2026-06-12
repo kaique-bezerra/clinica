@@ -35,8 +35,8 @@ public class DadosClinicos {
     private Long id_dadosClinicos;
 
     @NotBlank
-    @Column(length = 3)
-    private String tipo_sanguineo;
+    @Column(length = 3, name = "tipo_sanguineo")
+    private String tipoSanguineo;
 
     @Column(precision = 3, scale = 2)
     private BigDecimal altura;

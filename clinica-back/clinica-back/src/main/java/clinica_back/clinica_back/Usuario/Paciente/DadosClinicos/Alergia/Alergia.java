@@ -34,7 +34,7 @@ public class Alergia {
     private DadosClinicos dadosClinicos;
 
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 100)
     @Column(nullable = false, name = "nome_alergia", length = 50)
     private String nomeAlergia;
 }

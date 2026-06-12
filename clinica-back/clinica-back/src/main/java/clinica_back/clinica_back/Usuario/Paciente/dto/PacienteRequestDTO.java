@@ -1,7 +1,12 @@
-package clinica_back.clinica_back.Usuario.Medico.dto;
+package clinica_back.clinica_back.Usuario.Paciente.dto;
 
+import java.util.Date;
+
+import clinica_back.clinica_back.Usuario.Paciente.Convenio.dto.ConvenioRequestDTO;
+import clinica_back.clinica_back.Usuario.Paciente.DadosClinicos.dto.DadosClinicosRequestDTO;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -9,7 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MedicoRequestDTO {
+public class PacienteRequestDTO {
 
     @NotBlank
     @Size(max = 30)
@@ -36,14 +41,6 @@ public class MedicoRequestDTO {
     @Size(min = 6, max = 255)
     private String senha;
 
-    @NotBlank
-    @Size(max = 15)
-    private String crm;
-
-    @NotBlank
-    @Size(max = 50)
-    private String especialidade;
-
     @Size(max = 50)
     private String rua;
 
@@ -60,4 +57,18 @@ public class MedicoRequestDTO {
 
     @Pattern(regexp = "\\d{8}|\\d{5}-\\d{3}", message = "CEP deve conter no mínimo 8 dígitos ou estar no formato 00000-000")
     private String cep;
+
+    private Character sexo;
+
+    @NotBlank
+    @Size(max = 30)
+    private String profissao;
+
+    @NotNull
+    private Date data_nascimento;
+
+    private ConvenioRequestDTO convenio;
+
+    private DadosClinicosRequestDTO dadosClinicos;
+
 }

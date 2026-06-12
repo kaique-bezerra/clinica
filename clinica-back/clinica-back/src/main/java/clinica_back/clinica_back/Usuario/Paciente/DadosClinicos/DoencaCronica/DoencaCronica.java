@@ -34,7 +34,7 @@ public class DoencaCronica {
     private DadosClinicos dadosClinicos;
 
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 100)
     @Column(nullable = false, name = "nome_doenca", length = 50)
     private String nomeDoenca;
 }
