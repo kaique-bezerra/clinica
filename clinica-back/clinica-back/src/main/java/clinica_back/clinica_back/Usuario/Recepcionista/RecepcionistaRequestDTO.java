@@ -13,7 +13,7 @@ public class RecepcionistaRequestDTO {
     private String telefone;
     private String cpf;
     private String senha;
-
+    
     private String rua;
     private Integer numero;
     private String bairro;

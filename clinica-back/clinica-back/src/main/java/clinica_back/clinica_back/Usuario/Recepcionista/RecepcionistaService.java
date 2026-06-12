@@ -1,13 +1,14 @@
 package clinica_back.clinica_back.Usuario.Recepcionista;
 
-import clinica_back.clinica_back.Usuario.Endereco.Endereco;
-import clinica_back.clinica_back.Usuario.PerfilUsuario;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import clinica_back.clinica_back.Usuario.PerfilUsuario;
+import clinica_back.clinica_back.Usuario.Endereco.Endereco;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +29,7 @@ public class RecepcionistaService {
         recepcionista.setCpf(dto.getCpf());
 
         recepcionista.setSenha(
-                passwordEncoder.encode(dto.getSenha())
-        );
+                passwordEncoder.encode(dto.getSenha()));
 
         recepcionista.setPerfil(PerfilUsuario.RECEPCIONISTA);
 

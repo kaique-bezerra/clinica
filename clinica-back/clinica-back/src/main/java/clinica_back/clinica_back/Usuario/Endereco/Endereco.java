@@ -28,6 +28,7 @@ public class Endereco {
     @Column(length = 50)
     private String rua;
 
+    @Column(length = 5)
     private Integer numero;
 
     @Column(length = 40)

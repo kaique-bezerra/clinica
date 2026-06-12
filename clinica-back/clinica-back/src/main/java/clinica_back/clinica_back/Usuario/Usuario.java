@@ -32,47 +32,48 @@ import lombok.experimental.SuperBuilder;
 
 public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id_usuario;
 
-    @NotBlank
-    @Size(max = 30)
-    @Column(nullable = false, length = 30)
-    private String nome;
+  @NotBlank
+  @Size(max = 30)
+  @Column(nullable = false, length = 30)
+  private String nome;
 
-    @NotBlank
-    @Size(max = 50)
-    @Column(nullable = false, length = 50)
-    private String sobrenome;
-    @Email
-    @NotBlank
-    @Size(max = 50)
-    @Column(nullable = false, unique = true, length = 50)
-    private String email;
+  @NotBlank
+  @Size(max = 50)
+  @Column(nullable = false, length = 50)
+  private String sobrenome;
 
-    @NotBlank
-    @Size(max = 20)
-    @Column(nullable = false, length = 20)
-    private String telefone;
+  @Email
+  @NotBlank
+  @Size(max = 50)
+  @Column(nullable = false, unique = true, length = 50)
+  private String email;
 
-    @NotBlank
-    @Size(max = 14)
-    @Column(nullable = false, unique = true, length = 14)
-    private String cpf;
+  @NotBlank
+  @Size(max = 20)
+  @Column(nullable = false, length = 20)
+  private String telefone;
 
-    @NotBlank
-    @Size(max = 255)
-    @Column(nullable = false, length = 255)
-    private String senha;
+  @NotBlank
+  @Size(max = 14)
+  @Column(nullable = false, unique = true, length = 14)
+  private String cpf;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 13)
-    private PerfilUsuario perfil;
+  @NotBlank
+  @Size(max = 255)
+  @Column(nullable = false, length = 255)
+  private String senha;
 
-    // o @ note null pode da problema porque o hibernaide valida antes de persistir 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Endereco endereco;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false, length = 13)
+  private PerfilUsuario perfil;
+
+  // o @ note null pode da problema porque o hibernaide valida antes de persistir
+  @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Endereco endereco;
 
 }
