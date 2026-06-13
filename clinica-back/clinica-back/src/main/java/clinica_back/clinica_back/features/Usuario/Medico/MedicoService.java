@@ -10,6 +10,7 @@ import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
 import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoResponseDTO;
+import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -90,4 +91,19 @@ public class MedicoService {
         return resposta;
     }
 
+    public MedicoResponseDTO buscarPorId(Long id) {
+        Medico medico = medicoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Médico com ID " + id + " não encontrado"));
+
+        return new MedicoResponseDTO(
+                medico.getIdUsuario(),
+                medico.getNome(),
+                medico.getSobrenome(),
+                medico.getEmail(),
+                medico.getTelefone(),
+                medico.getCrm(),
+                medico.getEspecialidade(),
+                medico.getStatus());
+    }
+    
 }

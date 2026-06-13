@@ -1,5 +1,8 @@
 package clinica_back.clinica_back.features.Usuario.Recepcionista;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +41,7 @@ public class RecepcionistaService {
         recepcionista.setCpf(dto.getCpf());
 
         recepcionista.setSenha(
-            passwordEncoder.encode(dto.getSenha()));
+                passwordEncoder.encode(dto.getSenha()));
 
         recepcionista.setPerfil(PerfilUsuario.RECEPCIONISTA);
 
@@ -64,5 +67,20 @@ public class RecepcionistaService {
                 recepcionistaSalva.getTelefone());
     }
 
+    public List<RecepcionistaResponseDTO> listarTodos() {
 
+        List<Recepcionista> recepcionistas = recepcionistaRepository.findAll();
+        List<RecepcionistaResponseDTO> resposta = new ArrayList<>();
+
+        for (Recepcionista recepcionista : recepcionistas) {
+            resposta.add(new RecepcionistaResponseDTO(
+                    recepcionista.getIdUsuario(),
+                    recepcionista.getNome(),
+                    recepcionista.getSobrenome(),
+                    recepcionista.getEmail(),
+                    recepcionista.getTelefone()));
+        }
+
+        return resposta;
+    }
 }

@@ -16,6 +16,7 @@ import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaC
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.dto.DoencaCronicaRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
+import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
 import clinica_back.clinica_back.shared.util.DataUtil;
 import jakarta.transaction.Transactional;
@@ -155,6 +156,24 @@ public class PacienteService {
         }
 
         return resposta;
+    }
+
+    public PacienteResponseDTO buscarPorId(Long id) {
+        Paciente paciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente com ID " + id + " não encontrado"));
+
+        return new PacienteResponseDTO(
+                paciente.getIdUsuario(),
+                paciente.getNome(),
+                paciente.getSobrenome(),
+                paciente.getEmail(),
+                paciente.getTelefone(),
+                paciente.getProfissao(),
+                paciente.getDataNascimento(),
+                paciente.getIdade(),
+                paciente.getDadosClinicos().getTipoSanguineo(),
+                paciente.getDadosClinicos().getAltura(),
+                paciente.getDadosClinicos().getPeso());
     }
 
 }
