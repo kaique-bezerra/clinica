@@ -1,7 +1,9 @@
 package clinica_back.clinica_back.features.Usuario.Paciente.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +24,10 @@ public class PacienteResponseDTO {
 
     private String profissao;
 
-    private Date data_nascimento;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataNascimento;
+
+    private Integer idade;
 
     private String tipoSanguineo;
 

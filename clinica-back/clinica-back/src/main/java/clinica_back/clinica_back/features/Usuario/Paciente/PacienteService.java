@@ -17,6 +17,7 @@ import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaC
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
+import clinica_back.clinica_back.shared.util.DataUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -49,7 +50,8 @@ public class PacienteService {
         paciente.setPerfil(PerfilUsuario.PACIENTE);
         paciente.setSexo(dto.getSexo());
         paciente.setProfissao(dto.getProfissao());
-        paciente.setData_nascimento(dto.getData_nascimento());
+        paciente.setDataNascimento(dto.getDataNascimento());
+        paciente.setIdade(DataUtil.calcularIdade(dto.getDataNascimento()));
 
         Endereco endereco = new Endereco();
 
@@ -125,7 +127,8 @@ public class PacienteService {
                 pacienteSalvo.getEmail(),
                 pacienteSalvo.getTelefone(),
                 pacienteSalvo.getProfissao(),
-                pacienteSalvo.getData_nascimento(),
+                pacienteSalvo.getDataNascimento(),
+                pacienteSalvo.getIdade(),
                 pacienteSalvo.getDadosClinicos().getTipoSanguineo(),
                 pacienteSalvo.getDadosClinicos().getAltura(),
                 pacienteSalvo.getDadosClinicos().getPeso());

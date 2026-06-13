@@ -1,6 +1,6 @@
 package clinica_back.clinica_back.features.Usuario.Paciente;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import clinica_back.clinica_back.features.Chat.Chat;
@@ -34,8 +34,10 @@ public class Paciente extends Usuario {
     @Column(nullable = false, length = 30)
     private String profissao;
 
-    @Column(nullable = false)
-    private Date data_nascimento;
+    @Column(nullable = false, name = "data_nascimento")
+    private LocalDate dataNascimento;
+
+    private Integer idade;
 
     @OneToOne(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private DadosClinicos dadosClinicos;

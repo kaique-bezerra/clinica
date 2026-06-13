@@ -1,6 +1,6 @@
 package clinica_back.clinica_back.features.Usuario.Paciente.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import clinica_back.clinica_back.features.Usuario.Paciente.Convenio.dto.ConvenioRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.dto.DadosClinicosRequestDTO;
@@ -65,7 +65,7 @@ public class PacienteRequestDTO {
     private String profissao;
 
     @NotNull
-    private Date data_nascimento;
+    private LocalDate dataNascimento;
 
     private ConvenioRequestDTO convenio;
 
