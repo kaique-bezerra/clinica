@@ -1,5 +1,8 @@
 package clinica_back.clinica_back.features.Usuario.Medico;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,4 +69,25 @@ public class MedicoService {
                 medicoSalvo.getEspecialidade(),
                 medicoSalvo.getStatus());
     }
+
+    public List<MedicoResponseDTO> listarTodos() {
+
+        List<Medico> medicos = medicoRepository.findAll();
+        List<MedicoResponseDTO> resposta = new ArrayList<>();
+
+        for (Medico medico : medicos) {
+            resposta.add(new MedicoResponseDTO(
+                    medico.getIdUsuario(),
+                    medico.getNome(),
+                    medico.getSobrenome(),
+                    medico.getEmail(),
+                    medico.getTelefone(),
+                    medico.getCrm(),
+                    medico.getEspecialidade(),
+                    medico.getStatus()));
+        }
+
+        return resposta;
+    }
+
 }

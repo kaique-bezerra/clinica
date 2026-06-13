@@ -1,10 +1,7 @@
 package clinica_back.clinica_back.features.Usuario.Recepcionista;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +27,4 @@ public class RecepcionistaController {
                 return ResponseEntity.status(HttpStatus.CREATED).body(recepcionista);
         }
 
-        @GetMapping
-        public ResponseEntity<List<Recepcionista>> listarRecepcionistas() {
-                return ResponseEntity.ok(
-                                recepcionistaService.listarTodos());
-        }
 }

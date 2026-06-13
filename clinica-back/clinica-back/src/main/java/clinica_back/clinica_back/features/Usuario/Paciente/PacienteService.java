@@ -133,4 +133,28 @@ public class PacienteService {
                 pacienteSalvo.getDadosClinicos().getAltura(),
                 pacienteSalvo.getDadosClinicos().getPeso());
     }
+
+    public List<PacienteResponseDTO> listarTodos() {
+
+        List<Paciente> pacientes = pacienteRepository.findAll();
+        List<PacienteResponseDTO> resposta = new ArrayList<>();
+
+        for (Paciente paciente : pacientes) {
+            resposta.add(new PacienteResponseDTO(
+                    paciente.getIdUsuario(),
+                    paciente.getNome(),
+                    paciente.getSobrenome(),
+                    paciente.getEmail(),
+                    paciente.getTelefone(),
+                    paciente.getProfissao(),
+                    paciente.getDataNascimento(),
+                    paciente.getIdade(),
+                    paciente.getDadosClinicos().getTipoSanguineo(),
+                    paciente.getDadosClinicos().getAltura(),
+                    paciente.getDadosClinicos().getPeso()));
+        }
+
+        return resposta;
+    }
+
 }

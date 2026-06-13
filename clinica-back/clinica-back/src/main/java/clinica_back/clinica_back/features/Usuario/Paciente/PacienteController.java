@@ -1,7 +1,10 @@
 package clinica_back.clinica_back.features.Usuario.Paciente;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +24,13 @@ public class PacienteController {
 
     @PostMapping
     public ResponseEntity<PacienteResponseDTO> cadastrar(@Valid @RequestBody PacienteRequestDTO dto) {
-        PacienteResponseDTO paciente=pacienteService.cadastrar(dto);
+        PacienteResponseDTO paciente = pacienteService.cadastrar(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(paciente);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PacienteResponseDTO>> listarTodos() {
+        return ResponseEntity.ok(pacienteService.listarTodos());
     }
 
 }

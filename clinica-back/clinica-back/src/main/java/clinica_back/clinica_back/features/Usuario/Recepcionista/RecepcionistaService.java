@@ -1,7 +1,5 @@
 package clinica_back.clinica_back.features.Usuario.Recepcionista;
 
-import java.util.List;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +64,5 @@ public class RecepcionistaService {
                 recepcionistaSalva.getTelefone());
     }
 
-    public List<Recepcionista> listarTodos() {
-        return recepcionistaRepository.findAll();
-    }
+
 }
