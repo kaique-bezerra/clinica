@@ -16,6 +16,7 @@ import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaC
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.dto.DoencaCronicaRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
+import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,9 +26,17 @@ public class PacienteService {
     private final PacienteRepository pacienteRepository;
     private final PasswordEncoder passwordEncoder;
 
-       public PacienteResponseDTO cadastrar(PacienteRequestDTO dto) {
+    public PacienteResponseDTO cadastrar(PacienteRequestDTO dto) {
 
         Paciente paciente = new Paciente();
+
+        if (pacienteRepository.existsByCpf(dto.getCpf())) {
+            throw new RegraNegocioException("CPF já cadastrado!");
+        }
+
+        if (pacienteRepository.existsByEmail(dto.getEmail())) {
+            throw new RegraNegocioException("Email já cadastrado!");
+        }
 
         paciente.setNome(dto.getNome());
         paciente.setSobrenome(dto.getSobrenome());
@@ -93,9 +102,9 @@ public class PacienteService {
 
         dadosClinicos.setDoencasCronicas(doencasCronicas);
 
-        if (dto.getConvenio()!=null) {
-            
-            Convenio convenio=new Convenio();
+        if (dto.getConvenio() != null) {
+
+            Convenio convenio = new Convenio();
 
             convenio.setPlano(dto.getConvenio().getPlano());
             convenio.setNumero(dto.getConvenio().getNumero());
@@ -108,7 +117,7 @@ public class PacienteService {
         Paciente pacienteSalvo = pacienteRepository.save(paciente);
 
         return new PacienteResponseDTO(
-                pacienteSalvo.getId_usuario(),
+                pacienteSalvo.getIdUsuario(),
                 pacienteSalvo.getNome(),
                 pacienteSalvo.getSobrenome(),
                 pacienteSalvo.getEmail(),

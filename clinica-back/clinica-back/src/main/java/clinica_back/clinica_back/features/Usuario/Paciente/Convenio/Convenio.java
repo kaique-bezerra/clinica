@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,11 +35,9 @@ public class Convenio {
     @JoinColumn(name = "id_usuario_pac", nullable = false)
     private Paciente paciente;
 
-    @NotBlank
     @Column(length = 30, nullable = false)
     private String plano;
 
-    @NotBlank
     @Column(length = 20, nullable = false)
     private String numero;
 

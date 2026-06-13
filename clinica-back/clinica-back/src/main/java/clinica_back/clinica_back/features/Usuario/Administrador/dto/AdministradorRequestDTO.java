@@ -1,6 +1,4 @@
-package clinica_back.clinica_back.features.Usuario.Medico.dto;
-
-import org.hibernate.validator.constraints.br.CPF;
+package clinica_back.clinica_back.features.Usuario.Administrador.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MedicoRequestDTO {
+public class AdministradorRequestDTO {
 
     @NotBlank
     @Size(max = 30)
@@ -25,7 +23,6 @@ public class MedicoRequestDTO {
     @Pattern(regexp = "\\d{11}|\\(\\d{2}\\)\\d{5}-\\d{4}", message = "Telefone deve conter 11 dígitos ou estar no formato (00)00000-00000")
     private String telefone;
 
-    @CPF
     @NotBlank
     @Pattern(regexp = "\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve conter 11 dígitos ou estar no formato 000.000.000-00")
     private String cpf;
@@ -35,17 +32,9 @@ public class MedicoRequestDTO {
     @Size(max = 50)
     private String email;
 
-    @NotBlank
+    @NotBlank // A senha passa pelo dto antes de virar hash
     @Size(min = 6, max = 255)
     private String senha;
-
-    @NotBlank
-    @Size(max = 15)
-    private String crm;
-
-    @NotBlank
-    @Size(max = 50)
-    private String especialidade;
 
     @Size(max = 50)
     private String rua;

@@ -16,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +33,6 @@ public class DadosClinicos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_dadosClinicos;
 
-    @NotBlank
     @Column(length = 3, name = "tipo_sanguineo")
     private String tipoSanguineo;
 

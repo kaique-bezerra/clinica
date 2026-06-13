@@ -46,7 +46,7 @@ public class MedicoService {
         Medico medicoSalvo = medicoRepository.save(medico);
 
         return new MedicoResponseDTO(
-                medicoSalvo.getId_usuario(),
+                medicoSalvo.getIdUsuario(),
                 medicoSalvo.getNome(),
                 medicoSalvo.getSobrenome(),
                 medicoSalvo.getEmail(),

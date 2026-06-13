@@ -9,8 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +31,6 @@ public class Alergia {
     @JoinColumn(name = "id_dadosClinicos", nullable = false)
     private DadosClinicos dadosClinicos;
 
-    @NotBlank
-    @Size(max = 100)
     @Column(nullable = false, name = "nome_alergia", length = 50)
     private String nomeAlergia;
 }

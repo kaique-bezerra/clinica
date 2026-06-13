@@ -12,9 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,17 +26,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Medico extends Usuario {
 
-    @NotBlank
-    @Size(max = 15)
     @Column(nullable = false, unique = true, length = 15)
     private String crm;
 
-    @NotBlank
-    @Size(max = 50)
     @Column(nullable = false, length = 50)
     private String especialidade;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private StatusMedico status;
