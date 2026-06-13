@@ -7,6 +7,8 @@ import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
 import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoResponseDTO;
+import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,9 +18,18 @@ public class MedicoService {
     private final MedicoRepository medicoRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public MedicoResponseDTO cadastrar(MedicoRequestDTO dto) {
 
         Medico medico = new Medico();
+
+        if (medicoRepository.existsByCpf(dto.getCpf())) {
+            throw new RegraNegocioException("CPF já cadastrado!");
+        }
+
+        if (medicoRepository.existsByEmail(dto.getEmail())) {
+            throw new RegraNegocioException("Email já cadastrado!");
+        }
 
         medico.setNome(dto.getNome());
         medico.setSobrenome(dto.getSobrenome());

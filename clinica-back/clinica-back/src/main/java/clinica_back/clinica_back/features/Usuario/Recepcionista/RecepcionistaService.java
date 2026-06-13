@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
+import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaRequestDTO;
+import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaResponseDTO;
+import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -18,9 +21,17 @@ public class RecepcionistaService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Recepcionista cadastrar(RecepcionistaRequestDTO dto) {
+    public RecepcionistaResponseDTO cadastrar(RecepcionistaRequestDTO dto) {
 
         Recepcionista recepcionista = new Recepcionista();
+
+        if (recepcionistaRepository.existsByCpf(dto.getCpf())) {
+            throw new RegraNegocioException("CPF já cadastrado!");
+        }
+
+        if (recepcionistaRepository.existsByEmail(dto.getEmail())) {
+            throw new RegraNegocioException("Email já cadastrado!");
+        }
 
         recepcionista.setNome(dto.getNome());
         recepcionista.setSobrenome(dto.getSobrenome());
@@ -29,7 +40,7 @@ public class RecepcionistaService {
         recepcionista.setCpf(dto.getCpf());
 
         recepcionista.setSenha(
-                passwordEncoder.encode(dto.getSenha()));
+            passwordEncoder.encode(dto.getSenha()));
 
         recepcionista.setPerfil(PerfilUsuario.RECEPCIONISTA);
 
@@ -42,11 +53,17 @@ public class RecepcionistaService {
         endereco.setEstado(dto.getEstado());
         endereco.setCep(dto.getCep());
 
-        // Relacionamento bidirecional
         endereco.setUsuario(recepcionista);
         recepcionista.setEndereco(endereco);
 
-        return recepcionistaRepository.save(recepcionista);
+        Recepcionista recepcionistaSalva = recepcionistaRepository.save(recepcionista);
+
+        return new RecepcionistaResponseDTO(
+                recepcionistaSalva.getIdUsuario(),
+                recepcionistaSalva.getNome(),
+                recepcionistaSalva.getSobrenome(),
+                recepcionistaSalva.getEmail(),
+                recepcionistaSalva.getTelefone());
     }
 
     public List<Recepcionista> listarTodos() {

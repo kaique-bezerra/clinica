@@ -17,6 +17,7 @@ import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaC
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,6 +27,7 @@ public class PacienteService {
     private final PacienteRepository pacienteRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public PacienteResponseDTO cadastrar(PacienteRequestDTO dto) {
 
         Paciente paciente = new Paciente();
