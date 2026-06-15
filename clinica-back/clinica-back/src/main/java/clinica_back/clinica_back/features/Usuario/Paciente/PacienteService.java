@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
+import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
 import clinica_back.clinica_back.features.Usuario.Paciente.Convenio.Convenio;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DadosClinicos;
@@ -14,7 +15,8 @@ import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia.dto.AlergiaRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.DoencaCronica;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.dto.DoencaCronicaRequestDTO;
-import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestDTO;
+import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestCadastrarDTO;
+import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestUpdateDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
@@ -26,19 +28,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PacienteService {
 
+    private final UsuarioRepository usuarioRepository;
     private final PacienteRepository pacienteRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public PacienteResponseDTO cadastrar(PacienteRequestDTO dto) {
+    public PacienteResponseDTO cadastrar(PacienteRequestCadastrarDTO dto) {
 
         Paciente paciente = new Paciente();
 
-        if (pacienteRepository.existsByCpf(dto.getCpf())) {
+        if (usuarioRepository.existsByCpf(dto.getCpf())) {
             throw new RegraNegocioException("CPF já cadastrado!");
         }
 
-        if (pacienteRepository.existsByEmail(dto.getEmail())) {
+        if (usuarioRepository.existsByEmail(dto.getEmail())) {
             throw new RegraNegocioException("Email já cadastrado!");
         }
 
@@ -174,6 +177,44 @@ public class PacienteService {
                 paciente.getDadosClinicos().getTipoSanguineo(),
                 paciente.getDadosClinicos().getAltura(),
                 paciente.getDadosClinicos().getPeso());
+    }
+
+    public PacienteResponseDTO atualizarDados(Long id, PacienteRequestUpdateDTO dto) {
+        Paciente paciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente com ID " + id + " não encontrado"));
+
+        if (!paciente.getEmail().equals(dto.getEmail()) && usuarioRepository.existsByEmail(dto.getEmail())) {
+            throw new RegraNegocioException("Email já cadastrado!");
+        }
+
+        if (!paciente.getCpf().equals(dto.getCpf()) && usuarioRepository.existsByCpf(dto.getCpf())) {
+            throw new RegraNegocioException("CPF já cadastrado!");
+        }
+
+        paciente.setNome(dto.getNome());
+        paciente.setSobrenome(dto.getSobrenome());
+        paciente.setTelefone(dto.getTelefone());
+        paciente.setCpf(dto.getCpf());
+        paciente.setEmail(dto.getEmail());
+        paciente.setSexo(dto.getSexo());
+        paciente.setProfissao(dto.getProfissao());
+        paciente.setDataNascimento(dto.getDataNascimento());
+        paciente.setIdade(DataUtil.calcularIdade(dto.getDataNascimento()));
+
+        Paciente pacienteSalvo = pacienteRepository.save(paciente);
+
+        return new PacienteResponseDTO(
+                pacienteSalvo.getIdUsuario(),
+                pacienteSalvo.getNome(),
+                pacienteSalvo.getSobrenome(),
+                pacienteSalvo.getEmail(),
+                pacienteSalvo.getTelefone(),
+                pacienteSalvo.getProfissao(),
+                pacienteSalvo.getDataNascimento(),
+                pacienteSalvo.getIdade(),
+                pacienteSalvo.getDadosClinicos().getTipoSanguineo(),
+                pacienteSalvo.getDadosClinicos().getAltura(),
+                pacienteSalvo.getDadosClinicos().getPeso());
     }
 
 }

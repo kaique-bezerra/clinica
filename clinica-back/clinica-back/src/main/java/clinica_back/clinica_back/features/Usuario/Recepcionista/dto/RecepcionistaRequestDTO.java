@@ -22,12 +22,12 @@ public class RecepcionistaRequestDTO {
     private String sobrenome;
 
     @NotBlank
-    @Pattern(regexp = "\\d{11}|\\(\\d{2}\\)\\d{5}-\\d{4}", message = "Telefone deve conter 11 dígitos ou estar no formato (00)00000-00000")
+    @Pattern(regexp = "\\(\\d{2}\\)\\d{5}-\\d{4}", message = "Telefone deve conter 11 dígitos ou estar no formato (00)00000-00000")
     private String telefone;
 
     @CPF
     @NotBlank
-    @Pattern(regexp = "\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve conter 11 dígitos ou estar no formato 000.000.000-00")
+    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve conter 11 dígitos ou estar no formato 000.000.000-00")
     private String cpf;
 
     @Email
@@ -53,6 +53,6 @@ public class RecepcionistaRequestDTO {
     @Size(max = 2)
     private String estado;
 
-    @Pattern(regexp = "\\d{8}|\\d{5}-\\d{3}", message = "CEP deve conter no mínimo 8 dígitos ou estar no formato 00000-000")
+    @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP deve conter no mínimo 8 dígitos ou estar no formato 00000-000")
     private String cep;
 }

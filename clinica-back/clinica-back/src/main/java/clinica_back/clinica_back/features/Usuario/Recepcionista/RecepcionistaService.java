@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
+import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
 import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaResponseDTO;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecepcionistaService {
 
+    private final UsuarioRepository usuarioRepository;
     private final RecepcionistaRepository recepcionistaRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -26,11 +28,11 @@ public class RecepcionistaService {
 
         Recepcionista recepcionista = new Recepcionista();
 
-        if (recepcionistaRepository.existsByCpf(dto.getCpf())) {
+        if (usuarioRepository.existsByCpf(dto.getCpf())) {
             throw new RegraNegocioException("CPF já cadastrado!");
         }
 
-        if (recepcionistaRepository.existsByEmail(dto.getEmail())) {
+        if (usuarioRepository.existsByEmail(dto.getEmail())) {
             throw new RegraNegocioException("Email já cadastrado!");
         }
 

@@ -1,4 +1,4 @@
-package clinica_back.clinica_back.features.Usuario.Administrador.dto;
+package clinica_back.clinica_back.features.Usuario.Medico.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AdministradorRequestDTO {
+public class MedicoRequestUpdateDTO {
 
     @NotBlank
     @Size(max = 30)
@@ -32,24 +32,12 @@ public class AdministradorRequestDTO {
     @Size(max = 50)
     private String email;
 
-    @NotBlank // A senha passa pelo dto antes de virar hash
-    @Size(min = 6, max = 255)
-    private String senha;
+    @NotBlank
+    @Size(max = 15)
+    private String crm;
 
+    @NotBlank
     @Size(max = 50)
-    private String rua;
+    private String especialidade;
 
-    private Integer numero;
-
-    @Size(max = 40)
-    private String bairro;
-
-    @Size(max = 30)
-    private String cidade;
-
-    @Size(max = 2)
-    private String estado;
-
-    @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP deve conter no mínimo 8 dígitos ou estar no formato 00000-000")
-    private String cep;
 }

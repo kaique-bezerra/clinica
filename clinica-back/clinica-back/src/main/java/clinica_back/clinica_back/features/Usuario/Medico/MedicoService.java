@@ -7,8 +7,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
+import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
-import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoRequestDTO;
+import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoRequestCadastroDTO;
+import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoRequestUpdateDTO;
 import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
@@ -19,20 +21,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MedicoService {
 
+    private final UsuarioRepository usuarioRepository;
     private final MedicoRepository medicoRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public MedicoResponseDTO cadastrar(MedicoRequestDTO dto) {
+    public MedicoResponseDTO cadastrar(MedicoRequestCadastroDTO dto) {
 
         Medico medico = new Medico();
 
-        if (medicoRepository.existsByCpf(dto.getCpf())) {
+        if (usuarioRepository.existsByCpf(dto.getCpf())) {
             throw new RegraNegocioException("CPF já cadastrado!");
         }
 
-        if (medicoRepository.existsByEmail(dto.getEmail())) {
+        if (usuarioRepository.existsByEmail(dto.getEmail())) {
             throw new RegraNegocioException("Email já cadastrado!");
+        }
+
+        if (medicoRepository.existsByCrm(dto.getCrm())) {
+            throw new RecursoNaoEncontradoException("CRM já cadastrado!");
         }
 
         medico.setNome(dto.getNome());
@@ -105,5 +112,38 @@ public class MedicoService {
                 medico.getEspecialidade(),
                 medico.getStatus());
     }
-    
+
+    public MedicoResponseDTO atualizarDados(Long id, MedicoRequestUpdateDTO dto) {
+        Medico medico = medicoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Médico com ID " + id + " não encontrado"));
+
+        if (!medico.getEmail().equals(dto.getEmail()) && usuarioRepository.existsByEmail(dto.getEmail())) {
+            throw new RegraNegocioException("Email já cadastrado!");
+        }
+
+        if (!medico.getCpf().equals(dto.getCpf()) && usuarioRepository.existsByCpf(dto.getCpf())) {
+            throw new RegraNegocioException("CPF já cadastrado!");
+        }
+
+        if (!medico.getCrm().equals(dto.getCrm()) && medicoRepository.existsByCrm(dto.getCrm())) {
+            throw new RegraNegocioException("CRM já cadastrado!");
+
+        }
+
+        medico.setNome(dto.getNome());
+        medico.setSobrenome(dto.getSobrenome());
+        medico.setTelefone(dto.getTelefone());
+        medico.setCpf(dto.getCpf());
+        medico.setEmail(dto.getEmail());
+        medico.setCrm(dto.getCrm());
+        medico.setEspecialidade(dto.getEspecialidade());
+
+        Medico medicoSalvo = medicoRepository.save(medico);
+
+        return new MedicoResponseDTO(
+                medicoSalvo.getIdUsuario(), medicoSalvo.getNome(), medicoSalvo.getSobrenome(), medicoSalvo.getEmail(),
+                medicoSalvo.getTelefone(),
+                medicoSalvo.getCrm(), medicoSalvo.getEspecialidade(), medicoSalvo.getStatus());
+    }
+
 }

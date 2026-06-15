@@ -4,7 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RecepcionistaRepository extends JpaRepository<Recepcionista, Long> {
 
-    boolean existsByCpf(String cpf);
-
-    boolean existsByEmail(String email);
 }

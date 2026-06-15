@@ -34,4 +34,5 @@ public class PacienteResponseDTO {
     private BigDecimal altura;
 
     private BigDecimal peso;
+
 }

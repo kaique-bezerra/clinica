@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
+import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Administrador.dto.AdministradorRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Administrador.dto.AdministradorResponseDTO;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AdministradorService {
 
+    private final UsuarioRepository usuarioRepository;
     private final AdministradorRepository administradorRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -23,11 +25,11 @@ public class AdministradorService {
 
         Administrador administrador = new Administrador();
 
-        if (administradorRepository.existsByCpf(dto.getCpf())) {
+        if (usuarioRepository.existsByCpf(dto.getCpf())) {
             throw new RegraNegocioException("CPF já cadastrado!");
         }
 
-        if (administradorRepository.existsByEmail(dto.getEmail())) {
+        if (usuarioRepository.existsByEmail(dto.getEmail())) {
             throw new RegraNegocioException("Email já cadastrado!");
         }
 
