@@ -85,6 +85,8 @@ public class ConsultaService {
                     "Já existe uma consulta nesse horário");
         }
 
+
+
         Consulta consulta = new Consulta();
 
         consulta.setPaciente(paciente);
@@ -92,6 +94,28 @@ public class ConsultaService {
         consulta.setDataConsulta(dto.getDataConsulta());
         consulta.setHoraConsulta(dto.getHoraConsulta());
         consulta.setStatusConsulta(StatusConsulta.AGENDADO);
+
+        return consultaRepository.save(consulta);
+    }
+
+    public Consulta StatusConsulta(Long idConsulta) {
+
+        Consulta consulta = consultaRepository.findById(idConsulta)
+                .orElseThrow(() ->
+                        new RecursoNaoEncontradoException(
+                                "Consulta não encontrada"));
+
+        if (consulta.getStatusConsulta() == StatusConsulta.CANCELADO) {
+            throw new RegraNegocioException(
+                    "Consulta cancelada não pode ser realizada.");
+        }
+
+        if (consulta.getStatusConsulta() == StatusConsulta.REALIZADO) {
+            throw new RegraNegocioException(
+                    "Consulta já foi realizada.");
+        }
+
+        consulta.setStatusConsulta(StatusConsulta.REALIZADO);
 
         return consultaRepository.save(consulta);
     }

@@ -24,4 +24,13 @@ public class ConsultaController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(consulta);
     }
+
+    @PatchMapping("/{id}/realizar")
+    public ResponseEntity<Consulta> consultaEnum(
+            @PathVariable Long id) {
+
+        Consulta consulta = consultaService.StatusConsulta(id);
+
+        return ResponseEntity.ok(consulta);
+    }
 }
