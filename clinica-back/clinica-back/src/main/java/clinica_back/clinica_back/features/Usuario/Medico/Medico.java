@@ -2,7 +2,8 @@ package clinica_back.clinica_back.features.Usuario.Medico;
 
 import java.util.List;
 
-import clinica_back.clinica_back.features.Consulta.HorarioDisponivel.HorarioDisponivel;
+import clinica_back.clinica_back.features.Consulta.AgendaPadrao.AgendaPadrao;
+import clinica_back.clinica_back.features.Consulta.AgendaPadrao.HorarioBloqueado.HorarioBloqueado;
 import clinica_back.clinica_back.features.Usuario.Usuario;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,6 +38,10 @@ public class Medico extends Usuario {
     private StatusMedico status;
 
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HorarioDisponivel> horariosDisponiveis;
+    private List<AgendaPadrao> agendaPadrao;
+
+    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HorarioBloqueado> horarioBloqueados;
+
 
 }
