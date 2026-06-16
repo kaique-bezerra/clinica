@@ -10,7 +10,9 @@ import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
 import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaRequestDTO;
+import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaRequestUpdateDTO;
 import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaResponseDTO;
+import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -85,4 +87,51 @@ public class RecepcionistaService {
 
         return resposta;
     }
+
+    public RecepcionistaResponseDTO buscarPorId(Long id) {
+        Recepcionista recepcionista = recepcionistaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Recepcionista com ID " + id + " não encontrado"));
+
+        return new RecepcionistaResponseDTO(
+                recepcionista.getIdUsuario(),
+                recepcionista.getNome(),
+                recepcionista.getSobrenome(),
+                recepcionista.getEmail(),
+                recepcionista.getTelefone());
+    }
+
+    @Transactional
+    public RecepcionistaResponseDTO atualizarDados(Long id, RecepcionistaRequestUpdateDTO dto) {
+        Recepcionista recepcionista = recepcionistaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Recepcionista com ID " + id + " não encontrado"));
+
+        if (!recepcionista.getEmail().equals(dto.getEmail()) && usuarioRepository.existsByEmail(dto.getEmail())) {
+            throw new RegraNegocioException("Email já cadastrado!");
+        }
+
+        if (!recepcionista.getCpf().equals(dto.getCpf()) && usuarioRepository.existsByCpf(dto.getCpf())) {
+            throw new RegraNegocioException("CPF já cadastrado!");
+        }
+
+        recepcionista.setNome(dto.getNome());
+        recepcionista.setSobrenome(dto.getSobrenome());
+        recepcionista.setTelefone(dto.getTelefone());
+        recepcionista.setCpf(dto.getCpf());
+        recepcionista.setEmail(dto.getEmail());
+
+        Recepcionista recepcionistaSalvo = recepcionistaRepository.save(recepcionista);
+
+        return new RecepcionistaResponseDTO(
+                recepcionistaSalvo.getIdUsuario(), recepcionistaSalvo.getNome(), recepcionistaSalvo.getSobrenome(),
+                recepcionistaSalvo.getEmail(),
+                recepcionistaSalvo.getTelefone());
+    }
+
+    @Transactional
+    public void deletar(Long id) {
+        Recepcionista recepcionista = recepcionistaRepository.findById(id).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Recepcionista com ID " + id + " não encontrado!"));
+        recepcionistaRepository.delete(recepcionista);
+    }
+
 }

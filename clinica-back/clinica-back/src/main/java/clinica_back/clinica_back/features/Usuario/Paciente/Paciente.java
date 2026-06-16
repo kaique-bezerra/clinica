@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import clinica_back.clinica_back.features.Chat.Chat;
+import clinica_back.clinica_back.features.Consulta.Consulta;
 import clinica_back.clinica_back.features.Usuario.Usuario;
 import clinica_back.clinica_back.features.Usuario.Paciente.Convenio.Convenio;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DadosClinicos;
@@ -47,4 +48,7 @@ public class Paciente extends Usuario {
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chat> chats;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Consulta> consultas;
 }

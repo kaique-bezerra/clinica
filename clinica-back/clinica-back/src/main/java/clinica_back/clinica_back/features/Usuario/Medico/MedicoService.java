@@ -113,6 +113,7 @@ public class MedicoService {
                 medico.getStatus());
     }
 
+    @Transactional
     public MedicoResponseDTO atualizarDados(Long id, MedicoRequestUpdateDTO dto) {
         Medico medico = medicoRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Médico com ID " + id + " não encontrado"));
@@ -146,4 +147,10 @@ public class MedicoService {
                 medicoSalvo.getCrm(), medicoSalvo.getEspecialidade(), medicoSalvo.getStatus());
     }
 
+    @Transactional
+    public void deletar(Long id) {
+        Medico medico = medicoRepository.findById(id).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Medico com ID " + id + " não encontrado!"));
+        medicoRepository.delete(medico);
+    }
 }

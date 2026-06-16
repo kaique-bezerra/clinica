@@ -179,6 +179,7 @@ public class PacienteService {
                 paciente.getDadosClinicos().getPeso());
     }
 
+    @Transactional
     public PacienteResponseDTO atualizarDados(Long id, PacienteRequestUpdateDTO dto) {
         Paciente paciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente com ID " + id + " não encontrado"));
@@ -217,4 +218,10 @@ public class PacienteService {
                 pacienteSalvo.getDadosClinicos().getPeso());
     }
 
+    @Transactional
+    public void deletar(Long id) {
+        Paciente paciente = pacienteRepository.findById(id).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Paciente com ID " + id + " não encontrado!"));
+        pacienteRepository.delete(paciente);
+    }
 }
