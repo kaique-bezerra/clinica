@@ -153,4 +153,28 @@ public class MedicoService {
                 () -> new RecursoNaoEncontradoException("Medico com ID " + id + " não encontrado!"));
         medicoRepository.delete(medico);
     }
+
+    @Transactional
+    public void inativar(Long id) {
+        Medico medico = medicoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Medico com ID " + id + " não encontrado!"));
+
+        if (!medico.getStatus().equals(StatusMedico.ATIVO)) {
+            throw new RegraNegocioException("O médico já está INATIVO!");
+        }
+
+        medico.setStatus(StatusMedico.INATIVO);
+    }
+
+    @Transactional
+    public void ativar(Long id) {
+        Medico medico = medicoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Medico com ID " + id + " não encontrado!"));
+
+        if (!medico.getStatus().equals(StatusMedico.INATIVO)) {
+            throw new RegraNegocioException("O médico já está ATIVO!");
+        }
+
+        medico.setStatus(StatusMedico.ATIVO);
+    }
 }
