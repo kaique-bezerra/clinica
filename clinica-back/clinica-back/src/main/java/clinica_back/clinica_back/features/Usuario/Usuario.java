@@ -1,5 +1,12 @@
 package clinica_back.clinica_back.features.Usuario;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,8 +32,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-
-public class Usuario {
+public class Usuario implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,8 +61,22 @@ public class Usuario {
   @Column(nullable = false, length = 13)
   private PerfilUsuario perfil;
 
-  // o @ note null pode da problema porque o hibernaide valida antes de persistir
   @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
   private Endereco endereco;
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority("ROLE_" + perfil.name()));
+  }
+
+  @Override
+  public String getPassword() {
+    return senha;
+  }
+
+  @Override
+  public String getUsername() {
+    return email;
+  }
 
 }

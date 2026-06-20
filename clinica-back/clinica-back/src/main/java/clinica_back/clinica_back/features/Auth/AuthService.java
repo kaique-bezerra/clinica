@@ -29,9 +29,6 @@ public class AuthService {
 
         String token = jwtService.gerarToken(usuario);
 
-        System.out.println(token);
-        System.out.println(jwtService.extrairEmail(token));
-
         return new LoginResponseDTO(token);
     }
 

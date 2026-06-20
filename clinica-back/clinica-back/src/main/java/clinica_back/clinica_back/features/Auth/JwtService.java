@@ -52,11 +52,11 @@ public class JwtService {
         return extrairClaims(token).getExpiration();
     }
 
-    private Boolean tokenExpirado(String token) {
+    private boolean tokenExpirado(String token) {
         return extrairExpiracao(token).before(new Date());
     }
 
-    public Boolean validarToken(String token, Usuario usuario) {
+    public boolean validarToken(String token, Usuario usuario) {
         String email = extrairEmail(token);
         return email.equals(usuario.getEmail()) && !tokenExpirado(token);
     }
