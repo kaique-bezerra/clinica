@@ -30,7 +30,7 @@ const MenuLateral=({ menuAberto, setMenuAberto }: {menuAberto: boolean, setMenuA
              <li>Prontuário</li>
             </Link>
 
-            <Link className="link" to="/perfil-medico">
+            <Link className="link" to="/">
              <li>Sair</li>    
             </Link>
           </ul>

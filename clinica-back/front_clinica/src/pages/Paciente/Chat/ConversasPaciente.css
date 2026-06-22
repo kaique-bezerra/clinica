@@ -1,0 +1,126 @@
+.conversas-container {
+  min-height: 100vh;
+
+  background: #f1f5f9;
+}
+
+.chat-layout {
+  display: flex;
+
+  height: 80vh;
+
+  background: white;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.lista-conversas {
+  width: 280px;
+
+  background: #f8fafc;
+
+  border-right: 1px solid #e2e8f0;
+
+  padding: 20px;
+}
+
+.lista-conversas h2 {
+  margin-bottom: 20px;
+}
+
+.contato {
+  padding: 15px;
+
+  border-radius: 10px;
+
+  margin-bottom: 10px;
+
+  cursor: pointer;
+}
+
+.contato:hover {
+  background: #e2e8f0;
+}
+
+.contato.ativo {
+  background: #2563eb;
+
+  color: white;
+}
+
+.chat-area {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 20px;
+
+  border-bottom: 1px solid #e2e8f0;
+
+  font-weight: bold;
+}
+
+.mensagens {
+  flex: 1;
+
+  padding: 20px;
+
+  background: #f8fafc;
+}
+
+.msg {
+  padding: 12px 16px;
+
+  border-radius: 12px;
+
+  margin-bottom: 12px;
+
+  width: fit-content;
+
+  max-width: 70%;
+}
+
+.msg.ia {
+  background: white;
+}
+
+.msg.usuario {
+  background: #dbeafe;
+
+  margin-left: auto;
+}
+
+.chat-input {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 15px;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+.chat-input input {
+  flex: 1;
+
+  padding: 12px;
+}
+
+.chat-input button {
+  padding: 12px 18px;
+
+  background: #2563eb;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+}

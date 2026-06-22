@@ -43,13 +43,13 @@ const MenuLateral=({ menuAberto, setMenuAberto}:{menuAberto: boolean, setMenuAbe
             </li></Link>
 
             <Link className="link" to="/cadastroDeUsuarios-admin"><li>
-                Cadastro de Usuários
+                Cadastro de medico
             </li></Link>
             
             <Link className="link" to="/cadastroDeMedicos-admin"><li>
                 Gerenciamento de Médicos
             </li></Link>
-            <Link className="link" to="/perfil-admin">
+            <Link className="link" to="/">
             <li>
               Sair
               </li>    

@@ -4,7 +4,11 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/clinica-back/pom.xml" />
+=======
+        <option value="$PROJECT_DIR$/clinica-back/clinica-back/pom.xml" />
+>>>>>>> 829b74bb167c82b11fa0b5999c666b326538b9a1
       </list>
     </option>
   </component>

@@ -79,4 +79,24 @@ public class Usuario implements UserDetails {
     return email;
   }
 
+  @Override
+  public boolean isAccountNonExpired() {
+    return true; // Conta não expirada
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true; // Conta não bloqueada
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true; // Credenciais não expiradas
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true; // Usuário ativo/habilitado
+  }
+
 }

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+<<<<<<< HEAD
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+=======
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/clinica-back" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/front_clinica" vcs="Git" />
+>>>>>>> 829b74bb167c82b11fa0b5999c666b326538b9a1
   </component>
 </project>

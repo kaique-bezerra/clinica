@@ -1,118 +1,137 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"; // Removido o FormEvent daqui
 import logo from "../../../assets/heart-pulse-solid-full.svg";
-import "./LoginRecepcionista.css";
-import { AdminIcon, EmailIcon, LockIcon, SecurityIcon, UserDoctorIcon } from "../../../components/Icones";
+import "./LoginRecepcionista.css"; 
+import { EmailIcon, LockIcon, SecurityIcon } from "../../../components/Icones";
 
-
-function LoginRecepcionista() {
+function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [erro, setErro] = useState(""); 
+  const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem("recepcionista_email");
-    const savedPassword = localStorage.getItem("recepcionista_password");
-
+    const savedEmail = localStorage.getItem("medsync_email");
     if (savedEmail) {
       setEmail(savedEmail);
     }
-
-    if (savedPassword) {
-      setPassword(savedPassword);
-    }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("recepcionista_email", email);
-  }, [email]);
+  // Mudamos o 'e' para 'e: any' se for TypeScript, ou apenas 'e' se for JavaScript.
+  // Para garantir que funcione em ambos, deixamos como 'e: any'
+  const handleLogin = async (e: any) => {
+    e.preventDefault();
+    setErro("");
+    setCarregando(true);
 
-  useEffect(() => {
-    localStorage.setItem("recepcionista_password", password);
-  }, [password]);
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          senha: password, 
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("E-mail ou senha inválidos.");
+      }
+
+      const data = await response.json(); 
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("perfil", data.perfil);
+      localStorage.setItem("medsync_email", email); 
+
+      switch (data.perfil) {
+        case "RECEPCIONISTA":
+          navigate("/dashboard");
+          break;
+        case "MEDICO":
+          navigate("/dashboard-medico");
+          break;
+        case "ADMINISTRADOR":
+          navigate("/dashboard-admin");
+          break;
+        case "PACIENTE":
+          navigate("/dashboard-paciente");
+          break;
+        default:
+          setErro("Perfil desconhecido. Entre em contato com o suporte.");
+      }
+
+    } catch (error) {
+      console.error("Erro no login:", error);
+      if (error instanceof Error) {
+        setErro(error.message);
+      } else {
+        setErro("Erro ao conectar com o servidor.");
+      }
+    } finally {
+      setCarregando(false);
+    }
+  };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
           <div className="logo">
-            <img src={logo} alt="" />
+            <img src={logo} alt="Logo MedSync" />
             <h1>MedSync</h1>
           </div>
-
-          <p>Sistema Administrativo da Clínica</p>
+          <p>Sistema Integrado da Clínica</p>
         </div>
 
-        <p className="perfil"><UserDoctorIcon/> PERFIL RECEPCIONISTA</p>
+        {erro && <p style={{ color: "red", textAlign: "center", marginBottom: "15px" }}>{erro}</p>}
 
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleLogin}>
           <div className="input-group">
-            <label className="field-label" htmlFor="email-recepcionista">
+            <label className="field-label" htmlFor="email-login">
               <EmailIcon />
               <span>E-mail</span>
             </label>
-
             <input
-              id="email-recepcionista"
+              id="email-login"
               type="email"
-              name="email"
               autoComplete="email"
               placeholder="Digite seu e-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
           <div className="input-group">
-            <label className="field-label" htmlFor="password-recepcionista">
+            <label className="field-label" htmlFor="password-login">
               <LockIcon />
               <span>Senha</span>
             </label>
-
             <input
-              id="password-recepcionista"
+              id="password-login"
               type="password"
-              name="password"
               autoComplete="current-password"
               placeholder="Digite sua senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
           <button
-            type="button"
+            type="submit"
             className="login-button"
-            onClick={() => navigate("/dashboard")}
+            disabled={carregando}
           >
-            Entrar
+            {carregando ? "Autenticando..." : "Entrar"}
           </button>
 
-          <div className="login-divider" aria-hidden="true">
-            <span>ou</span>
-          </div>
-
           <div className="login-actions-panel">
-            <Link className="secondary-login-button" to="/perfil-medico">
-              <UserDoctorIcon />
-              <span>Acessar Perfil Médico</span>
-            </Link>
-
-            <Link className="secondary-login-button" to="/login-paciente">
-              <UserDoctorIcon />
-              <span>Acessar Perfil Paciente</span>
-            </Link>
-
-            <button
-              className="admin-login-button"
-              type="button"
-              onClick={() => navigate("/perfil-admin")}
-            >
-              <AdminIcon />
-              <span>Acessar Perfil Admin</span>
-            </button>
-
             <p className="security-message">
               <SecurityIcon />
               <span>Seus dados estão protegidos e seguros</span>
@@ -124,4 +143,4 @@ function LoginRecepcionista() {
   );
 }
 
-export default LoginRecepcionista;
+export default Login;

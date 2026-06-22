@@ -26,7 +26,7 @@ public class ConsultaController {
     }
 
     @PatchMapping("/{id}/realizar")
-    public ResponseEntity<Consulta> consultaEnum(
+    public ResponseEntity<Consulta> realizar(
             @PathVariable Long id) {
 
         Consulta consulta = consultaService.StatusConsulta(id);
