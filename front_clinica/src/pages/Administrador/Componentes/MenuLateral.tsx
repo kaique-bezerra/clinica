@@ -45,10 +45,23 @@ const MenuLateral=({ menuAberto, setMenuAberto}:{menuAberto: boolean, setMenuAbe
             <Link className="link" to="/cadastroDeUsuarios-admin"><li>
                 Cadastro de medico
             </li></Link>
+            <Link className="link" to="/cadastroDeRecepcionista-admin"><li>
+                Cadastro de Recepcionista
+            </li></Link>
             
             <Link className="link" to="/cadastroDeMedicos-admin"><li>
                 Gerenciamento de Médicos
             </li></Link>
+
+            <Link className="link" to="/cadastroDeAgendaPadrao-admin"><li>
+                Cadastro de Agenda Padrão
+            </li></Link>
+
+            <Link className="link" to="/horario-bloqueado"><li>
+                Cadastro de Horário Bloqueado
+            </li></Link>
+
+
             <Link className="link" to="/">
             <li>
               Sair

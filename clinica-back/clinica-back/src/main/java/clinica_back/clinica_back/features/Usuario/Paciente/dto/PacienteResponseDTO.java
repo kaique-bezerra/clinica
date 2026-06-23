@@ -16,6 +16,8 @@ public class PacienteResponseDTO {
 
     private String nome;
 
+    private String cpf;
+
     private String sobrenome;
 
     private String email;
@@ -34,5 +36,7 @@ public class PacienteResponseDTO {
     private BigDecimal altura;
 
     private BigDecimal peso;
+
+
 
 }

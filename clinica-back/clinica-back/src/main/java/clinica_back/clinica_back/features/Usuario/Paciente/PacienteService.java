@@ -128,6 +128,7 @@ public class PacienteService {
                 pacienteSalvo.getIdUsuario(),
                 pacienteSalvo.getNome(),
                 pacienteSalvo.getSobrenome(),
+                paciente.getCpf(),
                 pacienteSalvo.getEmail(),
                 pacienteSalvo.getTelefone(),
                 pacienteSalvo.getProfissao(),
@@ -147,6 +148,7 @@ public class PacienteService {
             resposta.add(new PacienteResponseDTO(
                     paciente.getIdUsuario(),
                     paciente.getNome(),
+                    paciente.getCpf(),
                     paciente.getSobrenome(),
                     paciente.getEmail(),
                     paciente.getTelefone(),
@@ -168,6 +170,7 @@ public class PacienteService {
         return new PacienteResponseDTO(
                 paciente.getIdUsuario(),
                 paciente.getNome(),
+                paciente.getCpf(),
                 paciente.getSobrenome(),
                 paciente.getEmail(),
                 paciente.getTelefone(),
@@ -207,6 +210,7 @@ public class PacienteService {
         return new PacienteResponseDTO(
                 pacienteSalvo.getIdUsuario(),
                 pacienteSalvo.getNome(),
+                paciente.getCpf(),
                 pacienteSalvo.getSobrenome(),
                 pacienteSalvo.getEmail(),
                 pacienteSalvo.getTelefone(),

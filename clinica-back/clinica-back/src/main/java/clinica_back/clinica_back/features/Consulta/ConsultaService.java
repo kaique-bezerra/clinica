@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -29,30 +30,25 @@ public class ConsultaService {
 
         Paciente paciente = pacienteRepository.findById(dto.getIdPaciente())
                 .orElseThrow(() ->
-                        new RecursoNaoEncontradoException(
-                                "Paciente não encontrado"));
+                        new RecursoNaoEncontradoException("Paciente não encontrado"));
 
         Medico medico = medicoRepository.findById(dto.getIdMedico())
                 .orElseThrow(() ->
-                        new RecursoNaoEncontradoException(
-                                "Médico não encontrado"));
+                        new RecursoNaoEncontradoException("Médico não encontrado"));
 
         DayOfWeek diaSemana = dto.getDataConsulta().getDayOfWeek();
 
         AgendaPadrao agenda = agendaRepository
                 .findByMedicoAndDiaSemana(medico, diaSemana)
                 .orElseThrow(() ->
-                        new RecursoNaoEncontradoException(
-                                "O médico não atende nesse dia"));
+                        new RecursoNaoEncontradoException("O médico não atende nesse dia"));
 
         if (dto.getHoraConsulta().isBefore(agenda.getHoraInicio())
                 || dto.getHoraConsulta().isAfter(agenda.getHoraFim())) {
-
-            throw new RegraNegocioException(
-                    "Horário fora da agenda do médico");
+            throw new RegraNegocioException("Horário fora da agenda do médico");
         }
 
-        long minutosEntre = java.time.Duration.between(
+        long minutosEntre = Duration.between(
                 agenda.getHoraInicio(),
                 dto.getHoraConsulta()
         ).toMinutes();
@@ -67,25 +63,24 @@ public class ConsultaService {
                         medico,
                         dto.getDataConsulta(),
                         dto.getHoraConsulta(),
-                        dto.getHoraConsulta());
+                        dto.getHoraConsulta()
+                );
 
         if (horarioBloqueado) {
-            throw new RegraNegocioException(
-                    "Esse horário está bloqueado");
+            throw new RegraNegocioException("Esse horário está bloqueado");
         }
 
         boolean consultaExistente = consultaRepository
                 .existsByMedicoAndDataConsultaAndHoraConsulta(
                         medico,
                         dto.getDataConsulta(),
-                        dto.getHoraConsulta());
+                        dto.getHoraConsulta()
+                );
 
         if (consultaExistente) {
             throw new RegraNegocioException(
                     "Já existe uma consulta nesse horário");
         }
-
-
 
         Consulta consulta = new Consulta();
 
@@ -102,8 +97,7 @@ public class ConsultaService {
 
         Consulta consulta = consultaRepository.findById(idConsulta)
                 .orElseThrow(() ->
-                        new RecursoNaoEncontradoException(
-                                "Consulta não encontrada"));
+                        new RecursoNaoEncontradoException("Consulta não encontrada"));
 
         if (consulta.getStatusConsulta() == StatusConsulta.CANCELADO) {
             throw new RegraNegocioException(

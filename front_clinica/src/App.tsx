@@ -21,7 +21,11 @@ import ProntuarioAdmin from "./pages/Administrador/prontuario/ProntuarioAdmin";
 import AgendamentoDeConsultaAdmin from "./pages/Administrador/AgendamentoConsultas/AgendamentoConsultasAdmin";
 import CadastroDePacientesAdmin from "./pages/Administrador/cadastroDePacientes/CadastroDePacientesAdmin";
 import CadastroDeUsuarioAdmin from "./pages/Administrador/cadastroDeUsuarios/CadastroDeMedico";
+import CadastroDeRecepcionistaAdmin from "./pages/Administrador/cadastroRecepcionista/CadastroDeRecepcionista";
 import MedicosAdmin from "./pages/Administrador/gerenciamentodeMedicos.tsx/Medicos-admin";
+import CadastroDeAgendaPadrao from "./pages/Administrador/agendaMedico/CadastroDeAgendaPadrao";
+import HorarioBloqueado from "./pages/Administrador/agendaMedico/horarioBloqueado";
+
 
 // IMPORTS DO PACIENTE
 import DashboardPaciente from "./pages/Paciente/Dashboard/DashboardPaciente";
@@ -70,6 +74,9 @@ function App() {
           <Route path="/cadastroDePacientes-admin" element={<CadastroDePacientesAdmin/>} />
           <Route path="/cadastroDeUsuarios-admin" element={<CadastroDeUsuarioAdmin/>} />
           <Route path="/cadastroDeMedicos-admin" element={<MedicosAdmin/>} />
+          <Route path="/cadastroDeRecepcionista-admin" element={<CadastroDeRecepcionistaAdmin/>} />
+          <Route path="/cadastroDeAgendaPadrao-admin" element={<CadastroDeAgendaPadrao />} />
+          <Route path="/horario-bloqueado" element={<HorarioBloqueado />} />
         </Route>
 
 
