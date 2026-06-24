@@ -29,7 +29,10 @@ public class AuthService {
 
         String token = jwtService.gerarToken(usuario);
 
-        return new LoginResponseDTO(token,usuario.getPerfil().name());
+        return new LoginResponseDTO(token,
+                usuario.getPerfil().name(),
+                usuario.getIdUsuario(),
+                usuario.getNome());
     }
 
 }

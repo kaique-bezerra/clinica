@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -81,7 +83,6 @@ public class ConsultaService {
             throw new RegraNegocioException(
                     "Já existe uma consulta nesse horário");
         }
-
         Consulta consulta = new Consulta();
 
         consulta.setPaciente(paciente);
@@ -108,9 +109,37 @@ public class ConsultaService {
             throw new RegraNegocioException(
                     "Consulta já foi realizada.");
         }
-
         consulta.setStatusConsulta(StatusConsulta.REALIZADO);
 
         return consultaRepository.save(consulta);
+    }
+
+
+
+
+    public List<Consulta> listarTodas() {
+        return consultaRepository.findAll();
+    }
+
+    public List<Consulta> listarPorMedico(Long idMedico) {
+        return consultaRepository.findByMedicoId(idMedico);
+    }
+
+    public List<Consulta> listarPorPaciente(Long idPaciente) {
+        return consultaRepository.findByPacienteId(idPaciente);
+    }
+
+    public List<Consulta> listarPorDia(LocalDate data) {
+        return consultaRepository.findByDataConsulta(data);
+    }
+
+    public List<Consulta> listarPorSemanaAtual() {
+        LocalDate hoje = LocalDate.now();
+        // Encontra a segunda-feira da semana atual
+        LocalDate inicioSemana = hoje.with(DayOfWeek.MONDAY);
+        // Encontra o domingo da semana atual
+        LocalDate fimSemana = hoje.with(DayOfWeek.SUNDAY);
+
+        return consultaRepository.findByDataConsultaBetween(inicioSemana, fimSemana);
     }
 }

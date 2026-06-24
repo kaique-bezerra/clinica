@@ -3,10 +3,15 @@ package clinica_back.clinica_back.features.Consulta;
 import clinica_back.clinica_back.features.Consulta.DTOs.ConsultaRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/consultas")
@@ -14,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class ConsultaController {
 
     private final ConsultaService consultaService;
-
-    @PreAuthorize("hasAuthority('ROLE_RECEPCIONISTA') or hasAuthority('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')")
     @PostMapping
     public ResponseEntity<Consulta> cadastrar(
             @RequestBody @Valid ConsultaRequestDTO dto) {
@@ -25,14 +29,37 @@ public class ConsultaController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(consulta);
     }
-
-    @PreAuthorize("hasAuthority('ROLE_RECEPCIONISTA') or hasAuthority('ROLE_ADMINISTRADOR')")
-    @PatchMapping("/{id}/realizar")
-    public ResponseEntity<Consulta> realizar(
-            @PathVariable Long id) {
-
-        Consulta consulta = consultaService.StatusConsulta(id);
-
-        return ResponseEntity.ok(consulta);
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')or hasRole('MEDICO')")
+    @GetMapping
+    public ResponseEntity<List<Consulta>> listarTodas() {
+        return ResponseEntity.ok(consultaService.listarTodas());
     }
+
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')or hasRole('MEDICO')")
+    @GetMapping("/medico/{idMedico}")
+    public ResponseEntity<List<Consulta>> listarPorMedico(@PathVariable Long idMedico) {
+        return ResponseEntity.ok(consultaService.listarPorMedico(idMedico));
+    }
+
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')or hasRole('MEDICO')")
+    @GetMapping("/paciente/{idPaciente}")
+    public ResponseEntity<List<Consulta>> listarPorPaciente(@PathVariable Long idPaciente) {
+        return ResponseEntity.ok(consultaService.listarPorPaciente(idPaciente));
+    }
+
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')or hasRole('MEDICO')")
+    @GetMapping("/dia")
+    public ResponseEntity<List<Consulta>> listarPorDia(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+        // Se nenhuma data for passada no parâmetro (?data=YYYY-MM-DD), assume o dia de hoje
+        LocalDate dataBusca = (data != null) ? data : LocalDate.now();
+        return ResponseEntity.ok(consultaService.listarPorDia(dataBusca));
+    }
+
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')or hasRole('MEDICO')")
+    @GetMapping("/semana")
+    public ResponseEntity<List<Consulta>> listarPorSemana() {
+        return ResponseEntity.ok(consultaService.listarPorSemanaAtual());
+    }
+
 }

@@ -9,5 +9,7 @@ public class LoginResponseDTO {
 
     private String token;
     private String perfil;
+    private Long idUsuario;
+    private String nome;
 
 }

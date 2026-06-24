@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import clinica_back.clinica_back.features.Consulta.Prontuario.Prontuario;
 import clinica_back.clinica_back.features.Usuario.Medico.Medico;
 import clinica_back.clinica_back.features.Usuario.Paciente.Paciente;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,10 +43,12 @@ public class Consulta {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_usuario_pac", nullable = false)
+    @JsonIgnoreProperties({"consultas", "senha", "authorities"}) // Evita que o médico puxe consultas de novo
     private Paciente paciente;
 
     @NotNull
     @ManyToOne
+    @JsonIgnoreProperties({"consultas", "senha", "authorities"}) // Evita que o paciente puxe consultas de novo
     @JoinColumn(name = "id_usuario_med", nullable = false)
     private Medico medico;
 
