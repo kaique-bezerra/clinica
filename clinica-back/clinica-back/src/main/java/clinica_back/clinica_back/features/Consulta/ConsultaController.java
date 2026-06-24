@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class ConsultaController {
 
     private final ConsultaService consultaService;
-
-    @PreAuthorize("hasAuthority('ROLE_RECEPCIONISTA') or hasAuthority('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')or hasRole('MEDICO')or hasRole('PACIENTE')")
     @PostMapping
     public ResponseEntity<Consulta> cadastrar(
             @RequestBody @Valid ConsultaRequestDTO dto) {
@@ -26,13 +25,5 @@ public class ConsultaController {
                 .body(consulta);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_RECEPCIONISTA') or hasAuthority('ROLE_ADMINISTRADOR')")
-    @PatchMapping("/{id}/realizar")
-    public ResponseEntity<Consulta> realizar(
-            @PathVariable Long id) {
 
-        Consulta consulta = consultaService.StatusConsulta(id);
-
-        return ResponseEntity.ok(consulta);
-    }
 }
