@@ -19,7 +19,8 @@ import java.util.List;
 public class ConsultaController {
 
     private final ConsultaService consultaService;
-    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')")
+
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')or hasRole('MEDICO')or hasRole('PACIENTE')")
     @PostMapping
     public ResponseEntity<Consulta> cadastrar(
             @RequestBody @Valid ConsultaRequestDTO dto) {
@@ -61,5 +62,4 @@ public class ConsultaController {
     public ResponseEntity<List<Consulta>> listarPorSemana() {
         return ResponseEntity.ok(consultaService.listarPorSemanaAtual());
     }
-
 }
