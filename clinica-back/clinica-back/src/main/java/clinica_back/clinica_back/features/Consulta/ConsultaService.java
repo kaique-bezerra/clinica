@@ -4,6 +4,7 @@ import clinica_back.clinica_back.features.Consulta.AgendaPadrao.AgendaPadrao;
 import clinica_back.clinica_back.features.Consulta.AgendaPadrao.AgendaPadraoRepository;
 import clinica_back.clinica_back.features.Consulta.AgendaPadrao.HorarioBloqueado.HorarioBloqueadoRepository;
 import clinica_back.clinica_back.features.Consulta.DTOs.ConsultaRequestDTO;
+import clinica_back.clinica_back.features.Consulta.DTOs.ConsultaResponseDTO;
 import clinica_back.clinica_back.features.Usuario.Medico.Medico;
 import clinica_back.clinica_back.features.Usuario.Medico.MedicoRepository;
 import clinica_back.clinica_back.features.Usuario.Paciente.Paciente;
@@ -83,6 +84,7 @@ public class ConsultaService {
             throw new RegraNegocioException(
                     "Já existe uma consulta nesse horário");
         }
+
         Consulta consulta = new Consulta();
 
         consulta.setPaciente(paciente);
@@ -94,7 +96,7 @@ public class ConsultaService {
         return consultaRepository.save(consulta);
     }
 
-    public Consulta StatusConsulta(Long idConsulta) {
+    public Consulta statusConsulta(Long idConsulta) {
 
         Consulta consulta = consultaRepository.findById(idConsulta)
                 .orElseThrow(() ->
@@ -109,37 +111,61 @@ public class ConsultaService {
             throw new RegraNegocioException(
                     "Consulta já foi realizada.");
         }
+
         consulta.setStatusConsulta(StatusConsulta.REALIZADO);
 
         return consultaRepository.save(consulta);
     }
 
+    private ConsultaResponseDTO converterParaDTO(Consulta consulta) {
+        ConsultaResponseDTO dto = new ConsultaResponseDTO();
 
+        dto.setIdConsulta(consulta.getIdConsulta());
+        dto.setNomePaciente(consulta.getPaciente().getNome());
+        dto.setNomeMedico(consulta.getMedico().getNome());
+        dto.setDataConsulta(consulta.getDataConsulta());
+        dto.setHoraConsulta(consulta.getHoraConsulta());
+        dto.setStatusConsulta(consulta.getStatusConsulta());
 
-
-    public List<Consulta> listarTodas() {
-        return consultaRepository.findAll();
+        return dto;
     }
 
-    public List<Consulta> listarPorMedico(Long idMedico) {
-        return consultaRepository.findByMedicoId(idMedico);
+    public List<ConsultaResponseDTO> listarTodas() {
+        return consultaRepository.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
-    public List<Consulta> listarPorPaciente(Long idPaciente) {
-        return consultaRepository.findByPacienteId(idPaciente);
+    public List<ConsultaResponseDTO> listarPorMedico(Long idMedico) {
+        return consultaRepository.findByMedicoId(idMedico)
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
-    public List<Consulta> listarPorDia(LocalDate data) {
-        return consultaRepository.findByDataConsulta(data);
+    public List<ConsultaResponseDTO> listarPorPaciente(Long idPaciente) {
+        return consultaRepository.findByPacienteId(idPaciente)
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
-    public List<Consulta> listarPorSemanaAtual() {
+    public List<ConsultaResponseDTO> listarPorDia(LocalDate data) {
+        return consultaRepository.findByDataConsulta(data)
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
+    }
+
+    public List<ConsultaResponseDTO> listarPorSemanaAtual() {
         LocalDate hoje = LocalDate.now();
-        // Encontra a segunda-feira da semana atual
         LocalDate inicioSemana = hoje.with(DayOfWeek.MONDAY);
-        // Encontra o domingo da semana atual
         LocalDate fimSemana = hoje.with(DayOfWeek.SUNDAY);
 
-        return consultaRepository.findByDataConsultaBetween(inicioSemana, fimSemana);
+        return consultaRepository.findByDataConsultaBetween(inicioSemana, fimSemana)
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 }

@@ -43,13 +43,35 @@ public class Consulta {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_usuario_pac", nullable = false)
-    @JsonIgnoreProperties({"consultas", "senha", "authorities"}) // Evita que o médico puxe consultas de novo
+    @JsonIgnoreProperties({
+            "consultas",
+            "senha",
+            "authorities",
+            "accountNonExpired",
+            "accountNonLocked",
+            "credentialsNonExpired",
+            "enabled",
+            "username",
+            "password"
+    })
     private Paciente paciente;
 
     @NotNull
     @ManyToOne
-    @JsonIgnoreProperties({"consultas", "senha", "authorities"}) // Evita que o paciente puxe consultas de novo
     @JoinColumn(name = "id_usuario_med", nullable = false)
+    @JsonIgnoreProperties({
+            "consultas",
+            "senha",
+            "authorities",
+            "accountNonExpired",
+            "accountNonLocked",
+            "credentialsNonExpired",
+            "enabled",
+            "username",
+            "password",
+            "agendaPadrao",
+            "horarioBloqueados"
+    })
     private Medico medico;
 
     @Column(name = "data_consulta", nullable = false)

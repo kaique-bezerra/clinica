@@ -46,6 +46,8 @@ function Login() {
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("perfil", data.perfil);
+      localStorage.setItem("idUsuario", data.idUsuario); 
+      localStorage.setItem("nomeUsuario", data.nome);   
       localStorage.setItem("medsync_email", email); 
 
       switch (data.perfil) {

@@ -17,11 +17,15 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
             LocalTime horaConsulta
     );
 
-    // Mudamos para buscar comparando o ID direto na coluna mapeada pelo objeto
-    @Query("SELECT c FROM Consulta c WHERE c.medico.id = :idMedico")
+    @Query("""
+    SELECT c
+    FROM Consulta c
+    WHERE c.medico.idUsuario = :idMedico
+    ORDER BY c.dataConsulta ASC, c.horaConsulta ASC
+""")
     List<Consulta> findByMedicoId(@Param("idMedico") Long idMedico);
 
-    @Query("SELECT c FROM Consulta c WHERE c.paciente.id = :idPaciente")
+    @Query("SELECT c FROM Consulta c WHERE c.paciente.idUsuario = :idPaciente")
     List<Consulta> findByPacienteId(@Param("idPaciente") Long idPaciente);
 
     List<Consulta> findByDataConsulta(LocalDate data);
