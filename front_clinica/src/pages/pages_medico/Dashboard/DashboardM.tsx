@@ -23,7 +23,7 @@ function DashboardM() {
 
   useEffect(() => {
     if (idMedicoLogado === 0) {
-      setErroMensagem("Usuário não identificado. Por favor, faça login novamente.");
+      setErroMensagem("Usuário não identificado. Faça login novamente.");
       setCarregando(false);
       return;
     }
@@ -36,7 +36,7 @@ function DashboardM() {
         const token = localStorage.getItem("token");
 
         if (!token) {
-          throw new Error("Token de autenticação não encontrado.");
+          throw new Error("Token não encontrado.");
         }
 
         const response = await fetch(
@@ -59,8 +59,9 @@ function DashboardM() {
 
         const dados: Consulta[] = await response.json();
         setConsultas(dados);
+
       } catch (error: any) {
-        console.error("Falha na requisição:", error);
+        console.error(error);
         setErroMensagem(error.message || "Erro ao carregar consultas.");
       } finally {
         setCarregando(false);
@@ -82,6 +83,12 @@ function DashboardM() {
     (c) => c.statusConsulta === "CANCELADO"
   );
 
+  // AQUI ESTÁ A ALTERAÇÃO:
+  // Só mostra AGENDADO nos próximos agendamentos
+  const proximosAgendamentos = consultas.filter(
+    (c) => c.statusConsulta === "AGENDADO"
+  );
+
   const formatarHora = (hora: string) =>
     hora ? hora.slice(0, 5) : "";
 
@@ -99,7 +106,7 @@ function DashboardM() {
               <img src={imagem} alt="Logo da Clínica" />
             </div>
 
-            <h1>Bem-vindo,Dr {nomeMedicoLogado}!</h1>
+            <h1>Bem-vindo, Dr {nomeMedicoLogado}!</h1>
 
             {carregando ? (
               <p>Carregando sua agenda...</p>
@@ -159,21 +166,18 @@ function DashboardM() {
                 </tr>
               ) : erroMensagem ? (
                 <tr>
-                  <td
-                    colSpan={5}
-                    style={{ textAlign: "center", color: "#ff4d4d" }}
-                  >
+                  <td colSpan={5} style={{ textAlign: "center", color: "#ff4d4d" }}>
                     {erroMensagem}
                   </td>
                 </tr>
-              ) : consultas.length === 0 ? (
+              ) : proximosAgendamentos.length === 0 ? (
                 <tr>
                   <td colSpan={5} style={{ textAlign: "center" }}>
-                    Nenhuma consulta encontrada.
+                    Nenhum próximo agendamento.
                   </td>
                 </tr>
               ) : (
-                consultas.map((consulta) => (
+                proximosAgendamentos.map((consulta) => (
                   <tr key={consulta.idConsulta}>
                     <td>{consulta.nomePaciente}</td>
                     <td>{formatarHora(consulta.horaConsulta)}</td>
