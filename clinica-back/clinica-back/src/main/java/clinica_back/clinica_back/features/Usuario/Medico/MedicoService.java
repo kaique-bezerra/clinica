@@ -73,6 +73,7 @@ public class MedicoService {
                 medicoSalvo.getSobrenome(),
                 medicoSalvo.getEmail(),
                 medicoSalvo.getTelefone(),
+                medicoSalvo.getCpf(),
                 medicoSalvo.getCrm(),
                 medicoSalvo.getEspecialidade(),
                 medicoSalvo.getStatus());
@@ -90,6 +91,7 @@ public class MedicoService {
                     medico.getSobrenome(),
                     medico.getEmail(),
                     medico.getTelefone(),
+                    medico.getCpf(),
                     medico.getCrm(),
                     medico.getEspecialidade(),
                     medico.getStatus()));
@@ -108,6 +110,7 @@ public class MedicoService {
                 medico.getSobrenome(),
                 medico.getEmail(),
                 medico.getTelefone(),
+                medico.getCpf(),
                 medico.getCrm(),
                 medico.getEspecialidade(),
                 medico.getStatus());
@@ -142,9 +145,15 @@ public class MedicoService {
         Medico medicoSalvo = medicoRepository.save(medico);
 
         return new MedicoResponseDTO(
-                medicoSalvo.getIdUsuario(), medicoSalvo.getNome(), medicoSalvo.getSobrenome(), medicoSalvo.getEmail(),
+                medicoSalvo.getIdUsuario(),
+                medicoSalvo.getNome(),
+                medicoSalvo.getSobrenome(),
+                medicoSalvo.getEmail(),
                 medicoSalvo.getTelefone(),
-                medicoSalvo.getCrm(), medicoSalvo.getEspecialidade(), medicoSalvo.getStatus());
+                medicoSalvo.getCpf(),
+                medicoSalvo.getCrm(),
+                medicoSalvo.getEspecialidade(),
+                medicoSalvo.getStatus());
     }
 
     @Transactional

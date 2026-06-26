@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProntuarioController {
 
     private final ProntuarioService prontuarioService;
-    @PreAuthorize("hasAuthority('ROLE_MEDICO') or hasAuthority('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLE_MEDICO')")
     @PostMapping
     public ResponseEntity<ProntuarioResponseDTO> cadastrar(
             @RequestBody @Valid ProntuarioRequestDTO dto) {

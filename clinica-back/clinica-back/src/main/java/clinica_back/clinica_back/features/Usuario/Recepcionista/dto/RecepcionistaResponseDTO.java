@@ -17,6 +17,8 @@ public class RecepcionistaResponseDTO {
 
     private String telefone;
 
+    private String cpf;
+
     
 
 }

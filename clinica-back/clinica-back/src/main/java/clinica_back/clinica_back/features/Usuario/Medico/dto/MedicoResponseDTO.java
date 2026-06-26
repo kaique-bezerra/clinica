@@ -18,6 +18,8 @@ public class MedicoResponseDTO {
 
     private String telefone;
 
+    private String cpf;
+
     private String crm;
 
     private String especialidade;

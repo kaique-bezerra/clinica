@@ -276,3 +276,63 @@ tbody tr:hover {
 .sidebar::-webkit-scrollbar-thumb:hover {
   background-color: #94a3b8;
 }
+.buttons-section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.view-button {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0px 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.view-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 8px 18px rgba(37, 99, 235, 0.35);
+}
+
+.active-btn {
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b
+    );
+}
+.search-section {
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    transition: 0.3s;
+    background-color: #2563eb;
+}
+
+.search-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0px 0px 10px rgba(37, 99, 235, 0.2);
+}
+
+.search-input::placeholder {
+    color: #ffffff;
+}

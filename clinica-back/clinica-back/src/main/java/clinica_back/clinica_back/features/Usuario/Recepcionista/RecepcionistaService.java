@@ -68,7 +68,8 @@ public class RecepcionistaService {
                 recepcionistaSalva.getNome(),
                 recepcionistaSalva.getSobrenome(),
                 recepcionistaSalva.getEmail(),
-                recepcionistaSalva.getTelefone());
+                recepcionistaSalva.getTelefone(),
+                recepcionista.getCpf());
     }
 
     public List<RecepcionistaResponseDTO> listarTodos() {
@@ -82,7 +83,9 @@ public class RecepcionistaService {
                     recepcionista.getNome(),
                     recepcionista.getSobrenome(),
                     recepcionista.getEmail(),
-                    recepcionista.getTelefone()));
+                    recepcionista.getTelefone(),
+                    recepcionista.getCpf()));
+
         }
 
         return resposta;
@@ -97,7 +100,9 @@ public class RecepcionistaService {
                 recepcionista.getNome(),
                 recepcionista.getSobrenome(),
                 recepcionista.getEmail(),
-                recepcionista.getTelefone());
+                recepcionista.getTelefone(),
+                recepcionista.getCpf());
+
     }
 
     @Transactional
@@ -124,7 +129,9 @@ public class RecepcionistaService {
         return new RecepcionistaResponseDTO(
                 recepcionistaSalvo.getIdUsuario(), recepcionistaSalvo.getNome(), recepcionistaSalvo.getSobrenome(),
                 recepcionistaSalvo.getEmail(),
-                recepcionistaSalvo.getTelefone());
+                recepcionistaSalvo.getTelefone(),
+                recepcionista.getCpf());
+
     }
 
     @Transactional

@@ -1,12 +1,20 @@
+import { useState, useEffect } from "react";
 import MenuLateral from "../componentes/MenuLateral";
 import "./Prontuario.css";
 
-import { useState } from "react";
+interface Consulta {
+  idConsulta: number;
+  nomePaciente: string;
+  nomeMedico: string;
+  dataConsulta: string;
+  horaConsulta: string;
+  statusConsulta: "AGENDADO" | "REALIZADO" | "CANCELADO";
+}
 
 function Prontuario() {
-
   const [menuAberto, setMenuAberto] = useState(false);
 
+  const [consultas, setConsultas] = useState<Consulta[]>([]);
   const [consultaSelecionada, setConsultaSelecionada] = useState("");
 
   const [queixa, setQueixa] = useState("");
@@ -15,43 +23,124 @@ function Prontuario() {
   const [observacoes, setObservacoes] = useState("");
 
   const [mensagem, setMensagem] = useState("");
+  const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
 
-  function salvarProntuario() {
+  const idMedicoLogado = Number(localStorage.getItem("idUsuario")) || 0;
 
-    if (!consultaSelecionada || !queixa || !diagnostico) {
-      setMensagem(" Preencha os campos obrigatórios!");
+  useEffect(() => {
+    async function carregarConsultas() {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          `http://localhost:8080/consultas/medico/${idMedicoLogado}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Erro ao carregar consultas.");
+        }
+
+        const dados: Consulta[] = await response.json();
+
+        const consultasAgendadas = dados.filter(
+          (consulta) => consulta.statusConsulta === "AGENDADO"
+        );
+
+        setConsultas(consultasAgendadas);
+      } catch (error) {
+        console.error(error);
+        setErro("Erro ao carregar consultas.");
+      }
+    }
+
+    if (idMedicoLogado) {
+      carregarConsultas();
+    }
+  }, [idMedicoLogado]);
+
+  async function salvarProntuario() {
+    if (
+      !consultaSelecionada ||
+      !queixa ||
+      !diagnostico ||
+      !prescricao ||
+      !observacoes
+    ) {
+      setMensagem("Preencha todos os campos!");
       return;
     }
 
-    setMensagem(" Prontuário salvo com sucesso!");
+    try {
+      setCarregando(true);
 
-    setQueixa("");
-    setDiagnostico("");
-    setPrescricao("");
-    setObservacoes("");
-    setConsultaSelecionada("");
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:8080/prontuarios", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          idConsulta: Number(consultaSelecionada),
+          queixas: queixa,
+          diagnostico: diagnostico,
+          observacoes: observacoes,
+          prescricao: prescricao,
+        }),
+      });
+
+      if (!response.ok) {
+        const erro = await response.text();
+        throw new Error(erro);
+      }
+
+      setMensagem("Prontuário salvo com sucesso!");
+
+      setConsultas((prev) =>
+        prev.filter(
+          (consulta) => consulta.idConsulta !== Number(consultaSelecionada)
+        )
+      );
+
+      setQueixa("");
+      setDiagnostico("");
+      setPrescricao("");
+      setObservacoes("");
+      setConsultaSelecionada("");
+    } catch (error: any) {
+      setMensagem(error.message || "Erro ao salvar prontuário.");
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
     <div className="prontuario-container">
-
-    <MenuLateral menuAberto={menuAberto}
-    setMenuAberto={setMenuAberto}/>
+      <MenuLateral
+        menuAberto={menuAberto}
+        setMenuAberto={setMenuAberto}
+      />
 
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
-
         <section className="page-header">
-
           <h1>Prontuário Eletrônico</h1>
 
           <p>
-            Registre informações clínicas da consulta e acompanhe o histórico do paciente.
+            Registre informações clínicas da consulta e acompanhe o histórico do
+            paciente.
           </p>
-
         </section>
 
         <section className="form-section">
-
           <label>Selecione a Consulta</label>
 
           <select
@@ -59,15 +148,20 @@ function Prontuario() {
             onChange={(e) => setConsultaSelecionada(e.target.value)}
           >
             <option value="">Escolha uma consulta</option>
-            <option>Maria Silva - 20/05 14:00</option>
-            <option>Carlos Henrique - 20/05 15:00</option>
-            <option>Fernanda Lima - 20/05 16:30</option>
+
+            {consultas.map((consulta) => (
+              <option key={consulta.idConsulta} value={consulta.idConsulta}>
+                {consulta.nomePaciente} -{" "}
+                {consulta.dataConsulta.split("-").reverse().join("/")} -{" "}
+                {consulta.horaConsulta.slice(0, 5)}
+              </option>
+            ))}
           </select>
 
+          {erro && <p>{erro}</p>}
         </section>
 
         <section className="form-section">
-
           <div className="input-group">
             <label>Queixa Principal *</label>
             <input
@@ -87,7 +181,7 @@ function Prontuario() {
           </div>
 
           <div className="input-group">
-            <label>Prescrição</label>
+            <label>Prescrição *</label>
             <input
               value={prescricao}
               onChange={(e) => setPrescricao(e.target.value)}
@@ -96,7 +190,7 @@ function Prontuario() {
           </div>
 
           <div className="input-group">
-            <label>Observações</label>
+            <label>Observações *</label>
             <textarea
               value={observacoes}
               onChange={(e) => setObservacoes(e.target.value)}
@@ -104,8 +198,8 @@ function Prontuario() {
             />
           </div>
 
-          <button onClick={salvarProntuario}>
-            Salvar Prontuário
+          <button onClick={salvarProntuario} disabled={carregando}>
+            {carregando ? "Salvando..." : "Salvar Prontuário"}
           </button>
 
           {mensagem && (
@@ -113,39 +207,8 @@ function Prontuario() {
               {mensagem}
             </p>
           )}
-
         </section>
-
-        <section className="history-section">
-
-          <h2>Histórico do Paciente</h2>
-
-          <div className="history-card">
-
-            <h3>Maria Silva - 10/05</h3>
-
-            <p><strong>Queixa:</strong> Dor de cabeça</p>
-            <p><strong>Diagnóstico:</strong> Enxaqueca</p>
-            <p><strong>Prescrição:</strong> Dipirona 500mg</p>
-            <p><strong>Observações:</strong> Evitar luz forte</p>
-
-          </div>
-
-          <div className="history-card">
-
-            <h3>Maria Silva - 02/04</h3>
-
-            <p><strong>Queixa:</strong> Febre</p>
-            <p><strong>Diagnóstico:</strong> Virose</p>
-            <p><strong>Prescrição:</strong> Paracetamol</p>
-            <p><strong>Observações:</strong> Repouso</p>
-
-          </div>
-
-        </section>
-
       </main>
-
     </div>
   );
 }
