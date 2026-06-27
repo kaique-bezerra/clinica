@@ -29,42 +29,40 @@ function Prontuario() {
   const idMedicoLogado = Number(localStorage.getItem("idUsuario")) || 0;
 
   useEffect(() => {
-    async function carregarConsultas() {
-      try {
-        const token = localStorage.getItem("token");
-
-        const response = await fetch(
-          `http://localhost:8080/consultas/medico/${idMedicoLogado}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Erro ao carregar consultas.");
-        }
-
-        const dados: Consulta[] = await response.json();
-
-        const consultasAgendadas = dados.filter(
-          (consulta) => consulta.statusConsulta === "AGENDADO"
-        );
-
-        setConsultas(consultasAgendadas);
-      } catch (error) {
-        console.error(error);
-        setErro("Erro ao carregar consultas.");
-      }
-    }
-
-    if (idMedicoLogado) {
-      carregarConsultas();
-    }
+    carregarConsultas();
   }, [idMedicoLogado]);
+
+  async function carregarConsultas() {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `http://localhost:8080/consultas/medico/${idMedicoLogado}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao carregar consultas.");
+      }
+
+      const dados: Consulta[] = await response.json();
+
+      const consultasAgendadas = dados.filter(
+        (consulta) => consulta.statusConsulta === "AGENDADO"
+      );
+
+      setConsultas(consultasAgendadas);
+    } catch (error) {
+      console.error(error);
+      setErro("Erro ao carregar consultas.");
+    }
+  }
 
   async function salvarProntuario() {
     if (
@@ -83,6 +81,7 @@ function Prontuario() {
 
       const token = localStorage.getItem("token");
 
+      // SALVA O PRONTUÁRIO
       const response = await fetch("http://localhost:8080/prontuarios", {
         method: "POST",
         headers: {
@@ -103,19 +102,41 @@ function Prontuario() {
         throw new Error(erro);
       }
 
+      // ALTERA STATUS PARA REALIZADO
+      const atualizarStatus = await fetch(
+        `http://localhost:8080/consultas/${consultaSelecionada}/status`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            statusConsulta: "REALIZADO",
+          }),
+        }
+      );
+
+      if (!atualizarStatus.ok) {
+        throw new Error("Erro ao atualizar status da consulta.");
+      }
+
       setMensagem("Prontuário salvo com sucesso!");
 
+      // REMOVE DA LISTA DE PRÓXIMOS AGENDAMENTOS
       setConsultas((prev) =>
         prev.filter(
           (consulta) => consulta.idConsulta !== Number(consultaSelecionada)
         )
       );
 
+      // LIMPA FORMULÁRIO
       setQueixa("");
       setDiagnostico("");
       setPrescricao("");
       setObservacoes("");
       setConsultaSelecionada("");
+
     } catch (error: any) {
       setMensagem(error.message || "Erro ao salvar prontuário.");
     } finally {
@@ -133,7 +154,6 @@ function Prontuario() {
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
         <section className="page-header">
           <h1>Prontuário Eletrônico</h1>
-
           <p>
             Registre informações clínicas da consulta e acompanhe o histórico do
             paciente.
