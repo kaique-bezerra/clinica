@@ -92,10 +92,14 @@ function Pacientes() {
     // Recupera o token salvo no login
     const token = localStorage.getItem("token");
 
+    const convenioValido = formData.convenio.plano.trim() !== "" 
+      ? formData.convenio : null;
+
     // Monta o payload definitivo convertendo o que é número de verdade
     const payloadValido = {
       ...formData,
       numero: Number(formData.numero), 
+      convenio: convenioValido,
       dadosClinicos: {
         ...formData.dadosClinicos,
         altura: Number(formData.dadosClinicos.altura),
