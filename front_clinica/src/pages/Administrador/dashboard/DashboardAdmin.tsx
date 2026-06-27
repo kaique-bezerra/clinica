@@ -110,7 +110,7 @@ function DashboardAdmin() {
 
         {/* BOTÕES */}
         <section className="buttons-section">
-
+          <div className="botoes">
           <button
             className={`view-button ${
               tipoSelecionado === "recepcionistas" ? "active-btn" : ""
@@ -146,11 +146,9 @@ function DashboardAdmin() {
           >
             Ver Pacientes
           </button>
-
-        </section>
-
-        {/* BARRA DE PESQUISA */}
-        <section className="search-section">
+        </div>
+        <div>
+                    <section className="search-section">
           <input
             type="text"
             className="search-input"
@@ -165,6 +163,11 @@ function DashboardAdmin() {
             onChange={(e) => setPesquisa(e.target.value)}
           />
         </section>
+
+        </div>
+        </section>
+
+        {/* BARRA DE PESQUISA */}
 
         <section className="appointments-section">
           <h2>Perfis Cadastrados</h2>
