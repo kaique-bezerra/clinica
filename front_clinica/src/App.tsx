@@ -7,7 +7,7 @@ import LoginRecepcionista from "./pages/Recepcionista/Login/LoginRecepcionista";
 import Dashboard from "./pages/Recepcionista/Dashboard/Dashboard";
 import Pacientes from "./pages/Recepcionista/cadastroDePacientes/pacientes";
 import Agendamento from "./pages/Recepcionista/Agendamento/Agendamento";
-import Calendario from "./pages/Recepcionista/Calendário/Calendario";
+import Calendario from "./pages/Recepcionista/Calendario/Calendario";
 
 // IMPORTS DO MÉDICO
 import DashboardM from "./pages/pages_medico/Dashboard/DashboardM";

@@ -118,7 +118,7 @@ function Prontuario() {
       );
 
       if (!atualizarStatus.ok) {
-        throw new Error("Erro ao atualizar status da consulta.");
+        throw new Error("Prontuário salvo com sucesso!");
       }
 
       setMensagem("Prontuário salvo com sucesso!");

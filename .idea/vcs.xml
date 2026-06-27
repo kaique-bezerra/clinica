@@ -4,5 +4,6 @@
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/clinica-back" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/front_clinica" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/front_clinica/src/pages/Recepcionista" vcs="Git" />
   </component>
 </project>
