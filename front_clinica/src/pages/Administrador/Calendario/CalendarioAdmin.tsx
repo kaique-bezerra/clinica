@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../Recepcionista/Calendário/Calendario.css";
+import "../../Recepcionista/Calendario/Calendario.css";
 import MenuLateral from "../Componentes/MenuLateral";
 
 function CalendarioAdmin() {

@@ -32,15 +32,14 @@ public class Convenio {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "id_usuario_pac", nullable = false)
+    @JoinColumn(name = "id_usuario_pac")
     private Paciente paciente;
 
-    @Column(length = 30, nullable = false)
+    @Column(length = 30)
     private String plano;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String numero;
 
-    @Column(nullable = false)
     private LocalDate data;
 }

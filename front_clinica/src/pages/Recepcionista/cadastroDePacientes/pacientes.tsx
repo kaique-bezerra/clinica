@@ -1,8 +1,10 @@
 import MenuLateral from "../componentes/MenuLateral";
 import "./Pacientes.css";
-import { useState } from "react";
+import { use, useState } from "react";
 
 function Pacientes() {
+
+  const [mensagem, setMensagem] = useState("");
   const [menuAberto, setMenuAberto] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -89,26 +91,31 @@ function Pacientes() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (!formData.nome || !formData.sobrenome || !formData.telefone || !formData.cpf || !formData.email || !formData.senha) {
+      setMensagem("Preencha os campos obrigatórios!");
+      return;
+    }
     // Recupera o token salvo no login
     const token = localStorage.getItem("token");
-
-    const convenioValido = formData.convenio.plano.trim() !== "" 
-      ? formData.convenio : null;
+    const temConvenio = formData.convenio.plano.trim() !== "";
 
     // Monta o payload definitivo convertendo o que é número de verdade
     const payloadValido = {
-      ...formData,
-      numero: Number(formData.numero), 
-      convenio: convenioValido,
-      dadosClinicos: {
-        ...formData.dadosClinicos,
-        altura: Number(formData.dadosClinicos.altura),
-        peso: Number(formData.dadosClinicos.peso) 
-      }
-    };
-
-    console.log("Payload pronto e correto para o Spring Boot:", payloadValido);
-
+    ...formData,
+    numero: Number(formData.numero),
+    // Se não tem convênio, envia null. Se tem, envia o objeto.
+    // Isso evita que campos de data/numero vazios cheguem ao banco.
+    convenio: temConvenio ? {
+      plano: formData.convenio.plano,
+      numero: formData.convenio.numero || null, // Se vazio, vira null no banco
+      data: formData.convenio.data || null      // Se vazio, vira null no banco
+    } : null,
+    dadosClinicos: {
+      ...formData.dadosClinicos,
+      altura: Number(formData.dadosClinicos.altura) || 0,
+      peso: Number(formData.dadosClinicos.peso) || 0
+    }
+  };
     try {
       const response = await fetch("http://localhost:8080/paciente", {
         method: "POST",
@@ -122,33 +129,16 @@ function Pacientes() {
 
       // 2. CORREÇÃO: Trata respostas de erro antes de executar o .json() vazio
       if (!response.ok) {
-        if (response.status === 403) {
-          alert("Erro 403: Você não tem permissão ou seu token expirou para realizar cadastros.");
-          return;
-        }
-        
-        // Se houver algum corpo de erro vindo do backend tenta extrair
-        const textError = await response.text();
-        console.error("Erro retornado pelo backend:", textError);
-        alert("Erro ao cadastrar o paciente. Verifique os logs do console.");
-        return;
+        if (response.status === 403) throw new Error("Sem permissão ou token expirado.");
+
+        throw new Error("Erro ao cadastrar paciente.");
       }
 
-      // Se a requisição retornou sucesso (200-299)
-      alert("Paciente cadastrado com sucesso! 🎉");
-      
-      // Reseta o formulário
-      setFormData({
-        nome: "", sobrenome: "", telefone: "", cpf: "", email: "", senha: "",
-        rua: "", numero: "", bairro: "", cidade: "", estado: "", cep: "",
-        sexo: "", profissao: "", dataNascimento: "",
-        convenio: { plano: "", numero: "", data: "" },
-        dadosClinicos: { tipoSanguineo: "", altura: "", peso: "", alergias: [{ nome: "" }], doencasCronicas: [{ nome: "" }] }
-      });
-        
-    } catch (error) {
-      console.error("Erro na requisição de rede:", error);
-      alert("Não foi possível conectar ao servidor. Certifique-se de que o backend Spring Boot está rodando.");
+      setMensagem("Paciente cadastrado com sucesso!");
+      // Opcional: Resetar formulário aqui
+    } catch (error: any) {
+      console.error(error);
+      setMensagem(error.message || "Erro ao conectar ao servidor.");
     }
   }
 
@@ -297,6 +287,9 @@ function Pacientes() {
             <button type="submit" className="save-button">
               Concluir Cadastro do Paciente
             </button>
+            <p style={{ marginTop: "10px" }}>
+              {mensagem}
+            </p>
           </form>
         </section>
       </main>
