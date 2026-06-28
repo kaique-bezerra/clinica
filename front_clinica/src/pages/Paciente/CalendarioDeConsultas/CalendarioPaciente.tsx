@@ -1,179 +1,205 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuLateral from "../componentes/MenuLateral";
 import "./CalendarioPaciente.css";
 import ChatFlutuante from "../componentes/ChatFlutuante";
 
+interface Consulta {
+  idConsulta: number;
+  nomePaciente: string;
+  nomeMedico: string;
+  dataConsulta: string;
+  horaConsulta: string;
+  statusConsulta: "AGENDADO" | "REALIZADO" | "CANCELADO";
+}
+
 function CalendarioPaciente() {
-
   const [menuAberto, setMenuAberto] = useState(false);
+  const [consultas, setConsultas] = useState<Consulta[]>([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
 
-  const consultasPassadas = [
-    {
-      data: "02/06/2026",
-      horario: "09:00",
-      medico: "Dr. João",
-      especialidade: "Cardiologia",
-      status: "Concluída",
-    },
+  const idPaciente = Number(localStorage.getItem("idUsuario"));
 
-    {
-      data: "28/05/2026",
-      horario: "14:00",
-      medico: "Dra. Ana",
-      especialidade: "Dermatologia",
-      status: "Concluída",
-    },
+  useEffect(() => {
+    async function carregarConsultas() {
+      try {
+        const token = localStorage.getItem("token");
 
-    {
-      data: "20/05/2026",
-      horario: "11:00",
-      medico: "Dr. Pedro",
-      especialidade: "Clínico Geral",
-      status: "Cancelada",
-    },
-  ];
+        const response = await fetch(
+          `http://localhost:8080/consultas/paciente/${idPaciente}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-  const consultasFuturas = [
-    {
-      data: "12/06/2026",
-      horario: "15:00",
-      medico: "Dra. Camila",
-      especialidade: "Ortopedia",
-      status: "Agendada",
-    },
+        if (!response.ok) {
+          throw new Error("Erro ao carregar consultas.");
+        }
 
-    {
-      data: "13/06/2026",
-      horario: "08:30",
-      medico: "Dr. Lucas",
-      especialidade: "Neurologia",
-      status: "Hoje",
-    },
+        const dados: Consulta[] = await response.json();
 
-    {
-      data: "15/06/2026",
-      horario: "10:00",
-      medico: "Dra. Fernanda",
-      especialidade: "Nutricionista",
-      status: "Agendada",
-    },
-  ];
+        const ordenadas = dados.sort((a, b) => {
+          const dataA = new Date(
+            `${a.dataConsulta}T${a.horaConsulta}`
+          );
+          const dataB = new Date(
+            `${b.dataConsulta}T${b.horaConsulta}`
+          );
+
+          return dataA.getTime() - dataB.getTime();
+        });
+
+        setConsultas(ordenadas);
+      } catch (error: any) {
+        setErro(error.message);
+      } finally {
+        setCarregando(false);
+      }
+    }
+
+    if (idPaciente) {
+      carregarConsultas();
+    }
+  }, [idPaciente]);
+
+  const consultasPassadas = consultas.filter(
+    (consulta) =>
+      consulta.statusConsulta === "REALIZADO" ||
+      consulta.statusConsulta === "CANCELADO"
+  );
+
+  const consultasFuturas = consultas.filter(
+    (consulta) => consulta.statusConsulta === "AGENDADO"
+  );
+
+  const proximaConsulta = consultasFuturas[0];
+
+  function formatarData(data: string) {
+    return new Date(data).toLocaleDateString("pt-BR");
+  }
 
   return (
     <div className="calendario-container">
-
       <MenuLateral
         menuAberto={menuAberto}
         setMenuAberto={setMenuAberto}
       />
 
-      <ChatFlutuante/>
+      <ChatFlutuante />
 
       <main
         className={`main-content ${
           menuAberto ? "expanded" : ""
         }`}
       >
-
         <section className="page-header">
-
           <h1>Calendário de Consultas</h1>
 
           <p>
             Visualize suas consultas passadas,
-            em andamento e futuras.
+            atuais e futuras.
           </p>
 
+          {proximaConsulta && (
+            <div className="proxima-consulta">
+              <strong>Próxima consulta:</strong>{" "}
+              {formatarData(proximaConsulta.dataConsulta)}
+              {" às "}
+              {proximaConsulta.horaConsulta.slice(0, 5)}
+              {" com "}
+              {proximaConsulta.nomeMedico}
+            </div>
+          )}
         </section>
 
-        <section className="section-consultas">
+        {carregando ? (
+          <p>Carregando consultas...</p>
+        ) : erro ? (
+          <p>{erro}</p>
+        ) : (
+          <>
+            <section className="section-consultas">
+              <h2 className="titulo-section">
+                CONSULTAS PASSADAS
+              </h2>
 
-          <h2 className="titulo-section">
-            CONSULTAS PASSADAS
-          </h2>
+              <div className="calendar-grid">
+                {consultasPassadas.length === 0 ? (
+                  <p>Nenhuma consulta passada.</p>
+                ) : (
+                  consultasPassadas.map((consulta) => (
+                    <div
+                      key={consulta.idConsulta}
+                      className="appointment-card"
+                    >
+                      <h3>
+                        {formatarData(consulta.dataConsulta)}
+                      </h3>
 
-          <div className="calendar-grid">
+                      <p>
+                        <strong>Horário:</strong>{" "}
+                        {consulta.horaConsulta.slice(0, 5)}
+                      </p>
 
-            {consultasPassadas.map((consulta, index) => (
-              <div key={index} className="appointment-card">
+                      <p>
+                        <strong>Médico:</strong>{" "}
+                        {consulta.nomeMedico}
+                      </p>
 
-                <h3>{consulta.data}</h3>
-
-                <p>
-                  <strong>Horário:</strong>{" "}
-                  {consulta.horario}
-                </p>
-
-                <p>
-                  <strong>Médico:</strong>{" "}
-                  {consulta.medico}
-                </p>
-
-                <p>
-                  <strong>Especialidade:</strong>{" "}
-                  {consulta.especialidade}
-                </p>
-
-                <span
-                  className={`status ${
-                    consulta.status.toLowerCase()
-                  }`}
-                >
-                  {consulta.status}
-                </span>
-
+                      <span
+                        className={`status ${consulta.statusConsulta.toLowerCase()}`}
+                      >
+                        {consulta.statusConsulta}
+                      </span>
+                    </div>
+                  ))
+                )}
               </div>
-            ))}
+            </section>
 
-          </div>
+            <section className="section-consultas">
+              <h2 className="titulo-section">
+                CONSULTAS ATUAIS E FUTURAS
+              </h2>
 
-        </section>
+              <div className="calendar-grid">
+                {consultasFuturas.length === 0 ? (
+                  <p>Nenhuma consulta futura.</p>
+                ) : (
+                  consultasFuturas.map((consulta) => (
+                    <div
+                      key={consulta.idConsulta}
+                      className="appointment-card"
+                    >
+                      <h3>
+                        {formatarData(consulta.dataConsulta)}
+                      </h3>
 
-        <section className="section-consultas">
+                      <p>
+                        <strong>Horário:</strong>{" "}
+                        {consulta.horaConsulta.slice(0, 5)}
+                      </p>
 
-          <h2 className="titulo-section">
-            CONSULTAS ATUAIS E FUTURAS
-          </h2>
+                      <p>
+                        <strong>Médico:</strong>{" "}
+                        {consulta.nomeMedico}
+                      </p>
 
-          <div className="calendar-grid">
-
-            {consultasFuturas.map((consulta, index) => (
-              <div key={index} className="appointment-card">
-
-                <h3>{consulta.data}</h3>
-
-                <p>
-                  <strong>Horário:</strong>{" "}
-                  {consulta.horario}
-                </p>
-
-                <p>
-                  <strong>Médico:</strong>{" "}
-                  {consulta.medico}
-                </p>
-
-                <p>
-                  <strong>Especialidade:</strong>{" "}
-                  {consulta.especialidade}
-                </p>
-
-                <span
-                  className={`status ${
-                    consulta.status.toLowerCase()
-                  }`}
-                >
-                  {consulta.status}
-                </span>
-
+                      <span
+                        className={`status ${consulta.statusConsulta.toLowerCase()}`}
+                      >
+                        {consulta.statusConsulta}
+                      </span>
+                    </div>
+                  ))
+                )}
               </div>
-            ))}
-
-          </div>
-
-        </section>
-
+            </section>
+          </>
+        )}
       </main>
-
     </div>
   );
 }

@@ -1,98 +1,197 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import imagem from "../../../assets/logo2.jpeg";
 import MenuLateral from "../componentes/MenuLateral";
 import "./DashboardPaciente.css";
 import ChatFlutuante from "../componentes/ChatFlutuante";
 
+interface Consulta {
+  idConsulta: number;
+  nomePaciente: string;
+  nomeMedico: string;
+  especialidade: string;
+  dataConsulta: string;
+  horaConsulta: string;
+  statusConsulta: "AGENDADO" | "REALIZADO" | "CANCELADO";
+}
+
+interface Prontuario {
+  idProntuario: number;
+  idConsulta: number;
+  queixas: string;
+  diagnostico: string;
+  observacoes: string;
+  prescricao: string;
+}
+
 function DashboardPaciente() {
   const [menuAberto, setMenuAberto] = useState(false);
+  const [consultas, setConsultas] = useState<Consulta[]>([]);
+  const [prontuarios, setProntuarios] = useState<Prontuario[]>([]);
+
+  const idPaciente = Number(localStorage.getItem("idUsuario"));
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    async function carregarDados() {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/consultas/paciente/${idPaciente}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const consultasData: Consulta[] = await response.json();
+        setConsultas(consultasData);
+
+        const consultasRealizadas = consultasData.filter(
+          (consulta) => consulta.statusConsulta === "REALIZADO"
+        );
+
+        const prontuariosPromises = consultasRealizadas.map(
+          async (consulta) => {
+            const response = await fetch(
+              `http://localhost:8080/prontuarios/consulta/${consulta.idConsulta}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+
+            if (!response.ok) return null;
+
+            return await response.json();
+          }
+        );
+
+        const prontuariosData = await Promise.all(prontuariosPromises);
+
+        setProntuarios(
+          prontuariosData.filter(
+            (prontuario): prontuario is Prontuario => prontuario !== null
+          )
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    carregarDados();
+  }, [idPaciente, token]);
+
+  const proximasConsultas = consultas
+    .filter((consulta) => consulta.statusConsulta === "AGENDADO")
+    .sort((a, b) => {
+      const dataA = new Date(`${a.dataConsulta}T${a.horaConsulta}`);
+      const dataB = new Date(`${b.dataConsulta}T${b.horaConsulta}`);
+      return dataA.getTime() - dataB.getTime();
+    });
+
+  const proximaConsulta = proximasConsultas[0];
+
+  const consultasRealizadas = consultas.filter(
+    (consulta) => consulta.statusConsulta === "REALIZADO"
+  );
 
   return (
     <div className="dashboard-container">
-
       <MenuLateral
         menuAberto={menuAberto}
         setMenuAberto={setMenuAberto}
       />
 
-      <ChatFlutuante/>
+      <ChatFlutuante />
 
       <main
-        className={`main-content ${
-          menuAberto ? "expanded" : ""
-        }`}
+        className={`main-content ${menuAberto ? "expanded" : ""}`}
       >
-
         <section className="welcome-card">
-
           <div className="welcome-text">
-
             <div className="Imagemlogo">
               <img src={imagem} alt="Logo da Clínica" />
             </div>
 
-            <h1>Olá, Maria 👋</h1>
+            <h1>Olá 👋</h1>
 
             <p>
-              Seja bem-vinda ao seu painel do paciente.
               Aqui você pode acompanhar suas consultas,
-              medicações e histórico recente.
+              medicações e prontuários.
             </p>
-
           </div>
-
         </section>
 
         <section className="cards-container">
-
           <div className="card">
-            <h2>12/06</h2>
+            <h2>
+              {proximaConsulta
+                ? `${proximaConsulta.dataConsulta}`
+                : "Sem consulta"}
+            </h2>
             <p>Próxima Consulta</p>
           </div>
 
           <div className="card">
-            <h2>18</h2>
+            <h2>{consultasRealizadas.length}</h2>
             <p>Consultas Realizadas</p>
           </div>
 
           <div className="card">
-            <h2>3</h2>
-            <p>Lembretes de Medicação</p>
+            <h2>{prontuarios.length}</h2>
+            <p>Prontuários</p>
           </div>
-
         </section>
 
         <section className="medicacao-section">
-
           <h2>Lembretes de Medicação</h2>
 
           <div className="medicacao-lista">
-
-            <div className="medicacao-card">
-              <h3>Paracetamol</h3>
-              <p>08:00 - Após café da manhã</p>
-            </div>
-
-            <div className="medicacao-card">
-              <h3>Vitamina D</h3>
-              <p>13:00 - Após almoço</p>
-            </div>
-
-            <div className="medicacao-card">
-              <h3>Antialérgico</h3>
-              <p>21:00 - Antes de dormir</p>
-            </div>
-
+            {prontuarios.length === 0 ? (
+              <p>Nenhuma medicação registrada.</p>
+            ) : (
+              prontuarios.map((prontuario) => (
+                <div
+                  key={prontuario.idProntuario}
+                  className="medicacao-card"
+                >
+                  <h3>Prescrição</h3>
+                  <p>{prontuario.prescricao}</p>
+                </div>
+              ))
+            )}
           </div>
-
         </section>
 
         <section className="history-section">
-
-          <h2>Histórico Recente</h2>
+          <h2>Prontuários</h2>
 
           <table>
+            <thead>
+              <tr>
+                <th>Diagnóstico</th>
+                <th>Queixas</th>
+                <th>Observações</th>
+              </tr>
+            </thead>
 
+            <tbody>
+              {prontuarios.map((prontuario) => (
+                <tr key={prontuario.idProntuario}>
+                  <td>{prontuario.diagnostico}</td>
+                  <td>{prontuario.queixas}</td>
+                  <td>{prontuario.observacoes}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+
+        <section className="history-section">
+          <h2>Próximas Consultas</h2>
+
+          <table>
             <thead>
               <tr>
                 <th>Data</th>
@@ -103,36 +202,18 @@ function DashboardPaciente() {
             </thead>
 
             <tbody>
-
-              <tr>
-                <td>02/06/2026</td>
-                <td>Dr. João</td>
-                <td>Cardiologia</td>
-                <td>Concluída</td>
-              </tr>
-
-              <tr>
-                <td>15/05/2026</td>
-                <td>Dra. Ana</td>
-                <td>Dermatologia</td>
-                <td>Concluída</td>
-              </tr>
-
-              <tr>
-                <td>01/05/2026</td>
-                <td>Dr. Pedro</td>
-                <td>Clínico Geral</td>
-                <td>Cancelada</td>
-              </tr>
-
+              {proximasConsultas.map((consulta) => (
+                <tr key={consulta.idConsulta}>
+                  <td>{consulta.dataConsulta}</td>
+                  <td>{consulta.nomeMedico}</td>
+                  <td>{consulta.especialidade}</td>
+                  <td>{consulta.statusConsulta}</td>
+                </tr>
+              ))}
             </tbody>
-
           </table>
-
         </section>
-
       </main>
-
     </div>
   );
 }
