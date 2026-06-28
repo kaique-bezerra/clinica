@@ -19,7 +19,7 @@ import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestCa
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestUpdateDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
-import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
+import clinica_back.clinica_back.shared.exceptions.RegistroDuplicadoException;
 import clinica_back.clinica_back.shared.util.DataUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +38,11 @@ public class PacienteService {
         Paciente paciente = new Paciente();
 
         if (usuarioRepository.existsByCpf(dto.getCpf())) {
-            throw new RegraNegocioException("CPF já cadastrado!");
+            throw new RegistroDuplicadoException("Registro Duplicado!");
         }
 
         if (usuarioRepository.existsByEmail(dto.getEmail())) {
-            throw new RegraNegocioException("Email já cadastrado!");
+            throw new RegistroDuplicadoException("Registro Duplicado!");
         }
 
         paciente.setNome(dto.getNome());
@@ -188,11 +188,11 @@ public class PacienteService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente com ID " + id + " não encontrado"));
 
         if (!paciente.getEmail().equals(dto.getEmail()) && usuarioRepository.existsByEmail(dto.getEmail())) {
-            throw new RegraNegocioException("Email já cadastrado!");
+            throw new RegistroDuplicadoException("Registro Duplicado!");
         }
 
         if (!paciente.getCpf().equals(dto.getCpf()) && usuarioRepository.existsByCpf(dto.getCpf())) {
-            throw new RegraNegocioException("CPF já cadastrado!");
+            throw new RegistroDuplicadoException("Registro Duplicado!");
         }
 
         paciente.setNome(dto.getNome());

@@ -112,7 +112,7 @@ function DashboardRecepcionista() {
               <p style={{ color: "red" }}>{erro}</p>
             ) : (
               <p>
-                a Medsyn possui {consultasHoje.length} consultas agendadas para hoje.
+                A MedSync possui {consultasHoje.length} consultas agendadas para hoje.
               </p>
             )}
           </div>

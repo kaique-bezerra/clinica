@@ -3,6 +3,8 @@ import MenuLateral from "../Componentes/MenuLateral";
 import "./CadastroDeMedicoAdmin.css";
 
 function CadastroDeUsuarioAdmin() {
+
+  const[mensagem, setMensagem] = useState("");
   const [menuAberto, setMenuAberto] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -98,7 +100,7 @@ function CadastroDeUsuarioAdmin() {
         return;
       }
 
-      alert("Médico cadastrado com sucesso! 🎉");
+      setMensagem("Médico cadastrado com sucesso!");
       
       // Reseta o formulário
       setFormData({
@@ -211,6 +213,12 @@ function CadastroDeUsuarioAdmin() {
             <button type="submit" className="save-button">
               Concluir Cadastro do Médico
             </button>
+
+            {mensagem && (
+            <p style={{ marginTop: "10px" }}>
+              {mensagem}
+            </p>
+            )}
           </form>
         </section>
       </main>

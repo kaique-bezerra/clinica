@@ -69,6 +69,11 @@ function Login() {
 
     } catch (error) {
       console.error("Erro no login:", error);
+
+      if(TypeError("Failed to fetch")){
+        setErro("E-mail ou senha inválidos.");
+      }
+
       if (error instanceof Error) {
         setErro(error.message);
       } else {

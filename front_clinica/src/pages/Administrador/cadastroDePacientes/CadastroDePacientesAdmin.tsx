@@ -91,7 +91,9 @@ function CadastroDePacientesAdmin() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!formData.nome || !formData.sobrenome || !formData.telefone || !formData.cpf || !formData.email || !formData.senha) {
+    if (!formData.nome || !formData.sobrenome || !formData.telefone || !formData.cpf || !formData.email || !formData.senha
+      || !formData.rua || !formData.numero || !formData.bairro || !formData.cidade || !formData.estado || !formData.cep || !formData.sexo 
+      || !formData.profissao || !formData.dataNascimento) {
       setMensagem("Preencha os campos obrigatórios!");
       return;
     }
@@ -126,9 +128,19 @@ function CadastroDePacientesAdmin() {
       });
 
       if (!response.ok) {
-        if (response.status === 403) throw new Error("Sem permissão ou token expirado.");
+        if (response.status === 403) {
+          throw new Error("Sem permissão ou token expirado.");
+        }
+        
+        if (response.status === 409) {
+          // Se a API envia o texto direto (ex: "CPF já cadastrado!")
+          const msgServidor = await response.text(); 
+          throw new Error(msgServidor || "Registro Duplicado");
+        }
 
-        throw new Error("Erro ao cadastrar paciente.");
+        // Captura o corpo do erro genérico enviado pelo Spring Boot
+        const erroGenerico = await response.text();
+        throw new Error(`Erro ao cadastrar paciente: ${erroGenerico}`);
       }
 
       setMensagem("Paciente cadastrado com sucesso!");
