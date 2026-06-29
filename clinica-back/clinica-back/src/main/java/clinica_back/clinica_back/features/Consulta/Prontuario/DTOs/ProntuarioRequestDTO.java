@@ -16,7 +16,6 @@ public class ProntuarioRequestDTO {
     @NotBlank
     private String diagnostico;
 
-    @NotBlank
     private String observacoes;
 
     @NotBlank

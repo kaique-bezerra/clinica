@@ -35,7 +35,6 @@ public class Prontuario {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String diagnostico;
 
-    @NotBlank
     @Column(nullable = false, columnDefinition = "TEXT")
     private String observacoes;
 

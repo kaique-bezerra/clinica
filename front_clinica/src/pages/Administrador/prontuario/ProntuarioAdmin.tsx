@@ -9,10 +9,8 @@ function ProntuarioAdmin() {
   const [menuAberto, setMenuAberto] = useState(false);
 
   const [formData, setFormData] = useState({
-    consulta: {
-      idConsulta: ""
-    },
-    queixa: "",
+    idConsulta: "",
+    queixas: "",
     diagnostico: "",
     prescricao: "",
     observacoes: ""
@@ -37,7 +35,7 @@ function ProntuarioAdmin() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
     event.preventDefault();
 
-    if(!formData.consulta || !formData.queixa|| !formData.diagnostico 
+    if(!formData.idConsulta || !formData.queixas|| !formData.diagnostico 
       || !formData.prescricao){
         setMensagem("Preencha os campos obrigatórios!");
         return;
@@ -48,14 +46,16 @@ function ProntuarioAdmin() {
       const payloadValido = {
         ...formData, 
         consulta: {
-          idConsulta: Number(formData.consulta.idConsulta)
+          idConsulta: Number(formData.idConsulta)
         }
-      }; try{
+      }; console.log(payloadValido);
+      try{
         const response= await fetch("http://localhost:8080/prontuarios", {
           method: "POST",
           headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
+          
         }, body: JSON.stringify(payloadValido),
         });
 
@@ -74,9 +74,14 @@ function ProntuarioAdmin() {
         const erroGenerico = await response.text();
         throw new Error(`Erro ao cadastrar prontuário: ${erroGenerico}`);
       }
-
       setMensagem("Prontuário cadastrado com sucesso!");
-      // Opcional: Resetar formulário aqui
+        setFormData({
+        idConsulta: "",
+        queixas: "",
+        diagnostico: "",
+        prescricao: "",
+        observacoes: ""
+      });
     } catch (error: any) {
       console.error(error);
       setMensagem(error.message || "Erro ao conectar ao servidor.");
@@ -127,12 +132,10 @@ function ProntuarioAdmin() {
           <label>Selecione a Consulta</label>
 
           <select
-            value={formData.consulta.idConsulta}
+            value={formData.idConsulta}
             onChange={(e) => setFormData((prev) => ({
                 ...prev,
-                consulta: {
                   idConsulta: e.target.value
-                }
               }))
             }
           >
@@ -157,7 +160,7 @@ function ProntuarioAdmin() {
           <div className="input-group">
             
             <label>Queixa Principal *</label>
-            <input name="queixa" value={formData.queixa} onChange={handleChange}
+            <input name="queixas" value={formData.queixas} onChange={handleChange}
               placeholder="Ex: dor de cabeça, febre..." />
           </div>
 
@@ -185,22 +188,12 @@ function ProntuarioAdmin() {
           </button>
 
           {mensagem && (
-            <p style={{ marginTop: "10px" }}>
+            <p style={{ marginTop: "10px" , color: "blue"}}>
               {mensagem}
             </p>
           )}
         </section>
         </form>
-
-        <section className="history-section">
-
-          <h2>Seria legar colocar o Histórico do Paciente aqui</h2>
-
-          <div className="history-card">
-
-          </div>
-        </section>
-
       </main>
 
     </div>
