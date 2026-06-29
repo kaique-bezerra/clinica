@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../pages_medico/Prontuario/Prontuario.css";
 import MenuLateral from "../Componentes/MenuLateral";
 
@@ -17,6 +17,14 @@ function ProntuarioAdmin() {
     prescricao: "",
     observacoes: ""
   });
+
+  const [consultas, setConsultas] = useState<{
+    idConsulta: number;
+    nomePaciente: string;
+    nomeMedico: string;
+    dataConsulta: string;
+    horaConsulta: string;
+  }[]>([]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>){
     const {name, value}= event.target;
@@ -75,7 +83,26 @@ function ProntuarioAdmin() {
     }
   }
 
-  const [consultaSelecionada, setConsultaSelecionada] = useState("");
+  useEffect(() => {
+  async function carregarConsultas() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("http://localhost:8080/consultas/sem-prontuario", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao carregar consultas.");
+      }
+
+      const dados = await response.json();
+      setConsultas(dados);
+    } catch (error) {
+      console.error(error);
+    }}
+      carregarConsultas();}, []);
 
   return (
     <div className="prontuario-container">
@@ -100,14 +127,28 @@ function ProntuarioAdmin() {
           <label>Selecione a Consulta</label>
 
           <select
-            value={consultaSelecionada}
-            onChange={(e) => setConsultaSelecionada(e.target.value)}
+            value={formData.consulta.idConsulta}
+            onChange={(e) => setFormData((prev) => ({
+                ...prev,
+                consulta: {
+                  idConsulta: e.target.value
+                }
+              }))
+            }
           >
-            <option value="">Escolha uma consulta</option>
-            <option>Maria Silva - 20/05 14:00</option>
-            <option>Carlos Henrique - 20/05 15:00</option>
-            <option>Fernanda Lima - 20/05 16:30</option>
-          </select>
+
+  <option value="">Escolha uma consulta</option>
+
+  {consultas.map((consulta) => (
+    <option
+      key={consulta.idConsulta}
+      value={consulta.idConsulta}
+    >
+      {consulta.nomePaciente} - {consulta.nomeMedico} - {consulta.dataConsulta} {consulta.horaConsulta}
+    </option>
+    ))}
+
+  </select>
 
         </section>
 

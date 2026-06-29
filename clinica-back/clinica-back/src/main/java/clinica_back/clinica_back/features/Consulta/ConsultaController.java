@@ -2,6 +2,7 @@ package clinica_back.clinica_back.features.Consulta;
 
 import clinica_back.clinica_back.features.Consulta.DTOs.ConsultaRequestDTO;
 import clinica_back.clinica_back.features.Consulta.DTOs.ConsultaResponseDTO;
+import clinica_back.clinica_back.features.Consulta.DTOs.ConsultaSemProntuarioResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -51,26 +54,28 @@ public class ConsultaController {
             @PathVariable Long idPaciente) {
         return ResponseEntity.ok(consultaService.listarPorPaciente(idPaciente));
     }
+
     @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
     @GetMapping("/dia")
     public ResponseEntity<List<ConsultaResponseDTO>> listarPorDia(
-            @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate data) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
 
         LocalDate dataBusca = (data != null) ? data : LocalDate.now();
 
         return ResponseEntity.ok(
-                consultaService.listarPorDia(dataBusca)
-        );
+                consultaService.listarPorDia(dataBusca));
     }
 
     @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
     @GetMapping("/semana")
     public ResponseEntity<List<ConsultaResponseDTO>> listarPorSemana() {
         return ResponseEntity.ok(
-                consultaService.listarPorSemanaAtual()
-        );
+                consultaService.listarPorSemanaAtual());
     }
 
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
+    @GetMapping("/sem-prontuario")
+    public ResponseEntity<List<ConsultaSemProntuarioResponseDTO>> listarConsultasSemProntuarios() {
+        return ResponseEntity.ok(consultaService.listarConsultasSemProntuario());
+    }
 }
