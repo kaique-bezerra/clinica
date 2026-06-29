@@ -21,7 +21,7 @@ import ProntuarioAdmin from "./pages/Administrador/prontuario/ProntuarioAdmin";
 import AgendamentoDeConsultaAdmin from "./pages/Administrador/AgendamentoConsultas/AgendamentoConsultasAdmin";
 import CadastroDePacientesAdmin from "./pages/Administrador/cadastroDePacientes/CadastroDePacientesAdmin";
 import CadastroDeUsuarioAdmin from "./pages/Administrador/cadastroDeUsuarios/CadastroDeMedico";
-import CadastroDeRecepcionistaAdmin from "./pages/Administrador/cadastroRecepcionista/CadastroDeRecepcionista";
+import CadastroDeRecepcionistaAdmin from "./pages/Administrador/cadastroDeUsuarios/cadastroRecepcionista/CadastroDeRecepcionista";
 import MedicosAdmin from "./pages/Administrador/gerenciamentodeMedicos.tsx/Medicos-admin";
 import CadastroDeAgendaPadrao from "./pages/Administrador/agendaMedico/CadastroDeAgendaPadrao";
 import HorarioBloqueado from "./pages/Administrador/agendaMedico/horarioBloqueado";

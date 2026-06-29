@@ -31,4 +31,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     List<Consulta> findByDataConsulta(LocalDate data);
 
     List<Consulta> findByDataConsultaBetween(LocalDate dataInicio, LocalDate dataFim);
+
+    List<Consulta> findByProntuarioIsNull();
+
 }

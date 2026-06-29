@@ -73,4 +73,5 @@ public class ConsultaController {
                 consultaService.listarPorSemanaAtual()
         );
     }
+
 }

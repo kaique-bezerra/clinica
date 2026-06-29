@@ -167,5 +167,9 @@ public class ConsultaService {
                 .stream()
                 .map(this::converterParaDTO)
                 .toList();
-    }
+        }
+
+    public List<Consulta> listarConsultasSemProntuario() {
+        return consultaRepository.findByProntuarioIsNull();}
+
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MenuLateral from "../Componentes/MenuLateral";
+import MenuLateral from "../../Componentes/MenuLateral";
 import "./CadastroDeRecepcionistaAdmin.css";
 
 function CadastroDeRecepcionistaAdmin() {

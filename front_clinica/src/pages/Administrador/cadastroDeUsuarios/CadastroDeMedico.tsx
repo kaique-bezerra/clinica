@@ -90,13 +90,13 @@ function CadastroDeUsuarioAdmin() {
 
       if (!response.ok) {
         if (response.status === 403) {
-          alert("Erro 403: O perfil ADMINISTRADOR não tem permissão para acessar esta rota no backend ou o token expirou.");
+          setMensagem("Erro 403: O perfil ADMINISTRADOR não tem permissão para acessar esta rota no backend ou o token expirou.");
           return;
         }
         
         const textError = await response.text();
         console.error("Erro retornado pelo backend:", textError);
-        alert("Erro ao cadastrar o médico. Verifique os logs do console.");
+        setMensagem("Erro ao cadastrar o médico. Verifique os logs do console.");
         return;
       }
 
@@ -111,7 +111,7 @@ function CadastroDeUsuarioAdmin() {
         
     } catch (error) {
       console.error("Erro na requisição de rede:", error);
-      alert("Não foi possível conectar ao servidor. Certifique-se de que o backend Spring Boot está rodando.");
+      setMensagem("Não foi possível conectar ao servidor. Certifique-se de que o backend Spring Boot está rodando.");
     }
   }
 

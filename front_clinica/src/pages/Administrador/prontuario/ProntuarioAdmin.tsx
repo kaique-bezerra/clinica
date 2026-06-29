@@ -1,36 +1,81 @@
+import { useState } from "react";
 import "../../pages_medico/Prontuario/Prontuario.css";
 import MenuLateral from "../Componentes/MenuLateral";
 
-import { useState } from "react";
-
 function ProntuarioAdmin() {
+
+  const [mensagem, setMensagem]=useState("");
 
   const [menuAberto, setMenuAberto] = useState(false);
 
-  const [consultaSelecionada, setConsultaSelecionada] = useState("");
+  const [formData, setFormData] = useState({
+    consulta: {
+      idConsulta: ""
+    },
+    queixa: "",
+    diagnostico: "",
+    prescricao: "",
+    observacoes: ""
+  });
 
-  const [queixa, setQueixa] = useState("");
-  const [diagnostico, setDiagnostico] = useState("");
-  const [prescricao, setPrescricao] = useState("");
-  const [observacoes, setObservacoes] = useState("");
+  function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>){
+    const {name, value}= event.target;
 
-  const [mensagem, setMensagem] = useState("");
-
-  function salvarProntuario() {
-
-    if (!consultaSelecionada || !queixa || !diagnostico) {
-      setMensagem("Preencha os campos obrigatórios!");
-      return;
-    }
-
-    setMensagem(" Prontuário salvo com sucesso!");
-
-    setQueixa("");
-    setDiagnostico("");
-    setPrescricao("");
-    setObservacoes("");
-    setConsultaSelecionada("");
+    setFormData((prev)=> ({
+      ...prev, [name]:value
+    }))
   }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
+    event.preventDefault();
+
+    if(!formData.consulta || !formData.queixa|| !formData.diagnostico 
+      || !formData.prescricao){
+        setMensagem("Preencha os campos obrigatórios!");
+        return;
+      }
+
+      const token= localStorage.getItem("token");
+
+      const payloadValido = {
+        ...formData, 
+        consulta: {
+          idConsulta: Number(formData.consulta.idConsulta)
+        }
+      }; try{
+        const response= await fetch("http://localhost:8080/prontuarios", {
+          method: "POST",
+          headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }, body: JSON.stringify(payloadValido),
+        });
+
+        if (!response.ok) {
+          if (response.status === 403) {
+            throw new Error("Sem permissão ou token expirado.");
+          }
+        
+          if (response.status === 409) {
+            // Se a API envia o texto direto (ex: "CPF já cadastrado!")
+            const msgServidor = await response.text(); 
+            throw new Error(msgServidor || "Registro Duplicado");
+          }
+
+        // Captura o corpo do erro genérico enviado pelo Spring Boot
+        const erroGenerico = await response.text();
+        throw new Error(`Erro ao cadastrar prontuário: ${erroGenerico}`);
+      }
+
+      setMensagem("Prontuário cadastrado com sucesso!");
+      // Opcional: Resetar formulário aqui
+    } catch (error: any) {
+      console.error(error);
+      setMensagem(error.message || "Erro ao conectar ao servidor.");
+    }
+  }
+
+  const [consultaSelecionada, setConsultaSelecionada] = useState("");
 
   return (
     <div className="prontuario-container">
@@ -49,7 +94,7 @@ function ProntuarioAdmin() {
           </p>
 
         </section>
-
+        <form className="prontuario-form" onSubmit={handleSubmit} >
         <section className="form-section">
 
           <label>Selecione a Consulta</label>
@@ -69,42 +114,32 @@ function ProntuarioAdmin() {
         <section className="form-section">
 
           <div className="input-group">
+            
             <label>Queixa Principal *</label>
-            <input
-              value={queixa}
-              onChange={(e) => setQueixa(e.target.value)}
-              placeholder="Ex: dor de cabeça, febre..."
-            />
+            <input name="queixa" value={formData.queixa} onChange={handleChange}
+              placeholder="Ex: dor de cabeça, febre..." />
           </div>
 
           <div className="input-group">
             <label>Diagnóstico *</label>
-            <input
-              value={diagnostico}
-              onChange={(e) => setDiagnostico(e.target.value)}
-              placeholder="Ex: virose, hipertensão..."
-            />
+            <input name="diagnostico" value={formData.diagnostico} onChange={handleChange}
+              placeholder="Ex: virose, hipertensão..."/>
           </div>
 
           <div className="input-group">
-            <label>Prescrição</label>
-            <input
-              value={prescricao}
-              onChange={(e) => setPrescricao(e.target.value)}
-              placeholder="Ex: dipirona 500mg..."
-            />
+            <label>Prescrição *</label>
+            <input name="prescricao" value={formData.prescricao} onChange={handleChange}
+              placeholder="Ex: dipirona 500mg..."/>
           </div>
 
           <div className="input-group">
             <label>Observações</label>
-            <textarea
-              value={observacoes}
-              onChange={(e) => setObservacoes(e.target.value)}
+            <textarea name="observacoes" value={formData.observacoes} onChange={handleChange}
               placeholder="Anotações adicionais..."
             />
           </div>
 
-          <button onClick={salvarProntuario}>
+          <button type="submit" className="save-button">
             Salvar Prontuário
           </button>
 
@@ -113,35 +148,16 @@ function ProntuarioAdmin() {
               {mensagem}
             </p>
           )}
-
         </section>
+        </form>
 
         <section className="history-section">
 
-          <h2>Histórico do Paciente</h2>
+          <h2>Seria legar colocar o Histórico do Paciente aqui</h2>
 
           <div className="history-card">
 
-            <h3>Maria Silva - 10/05</h3>
-
-            <p><strong>Queixa:</strong> Dor de cabeça</p>
-            <p><strong>Diagnóstico:</strong> Enxaqueca</p>
-            <p><strong>Prescrição:</strong> Dipirona 500mg</p>
-            <p><strong>Observações:</strong> Evitar luz forte</p>
-
           </div>
-
-          <div className="history-card">
-
-            <h3>Maria Silva - 02/04</h3>
-
-            <p><strong>Queixa:</strong> Febre</p>
-            <p><strong>Diagnóstico:</strong> Virose</p>
-            <p><strong>Prescrição:</strong> Paracetamol</p>
-            <p><strong>Observações:</strong> Repouso</p>
-
-          </div>
-
         </section>
 
       </main>
