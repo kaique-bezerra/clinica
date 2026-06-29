@@ -61,4 +61,19 @@ public class ProntuarioService {
                 .prescricao(salvo.getPrescricao())
                 .build();
     }
+    public ProntuarioResponseDTO buscarPorConsulta(Long idConsulta) {
+        Prontuario prontuario = prontuarioRepository
+                .findByConsultaIdConsulta(idConsulta)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Prontuário não encontrado"));
+
+        return ProntuarioResponseDTO.builder()
+                .idProntuario(prontuario.getIdProntuario())
+                .idConsulta(prontuario.getConsulta().getIdConsulta())
+                .queixas(prontuario.getQueixas())
+                .diagnostico(prontuario.getDiagnostico())
+                .observacoes(prontuario.getObservacoes())
+                .prescricao(prontuario.getPrescricao())
+                .build();
+    }
 }

@@ -38,21 +38,20 @@ public class ConsultaController {
         return ResponseEntity.ok(consultaService.listarTodas());
     }
 
-    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
     @GetMapping("/medico/{idMedico}")
     public ResponseEntity<List<ConsultaResponseDTO>> listarPorMedico(
             @PathVariable Long idMedico) {
         return ResponseEntity.ok(consultaService.listarPorMedico(idMedico));
     }
 
-    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
     @GetMapping("/paciente/{idPaciente}")
     public ResponseEntity<List<ConsultaResponseDTO>> listarPorPaciente(
             @PathVariable Long idPaciente) {
         return ResponseEntity.ok(consultaService.listarPorPaciente(idPaciente));
     }
-
-    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
     @GetMapping("/dia")
     public ResponseEntity<List<ConsultaResponseDTO>> listarPorDia(
             @RequestParam(required = false)
@@ -66,7 +65,7 @@ public class ConsultaController {
         );
     }
 
-    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
     @GetMapping("/semana")
     public ResponseEntity<List<ConsultaResponseDTO>> listarPorSemana() {
         return ResponseEntity.ok(

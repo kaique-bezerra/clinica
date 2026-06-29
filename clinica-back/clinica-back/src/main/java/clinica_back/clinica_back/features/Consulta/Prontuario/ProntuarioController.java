@@ -23,4 +23,13 @@ public class ProntuarioController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(prontuarioService.cadastrar(dto));
     }
+
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('PACIENTE')")
+    @GetMapping("/consulta/{idConsulta}")
+    public ResponseEntity<ProntuarioResponseDTO> buscarPorConsulta(
+            @PathVariable Long idConsulta) {
+        return ResponseEntity.ok(
+                prontuarioService.buscarPorConsulta(idConsulta)
+        );
+    }
 }
