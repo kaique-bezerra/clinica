@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import clinica_back.clinica_back.features.Auditoria.AcaoAuditoriaEnum;
+import clinica_back.clinica_back.features.Auditoria.LogAuditoriaService;
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
@@ -14,6 +16,7 @@ import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.Recepcionist
 import clinica_back.clinica_back.features.Usuario.Recepcionista.dto.RecepcionistaResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
+import clinica_back.clinica_back.shared.util.AuditoriaUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RecepcionistaService {
 
+    private final LogAuditoriaService logAuditoriaService;
     private final UsuarioRepository usuarioRepository;
     private final RecepcionistaRepository recepcionistaRepository;
     private final PasswordEncoder passwordEncoder;
@@ -62,6 +66,10 @@ public class RecepcionistaService {
         recepcionista.setEndereco(endereco);
 
         Recepcionista recepcionistaSalva = recepcionistaRepository.save(recepcionista);
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.CREATE, "RECEPCIONISTA", recepcionistaSalva.getIdUsuario(),
+                "Cadastrou Rcepcionista: " + recepcionistaSalva.getNome() + " " + recepcionistaSalva.getSobrenome()
+                        + " | CPF: "
+                        + recepcionistaSalva.getCpf());
 
         return new RecepcionistaResponseDTO(
                 recepcionistaSalva.getIdUsuario(),
@@ -114,18 +122,26 @@ public class RecepcionistaService {
             throw new RegraNegocioException("Email já cadastrado!");
         }
 
-        if (!recepcionista.getCpf().equals(dto.getCpf()) && usuarioRepository.existsByCpf(dto.getCpf())) {
-            throw new RegraNegocioException("CPF já cadastrado!");
-        }
-
         recepcionista.setNome(dto.getNome());
         recepcionista.setSobrenome(dto.getSobrenome());
         recepcionista.setTelefone(dto.getTelefone());
-        recepcionista.setCpf(dto.getCpf());
         recepcionista.setEmail(dto.getEmail());
 
         Recepcionista recepcionistaSalvo = recepcionistaRepository.save(recepcionista);
 
+        StringBuilder descricao = new StringBuilder("Atualizou: ");
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Nome", recepcionista.getNome(), dto.getNome()));
+
+        descricao.append(
+                AuditoriaUtil.registrarAlteracao("Sobrenome", recepcionista.getSobrenome(), dto.getSobrenome()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Telefone", recepcionista.getTelefone(), dto.getTelefone()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Email", recepcionista.getEmail(), dto.getEmail()));
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.UPDATE, "RECEPCIONISTA", recepcionista.getIdUsuario(),
+                descricao.toString());
         return new RecepcionistaResponseDTO(
                 recepcionistaSalvo.getIdUsuario(), recepcionistaSalvo.getNome(), recepcionistaSalvo.getSobrenome(),
                 recepcionistaSalvo.getEmail(),
@@ -138,6 +154,10 @@ public class RecepcionistaService {
     public void deletar(Long id) {
         Recepcionista recepcionista = recepcionistaRepository.findById(id).orElseThrow(
                 () -> new RecursoNaoEncontradoException("Recepcionista com ID " + id + " não encontrado!"));
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.DELETE, "RECEPCIONISTA", recepcionista.getIdUsuario(),
+                "Deletou Rcepcionista: " + recepcionista.getNome() + " " + recepcionista.getSobrenome()
+                        + " | CPF: "
+                        + recepcionista.getCpf());
         recepcionistaRepository.delete(recepcionista);
     }
 
