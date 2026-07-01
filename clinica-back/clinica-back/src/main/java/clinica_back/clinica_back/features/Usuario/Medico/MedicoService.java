@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import clinica_back.clinica_back.features.Auditoria.AcaoAuditoriaEnum;
+import clinica_back.clinica_back.features.Auditoria.LogAuditoriaService;
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
@@ -14,6 +16,7 @@ import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoRequestUpdate
 import clinica_back.clinica_back.features.Usuario.Medico.dto.MedicoResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
+import clinica_back.clinica_back.shared.util.AuditoriaUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MedicoService {
 
+    private final LogAuditoriaService logAuditoriaService;
     private final UsuarioRepository usuarioRepository;
     private final MedicoRepository medicoRepository;
     private final PasswordEncoder passwordEncoder;
@@ -35,7 +39,7 @@ public class MedicoService {
         }
 
         if (usuarioRepository.existsByEmail(dto.getEmail())) {
-            throw new RegraNegocioException("Email já cadastrado!");
+            throw new RegraNegocioException("Em0ail já cadastrado!");
         }
 
         if (medicoRepository.existsByCrm(dto.getCrm())) {
@@ -66,6 +70,10 @@ public class MedicoService {
         medico.setEndereco(endereco);
 
         Medico medicoSalvo = medicoRepository.save(medico);
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.CREATE, "Medico", medicoSalvo.getIdUsuario(),
+                "Cadastrou médico: " + medicoSalvo.getNome() + " " + medicoSalvo.getSobrenome() + " | CPF: "
+                        + medicoSalvo.getCpf());
 
         return new MedicoResponseDTO(
                 medicoSalvo.getIdUsuario(),
@@ -125,24 +133,29 @@ public class MedicoService {
             throw new RegraNegocioException("Email já cadastrado!");
         }
 
-        if (!medico.getCpf().equals(dto.getCpf()) && usuarioRepository.existsByCpf(dto.getCpf())) {
-            throw new RegraNegocioException("CPF já cadastrado!");
-        }
-
-        if (!medico.getCrm().equals(dto.getCrm()) && medicoRepository.existsByCrm(dto.getCrm())) {
-            throw new RegraNegocioException("CRM já cadastrado!");
-
-        }
-
         medico.setNome(dto.getNome());
         medico.setSobrenome(dto.getSobrenome());
         medico.setTelefone(dto.getTelefone());
-        medico.setCpf(dto.getCpf());
         medico.setEmail(dto.getEmail());
-        medico.setCrm(dto.getCrm());
         medico.setEspecialidade(dto.getEspecialidade());
 
         Medico medicoSalvo = medicoRepository.save(medico);
+
+        StringBuilder descricao = new StringBuilder("Atualizou: ");
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Nome", medico.getNome(), dto.getNome()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Sobrenome", medico.getSobrenome(), dto.getSobrenome()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Telefone", medico.getTelefone(), dto.getTelefone()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Email", medico.getEmail(), dto.getEmail()));
+
+        descricao.append(
+                AuditoriaUtil.registrarAlteracao("Especialidade", medico.getEspecialidade(), dto.getEspecialidade()));
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.UPDATE, "MEDICO", medicoSalvo.getIdUsuario(),
+                descricao.toString());
 
         return new MedicoResponseDTO(
                 medicoSalvo.getIdUsuario(),
@@ -160,6 +173,10 @@ public class MedicoService {
     public void deletar(Long id) {
         Medico medico = medicoRepository.findById(id).orElseThrow(
                 () -> new RecursoNaoEncontradoException("Medico com ID " + id + " não encontrado!"));
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.DELETE, "Medico", medico.getIdUsuario(),
+                "Deletou médico: " + medico.getNome() + " " + medico.getSobrenome() + " | CPF: "
+                        + medico.getCpf());
         medicoRepository.delete(medico);
     }
 
@@ -173,6 +190,9 @@ public class MedicoService {
         }
 
         medico.setStatus(StatusMedico.INATIVO);
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.INATIVAR, "Medico", medico.getIdUsuario(),
+                "Inativou médico: " + medico.getNome() + " " + medico.getSobrenome() + " | CPF: "
+                        + medico.getCpf());
     }
 
     @Transactional
@@ -185,5 +205,8 @@ public class MedicoService {
         }
 
         medico.setStatus(StatusMedico.ATIVO);
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.ATIVAR, "Medico", medico.getIdUsuario(),
+                "Ativou médico: " + medico.getNome() + " " + medico.getSobrenome() + " | CPF: "
+                        + medico.getCpf());
     }
 }
