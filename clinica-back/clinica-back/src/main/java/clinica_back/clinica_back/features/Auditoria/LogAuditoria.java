@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.Usuario;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +28,6 @@ public class LogAuditoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idLogAuditoria;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
@@ -39,8 +39,8 @@ public class LogAuditoria {
 
     @NotBlank
     @Size(max = 50)
-    @Column(nullable = false, length = 50, name = "tabela_afetada")
-    private String tabelaAfetada;
+    @Column(nullable = false, length = 50, name = "entidade_afetada")
+    private String entidadeAfetada;
 
     @NotBlank
     @Size(max = 255)
@@ -55,5 +55,12 @@ public class LogAuditoria {
     @CreationTimestamp // O hibernate adc a data e hora automaticamente, com o horário atual...
     @Column(nullable = false, name = "data_hora", updatable = false)
     private LocalDateTime dataHora;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "perfil_usuario", nullable = false)
+    private PerfilUsuario perfilUsuario;
+
+    @Column(name = "email_usuario", nullable = false)
+    private String emailUsuario;
 
 }

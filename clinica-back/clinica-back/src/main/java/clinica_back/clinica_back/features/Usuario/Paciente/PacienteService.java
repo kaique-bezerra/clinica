@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import clinica_back.clinica_back.features.Auditoria.AcaoAuditoriaEnum;
+import clinica_back.clinica_back.features.Auditoria.LogAuditoriaService;
 import clinica_back.clinica_back.features.Usuario.PerfilUsuario;
 import clinica_back.clinica_back.features.Usuario.UsuarioRepository;
 import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
@@ -20,6 +22,7 @@ import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestUp
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegistroDuplicadoException;
+import clinica_back.clinica_back.shared.util.AuditoriaUtil;
 import clinica_back.clinica_back.shared.util.DataUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PacienteService {
 
+    private final LogAuditoriaService logAuditoriaService;
     private final UsuarioRepository usuarioRepository;
     private final PacienteRepository pacienteRepository;
     private final PasswordEncoder passwordEncoder;
@@ -123,6 +127,8 @@ public class PacienteService {
         }
 
         Paciente pacienteSalvo = pacienteRepository.save(paciente);
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.CREATE, "PACIENTE", pacienteSalvo.getIdUsuario(),
+                "Cadastrou paciente: " + pacienteSalvo.getNome());
 
         return new PacienteResponseDTO(
                 pacienteSalvo.getIdUsuario(),
@@ -191,21 +197,33 @@ public class PacienteService {
             throw new RegistroDuplicadoException("Registro Duplicado!");
         }
 
-        if (!paciente.getCpf().equals(dto.getCpf()) && usuarioRepository.existsByCpf(dto.getCpf())) {
-            throw new RegistroDuplicadoException("Registro Duplicado!");
-        }
-
         paciente.setNome(dto.getNome());
         paciente.setSobrenome(dto.getSobrenome());
         paciente.setTelefone(dto.getTelefone());
-        paciente.setCpf(dto.getCpf());
         paciente.setEmail(dto.getEmail());
-        paciente.setSexo(dto.getSexo());
         paciente.setProfissao(dto.getProfissao());
         paciente.setDataNascimento(dto.getDataNascimento());
         paciente.setIdade(DataUtil.calcularIdade(dto.getDataNascimento()));
 
         Paciente pacienteSalvo = pacienteRepository.save(paciente);
+
+        StringBuilder descricao = new StringBuilder("Atualizou: ");
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Nome", paciente.getNome(), dto.getNome()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Sobrenome", paciente.getSobrenome(), dto.getSobrenome()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Telefone", paciente.getTelefone(), dto.getTelefone()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Email", paciente.getEmail(), dto.getEmail()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Profissão", paciente.getProfissao(), dto.getProfissao()));
+
+        descricao.append(AuditoriaUtil.registrarAlteracao("Data de nascimento", paciente.getDataNascimento(),
+                dto.getDataNascimento()));
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.UPDATE, "PACIENTE", pacienteSalvo.getIdUsuario(),
+                descricao.toString());
 
         return new PacienteResponseDTO(
                 pacienteSalvo.getIdUsuario(),
@@ -226,6 +244,9 @@ public class PacienteService {
     public void deletar(Long id) {
         Paciente paciente = pacienteRepository.findById(id).orElseThrow(
                 () -> new RecursoNaoEncontradoException("Paciente com ID " + id + " não encontrado!"));
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.DELETE, "PACIENTE", paciente.getIdUsuario(),
+                "Deletou o paciente: " + paciente.getNome() + " " + paciente.getSobrenome() + "| CPF: "
+                        + paciente.getCpf());
         pacienteRepository.delete(paciente);
     }
 }
