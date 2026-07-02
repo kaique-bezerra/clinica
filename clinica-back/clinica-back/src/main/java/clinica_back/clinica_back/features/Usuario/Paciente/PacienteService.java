@@ -14,14 +14,19 @@ import clinica_back.clinica_back.features.Usuario.Endereco.Endereco;
 import clinica_back.clinica_back.features.Usuario.Paciente.Convenio.Convenio;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DadosClinicos;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia.Alergia;
+import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia.AlergiaRepository;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia.dto.AlergiaRequestDTO;
+import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia.dto.AlergiaResponseDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.DoencaCronica;
+import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.DoencaCronicaRepository;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.dto.DoencaCronicaRequestDTO;
+import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.dto.DoencaCronicaResponseDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestCadastrarDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestUpdateDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegistroDuplicadoException;
+import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
 import clinica_back.clinica_back.shared.util.AuditoriaUtil;
 import clinica_back.clinica_back.shared.util.DataUtil;
 import jakarta.transaction.Transactional;
@@ -31,6 +36,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PacienteService {
 
+    private final AlergiaRepository alergiaRepository;
+    private final DoencaCronicaRepository doencaCronicaRepository;
     private final LogAuditoriaService logAuditoriaService;
     private final UsuarioRepository usuarioRepository;
     private final PacienteRepository pacienteRepository;
@@ -134,7 +141,7 @@ public class PacienteService {
                 pacienteSalvo.getIdUsuario(),
                 pacienteSalvo.getNome(),
                 pacienteSalvo.getSobrenome(),
-                paciente.getCpf(),
+                pacienteSalvo.getCpf(),
                 pacienteSalvo.getEmail(),
                 pacienteSalvo.getTelefone(),
                 pacienteSalvo.getProfissao(),
@@ -248,5 +255,110 @@ public class PacienteService {
                 "Deletou o paciente: " + paciente.getNome() + " " + paciente.getSobrenome() + "| CPF: "
                         + paciente.getCpf());
         pacienteRepository.delete(paciente);
+    }
+
+    @Transactional
+    public AlergiaResponseDTO adicionarAlergia(Long idPaciente, AlergiaRequestDTO dto) {
+
+        Paciente paciente = pacienteRepository.findById(idPaciente)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente não encontrado."));
+
+        DadosClinicos dados = paciente.getDadosClinicos();
+
+        Alergia alergia = new Alergia();
+
+        alergia.setNomeAlergia(dto.getNome());
+        alergia.setDadosClinicos(dados);
+
+        alergiaRepository.save(alergia);
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.UPDATE, "PACIENTE", paciente.getIdUsuario(),
+                "Adicionou alergia: " + dto.getNome());
+
+        return new AlergiaResponseDTO(alergia.getIdAlergia(), alergia.getNomeAlergia());
+    }
+
+    @Transactional
+    public DoencaCronicaResponseDTO adicionarDoencaCronica(Long idPaciente, DoencaCronicaRequestDTO dto) {
+
+        Paciente paciente = pacienteRepository.findById(idPaciente)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente não encontrado."));
+
+        DadosClinicos dados = paciente.getDadosClinicos();
+
+        DoencaCronica doencaCronica = new DoencaCronica();
+
+        doencaCronica.setNomeDoenca(dto.getNome());
+        doencaCronica.setDadosClinicos(dados);
+
+        doencaCronicaRepository.save(doencaCronica);
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.UPDATE, "PACIENTE", paciente.getIdUsuario(),
+                "Adicionou doenca crônica: " + dto.getNome());
+
+        return new DoencaCronicaResponseDTO(
+                doencaCronica.getIdDoencaCronica(),
+                doencaCronica.getNomeDoenca());
+    }
+
+    public List<AlergiaResponseDTO> listarAlergias(Long idPaciente) {
+
+        Paciente paciente = pacienteRepository.findById(idPaciente).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Paciente com ID " + idPaciente + " não encontrado."));
+
+        return paciente.getDadosClinicos().getAlergias().stream().map(alergia -> new AlergiaResponseDTO(
+                alergia.getIdAlergia(),
+                alergia.getNomeAlergia())).toList();
+    }
+
+    public List<DoencaCronicaResponseDTO> listarDoencasCronicas(Long idPaciente) {
+
+        Paciente paciente = pacienteRepository.findById(idPaciente).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Paciente com ID " + idPaciente + " não encontrado."));
+
+        return paciente.getDadosClinicos().getDoencasCronicas().stream()
+                .map(doencaCronica -> new DoencaCronicaResponseDTO(
+                        doencaCronica.getIdDoencaCronica(),
+                        doencaCronica.getNomeDoenca()))
+                .toList();
+    }
+
+    @Transactional
+    public void removerAlergia(Long idPaciente, Long idAlergia) {
+
+        Paciente paciente = pacienteRepository.findById(idPaciente).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Paciente com ID " + idPaciente + " não encontrado."));
+
+        Alergia alergia = alergiaRepository.findById(idAlergia)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Alergia não encontrada."));
+
+        if (!alergia.getDadosClinicos().getPaciente().getIdUsuario().equals(idPaciente)) {
+            throw new RegraNegocioException("A alergia não pertence a este paciente.");
+        }
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.DELETE, "ALERGIA", alergia.getIdAlergia(),
+                "Removeu a alergia '" + alergia.getNomeAlergia() + "' do paciente " + paciente.getNome() + " "
+                        + paciente.getSobrenome() + " - CPF: " + paciente.getCpf());
+        alergiaRepository.delete(alergia);
+    }
+
+    @Transactional
+    public void removerDoencaCronica(Long idPaciente, Long idDoencaCronica) {
+
+        Paciente paciente = pacienteRepository.findById(idPaciente).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Paciente com ID " + idPaciente + " não encontrado."));
+
+        DoencaCronica doencaCronica = doencaCronicaRepository.findById(idDoencaCronica)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Doença Crônica não encontrada."));
+
+        if (!doencaCronica.getDadosClinicos().getPaciente().getIdUsuario().equals(idPaciente)) {
+            throw new RegraNegocioException("A Deonça crônica não pertence a este paciente.");
+        }
+
+        logAuditoriaService.registrar(AcaoAuditoriaEnum.DELETE, "DOENCACRONICA", doencaCronica.getIdDoencaCronica(),
+                "Removeu a doença crônica '" + doencaCronica.getNomeDoenca() + "' do paciente " + paciente.getNome()
+                        + " "
+                        + paciente.getSobrenome() + " - CPF: " + paciente.getCpf());
+        doencaCronicaRepository.delete(doencaCronica);
     }
 }
