@@ -1,5 +1,14 @@
 package clinica_back.clinica_back.features.Consulta;
 
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import clinica_back.clinica_back.features.Auditoria.AcaoAuditoriaEnum;
+import clinica_back.clinica_back.features.Auditoria.LogAuditoriaService;
 import clinica_back.clinica_back.features.Consulta.AgendaPadrao.AgendaPadrao;
 import clinica_back.clinica_back.features.Consulta.AgendaPadrao.AgendaPadraoRepository;
 import clinica_back.clinica_back.features.Consulta.AgendaPadrao.HorarioBloqueado.HorarioBloqueadoRepository;
@@ -13,17 +22,12 @@ import clinica_back.clinica_back.features.Usuario.Paciente.PacienteRepository;
 import clinica_back.clinica_back.shared.exceptions.RecursoNaoEncontradoException;
 import clinica_back.clinica_back.shared.exceptions.RegraNegocioException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.time.DayOfWeek;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ConsultaService {
 
+        private final LogAuditoriaService logAuditoriaService;
         private final ConsultaRepository consultaRepository;
         private final PacienteRepository pacienteRepository;
         private final MedicoRepository medicoRepository;
@@ -88,7 +92,13 @@ public class ConsultaService {
                 consulta.setHoraConsulta(dto.getHoraConsulta());
                 consulta.setStatusConsulta(StatusConsulta.AGENDADO);
 
+                logAuditoriaService.registrar(AcaoAuditoriaEnum.CREATE, "CONSULTA", consulta.getIdConsulta(),
+                                "Consulta de Paciente " + consulta.getPaciente().getNome() + " "
+                                                + consulta.getPaciente().getSobrenome() + " Com o médico: "
+                                                + consulta.getMedico().getNome() + " "
+                                                + consulta.getMedico().getSobrenome());
                 return consultaRepository.save(consulta);
+
         }
 
         public Consulta statusConsulta(Long idConsulta) {
@@ -172,5 +182,28 @@ public class ConsultaService {
                                                 consulta.getDataConsulta(),
                                                 consulta.getHoraConsulta()))
                                 .toList();
+        }
+
+        public ConsultaResponseDTO cancelarConsulta(Long idConsulta) {
+
+                Consulta consulta = consultaRepository.findById(idConsulta)
+                                .orElseThrow(() -> new RecursoNaoEncontradoException("Consulta não encontrada"));
+
+                if (consulta.getStatusConsulta() == StatusConsulta.CANCELADO) {
+                        throw new RegraNegocioException(
+                                        "Consulta já foi cancelada.");
+                }
+
+                if (consulta.getStatusConsulta() == StatusConsulta.REALIZADO) {
+                        throw new RegraNegocioException(
+                                        "Consulta realizada, não pode ser cancelada.");
+                }
+
+                consulta.setStatusConsulta(StatusConsulta.CANCELADO);
+                logAuditoriaService.registrar(AcaoAuditoriaEnum.UPDATE, "CONSULTA", idConsulta,
+                                "A consulta de id: " + consulta.getIdConsulta() + " foi Cancelada");
+
+                Consulta consultaSalva = consultaRepository.save(consulta);
+                return converterParaDTO(consultaSalva);
         }
 }
