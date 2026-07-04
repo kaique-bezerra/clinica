@@ -1,0 +1,137 @@
+.pagina {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4f6f9;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px 30px 30px 30px !important;
+  overflow-x: auto;
+}
+
+.main-content h1 {
+  color: #0d47a1;
+  margin-bottom: 25px;
+  font-size: 2rem;
+}
+
+/* Card da tabela */
+
+.tabela-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+.tabela-auditoria {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1300px;
+}
+
+.tabela-auditoria thead {
+  background: linear-gradient(90deg, #1565c0, #1976d2);
+  color: white;
+}
+
+.tabela-auditoria th {
+  padding: 16px;
+  text-align: center;
+  font-size: 15px;
+  white-space: nowrap;
+  color: #ececec;
+}
+
+.tabela-auditoria td {
+  padding: 14px;
+  border-bottom: 1px solid #ececec;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+.tabela-auditoria tbody tr:hover {
+  background-color: #eef5ff;
+  transition: 0.2s;
+}
+
+.tabela-auditoria tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Descrição */
+
+.tabela-auditoria td:last-child {
+  max-width: 350px;
+  word-break: break-word;
+}
+
+/* Páginação */
+
+.paginacao {
+  margin-top: 25px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.paginacao button {
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.paginacao button:hover:not(:disabled) {
+  background-color: #0d47a1;
+}
+
+.paginacao button:disabled {
+  background-color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.paginacao span {
+  font-weight: 600;
+  color: #444;
+}
+
+/* Loading */
+
+.main-content p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Responsividade */
+
+@media (max-width: 1000px) {
+  .main-content {
+    padding: 20px;
+  }
+
+  .main-content h1 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-content {
+    padding: 15px;
+  }
+
+  .paginacao {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

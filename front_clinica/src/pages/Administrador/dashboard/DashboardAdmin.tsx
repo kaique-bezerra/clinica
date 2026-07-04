@@ -40,7 +40,6 @@ function DashboardAdmin() {
         setRecepcionistas(dadosRecep);
         setMedicos(dadosMedicos);
         setPacientes(dadosPacientes);
-
       } catch (error) {
         console.error(error);
       } finally {
@@ -55,42 +54,33 @@ function DashboardAdmin() {
     tipoSelecionado === "recepcionistas"
       ? recepcionistas
       : tipoSelecionado === "medicos"
-      ? medicos
-      : pacientes;
+        ? medicos
+        : pacientes;
 
-  const listaFiltrada = listaAtual.filter((usuario) =>
-    usuario.nome?.toLowerCase().includes(pesquisa.toLowerCase()) ||
-    usuario.cpf?.includes(pesquisa)
+  const listaFiltrada = listaAtual.filter(
+    (usuario) =>
+      usuario.nome?.toLowerCase().includes(pesquisa.toLowerCase()) ||
+      usuario.cpf?.includes(pesquisa),
   );
 
   return (
     <div className="dashboard-container">
-
-      <MenuLateral
-        menuAberto={menuAberto}
-        setMenuAberto={setMenuAberto}
-      />
+      <MenuLateral menuAberto={menuAberto} setMenuAberto={setMenuAberto} />
 
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
-
         <section className="welcome-card">
           <div className="welcome-text">
-
             <div className="Imagemlogo">
               <img src={imagem} alt="Logo da Clínica" />
             </div>
 
             <h1>Bem-vindo, DEV {nomeAdmin}!</h1>
 
-            <p>
-              Gerencie os usuários cadastrados no sistema.
-            </p>
-
+            <p>Gerencie os usuários cadastrados no sistema.</p>
           </div>
         </section>
 
         <section className="cards-container">
-
           <div className="card">
             <h2>{carregando ? "..." : recepcionistas.length}</h2>
             <p>Recepcionistas</p>
@@ -105,66 +95,64 @@ function DashboardAdmin() {
             <h2>{carregando ? "..." : pacientes.length}</h2>
             <p>Pacientes</p>
           </div>
-
         </section>
 
         {/* BOTÕES */}
         <section className="buttons-section">
           <div className="botoes">
-          <button
-            className={`view-button ${
-              tipoSelecionado === "recepcionistas" ? "active-btn" : ""
-            }`}
-            onClick={() => {
-              setTipoSelecionado("recepcionistas");
-              setPesquisa("");
-            }}
-          >
-            Ver Recepcionistas
-          </button>
+            <button
+              className={`view-button ${
+                tipoSelecionado === "recepcionistas" ? "active-btn" : ""
+              }`}
+              onClick={() => {
+                setTipoSelecionado("recepcionistas");
+                setPesquisa("");
+              }}
+            >
+              Ver Recepcionistas
+            </button>
 
-          <button
-            className={`view-button ${
-              tipoSelecionado === "medicos" ? "active-btn" : ""
-            }`}
-            onClick={() => {
-              setTipoSelecionado("medicos");
-              setPesquisa("");
-            }}
-          >
-            Ver Médicos
-          </button>
+            <button
+              className={`view-button ${
+                tipoSelecionado === "medicos" ? "active-btn" : ""
+              }`}
+              onClick={() => {
+                setTipoSelecionado("medicos");
+                setPesquisa("");
+              }}
+            >
+              Ver Médicos
+            </button>
 
-          <button
-            className={`view-button ${
-              tipoSelecionado === "pacientes" ? "active-btn" : ""
-            }`}
-            onClick={() => {
-              setTipoSelecionado("pacientes");
-              setPesquisa("");
-            }}
-          >
-            Ver Pacientes
-          </button>
-        </div>
-        <div>
-                    <section className="search-section">
-          <input
-            type="text"
-            className="search-input"
-            placeholder={`Buscar ${
-              tipoSelecionado === "recepcionistas"
-                ? "recepcionista"
-                : tipoSelecionado === "medicos"
-                ? "médico"
-                : "paciente"
-            } por nome ou CPF...`}
-            value={pesquisa}
-            onChange={(e) => setPesquisa(e.target.value)}
-          />
-        </section>
-
-        </div>
+            <button
+              className={`view-button ${
+                tipoSelecionado === "pacientes" ? "active-btn" : ""
+              }`}
+              onClick={() => {
+                setTipoSelecionado("pacientes");
+                setPesquisa("");
+              }}
+            >
+              Ver Pacientes
+            </button>
+          </div>
+          <div>
+            <section className="search-section">
+              <input
+                type="text"
+                className="search-input"
+                placeholder={`Buscar ${
+                  tipoSelecionado === "recepcionistas"
+                    ? "recepcionista"
+                    : tipoSelecionado === "medicos"
+                      ? "médico"
+                      : "paciente"
+                } por nome ou CPF`}
+                value={pesquisa}
+                onChange={(e) => setPesquisa(e.target.value)}
+              />
+            </section>
+          </div>
         </section>
 
         {/* BARRA DE PESQUISA */}
@@ -204,7 +192,6 @@ function DashboardAdmin() {
             </tbody>
           </table>
         </section>
-
       </main>
     </div>
   );

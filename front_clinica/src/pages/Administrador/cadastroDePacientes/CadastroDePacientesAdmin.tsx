@@ -3,9 +3,8 @@ import "../../Recepcionista/cadastroDePacientes/Pacientes.css";
 import MenuLateral from "../Componentes/MenuLateral";
 
 function CadastroDePacientesAdmin() {
-
   const [mensagem, setMensagem] = useState("");
-   const [menuAberto, setMenuAberto] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -26,22 +25,20 @@ function CadastroDePacientesAdmin() {
     convenio: {
       plano: "",
       numero: "",
-      data: ""
+      data: "",
     },
     dadosClinicos: {
       tipoSanguineo: "",
       altura: "",
       peso: "",
-      alergias: [{ nome: "" }],
-      doencasCronicas: [{ nome: "" }]
-    }
+    },
   });
 
   // --- MÁSCARAS DE INPUT ---
   const aplicarMarcaraCPF = (value: string) => {
     return value
-      .replace(/\D/g, "")           
-      .substring(0, 11)             
+      .replace(/\D/g, "")
+      .substring(0, 11)
       .replace(/(\d{3})(\d)/, "$1.$2")
       .replace(/(\d{3})(\d)/, "$1.$2")
       .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
@@ -63,7 +60,9 @@ function CadastroDePacientesAdmin() {
   };
 
   // --- HANDLERS DE ALTERAÇÃO ---
-  function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) {
     const { name, value } = event.target;
 
     let valorFormatado = value;
@@ -73,17 +72,21 @@ function CadastroDePacientesAdmin() {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: valorFormatado
+      [name]: valorFormatado,
     }));
   }
 
-  function handleNestedChange(section: "convenio" | "dadosClinicos", field: string, value: string) {
+  function handleNestedChange(
+    section: "convenio" | "dadosClinicos",
+    field: string,
+    value: string,
+  ) {
     setFormData((prev) => ({
       ...prev,
       [section]: {
         ...prev[section],
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   }
 
@@ -91,38 +94,54 @@ function CadastroDePacientesAdmin() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!formData.nome || !formData.sobrenome || !formData.telefone || !formData.cpf || !formData.email || !formData.senha
-      || !formData.rua || !formData.numero || !formData.bairro || !formData.cidade || !formData.estado || !formData.cep || !formData.sexo 
-      || !formData.profissao || !formData.dataNascimento) {
+    if (
+      !formData.nome ||
+      !formData.sobrenome ||
+      !formData.telefone ||
+      !formData.cpf ||
+      !formData.email ||
+      !formData.senha ||
+      !formData.rua ||
+      !formData.numero ||
+      !formData.bairro ||
+      !formData.cidade ||
+      !formData.estado ||
+      !formData.cep ||
+      !formData.sexo ||
+      !formData.profissao ||
+      !formData.dataNascimento
+    ) {
       setMensagem("Preencha os campos obrigatórios!");
       return;
     }
 
     const token = localStorage.getItem("token");
     const temConvenio = formData.convenio.plano.trim() !== "";
-  
-  const payloadValido = {
-    ...formData,
-    numero: Number(formData.numero),
-    // Se não tem convênio, envia null. Se tem, envia o objeto.
-    // Isso evita que campos de data/numero vazios cheguem ao banco.
-    convenio: temConvenio ? {
-      plano: formData.convenio.plano,
-      numero: formData.convenio.numero || null, // Se vazio, vira null no banco
-      data: formData.convenio.data || null      // Se vazio, vira null no banco
-    } : null,
-    dadosClinicos: {
-      ...formData.dadosClinicos,
-      altura: Number(formData.dadosClinicos.altura) || 0,
-      peso: Number(formData.dadosClinicos.peso) || 0
-    }
-  }; 
+
+    const payloadValido = {
+      ...formData,
+      numero: Number(formData.numero),
+      // Se não tem convênio, envia null. Se tem, envia o objeto.
+      // Isso evita que campos de data/numero vazios cheguem ao banco.
+      convenio: temConvenio
+        ? {
+            plano: formData.convenio.plano,
+            numero: formData.convenio.numero || null, // Se vazio, vira null no banco
+            data: formData.convenio.data || null, // Se vazio, vira null no banco
+          }
+        : null,
+      dadosClinicos: {
+        ...formData.dadosClinicos,
+        altura: Number(formData.dadosClinicos.altura) || 0,
+        peso: Number(formData.dadosClinicos.peso) || 0,
+      },
+    };
     try {
       const response = await fetch("http://localhost:8080/paciente", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payloadValido),
       });
@@ -131,10 +150,10 @@ function CadastroDePacientesAdmin() {
         if (response.status === 403) {
           throw new Error("Sem permissão ou token expirado.");
         }
-        
+
         if (response.status === 409) {
           // Se a API envia o texto direto (ex: "CPF já cadastrado!")
-          const msgServidor = await response.text(); 
+          const msgServidor = await response.text();
           throw new Error(msgServidor || "Registro Duplicado");
         }
 
@@ -144,7 +163,6 @@ function CadastroDePacientesAdmin() {
       }
 
       setMensagem("Paciente cadastrado com sucesso!");
-      // Opcional: Resetar formulário aqui
     } catch (error: any) {
       console.error(error);
       setMensagem(error.message || "Erro ao conectar ao servidor.");
@@ -163,51 +181,103 @@ function CadastroDePacientesAdmin() {
 
         <section className="form-section">
           <form className="patient-form" onSubmit={handleSubmit}>
-            
             {/* Bloco 1: Dados Pessoais */}
             <fieldset className="form-group-box">
               <legend>Dados Pessoais</legend>
               <div className="form-row">
                 <div className="input-group">
                   <label>Nome</label>
-                  <input type="text" name="nome" value={formData.nome} onChange={handleChange} required placeholder="Ex: Kaique" />
+                  <input
+                    type="text"
+                    name="nome"
+                    value={formData.nome}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex: Kaique"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Sobrenome</label>
-                  <input type="text" name="sobrenome" value={formData.sobrenome} onChange={handleChange} required placeholder="Ex: Bezerra de Oliveira" />
+                  <input
+                    type="text"
+                    name="sobrenome"
+                    value={formData.sobrenome}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex: Bezerra de Oliveira"
+                  />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="input-group">
                   <label>CPF</label>
-                  <input type="text" name="cpf" value={formData.cpf} onChange={handleChange} required placeholder="000.000.000-00" />
+                  <input
+                    type="text"
+                    name="cpf"
+                    value={formData.cpf}
+                    onChange={handleChange}
+                    required
+                    placeholder="000.000.000-00"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Telefone</label>
-                  <input type="text" name="telefone" value={formData.telefone} onChange={handleChange} required placeholder="(00)00000-0000" />
+                  <input
+                    type="text"
+                    name="telefone"
+                    value={formData.telefone}
+                    onChange={handleChange}
+                    required
+                    placeholder="(00)00000-0000"
+                  />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="input-group">
                   <label>E-mail</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="nome@email.com" />
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="nome@email.com"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Senha de Acesso</label>
-                  <input type="password" name="senha" value={formData.senha} onChange={handleChange} required placeholder="Defina uma senha" />
+                  <input
+                    type="password"
+                    name="senha"
+                    value={formData.senha}
+                    onChange={handleChange}
+                    required
+                    placeholder="Defina uma senha"
+                  />
                 </div>
               </div>
 
               <div className="form-row3">
                 <div className="input-group">
                   <label>Data de Nascimento</label>
-                  <input type="date" name="dataNascimento" value={formData.dataNascimento} onChange={handleChange} required />
+                  <input
+                    type="date"
+                    name="dataNascimento"
+                    value={formData.dataNascimento}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="input-group">
                   <label>Sexo</label>
-                  <select name="sexo" value={formData.sexo} onChange={handleChange} required>
+                  <select
+                    name="sexo"
+                    value={formData.sexo}
+                    onChange={handleChange}
+                    required
+                  >
                     <option value="">Selecione</option>
                     <option value="M">Masculino</option>
                     <option value="F">Feminino</option>
@@ -216,7 +286,13 @@ function CadastroDePacientesAdmin() {
                 </div>
                 <div className="input-group">
                   <label>Profissão</label>
-                  <input type="text" name="profissao" value={formData.profissao} onChange={handleChange} placeholder="Ex: Frentista" />
+                  <input
+                    type="text"
+                    name="profissao"
+                    value={formData.profissao}
+                    onChange={handleChange}
+                    placeholder="Ex: Frentista"
+                  />
                 </div>
               </div>
             </fieldset>
@@ -227,30 +303,73 @@ function CadastroDePacientesAdmin() {
               <div className="form-row3">
                 <div className="input-group val-cep">
                   <label>CEP</label>
-                  <input type="text" name="cep" value={formData.cep} onChange={handleChange} required placeholder="00000-000" />
+                  <input
+                    type="text"
+                    name="cep"
+                    value={formData.cep}
+                    onChange={handleChange}
+                    required
+                    placeholder="00000-000"
+                  />
                 </div>
                 <div className="input-group val-rua">
                   <label>Rua / Logradouro</label>
-                  <input type="text" name="rua" value={formData.rua} onChange={handleChange} required placeholder="Ex: Rua Antônio Bernardo" />
+                  <input
+                    type="text"
+                    name="rua"
+                    value={formData.rua}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex: Rua Antônio Bernardo"
+                  />
                 </div>
                 <div className="input-group val-num">
                   <label>Número</label>
-                  <input type="number" name="numero" value={formData.numero} onChange={handleChange} required placeholder="123" />
+                  <input
+                    type="number"
+                    name="numero"
+                    value={formData.numero}
+                    onChange={handleChange}
+                    required
+                    placeholder="123"
+                  />
                 </div>
               </div>
 
               <div className="form-row3">
                 <div className="input-group">
                   <label>Bairro</label>
-                  <input type="text" name="bairro" value={formData.bairro} onChange={handleChange} required placeholder="Ex: José Pinheiro" />
+                  <input
+                    type="text"
+                    name="bairro"
+                    value={formData.bairro}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex: José Pinheiro"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Cidade</label>
-                  <input type="text" name="cidade" value={formData.cidade} onChange={handleChange} required placeholder="Ex: Campina Grande" />
+                  <input
+                    type="text"
+                    name="cidade"
+                    value={formData.cidade}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex: Campina Grande"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Estado (UF)</label>
-                  <input type="text" name="estado" value={formData.estado} onChange={handleChange} required placeholder="Ex: PB" maxLength={2} />
+                  <input
+                    type="text"
+                    name="estado"
+                    value={formData.estado}
+                    onChange={handleChange}
+                    required
+                    placeholder="Ex: PB"
+                    maxLength={2}
+                  />
                 </div>
               </div>
             </fieldset>
@@ -261,15 +380,35 @@ function CadastroDePacientesAdmin() {
               <div className="form-row3">
                 <div className="input-group">
                   <label>Plano</label>
-                  <input type="text" value={formData.convenio.plano} onChange={(e) => handleNestedChange("convenio", "plano", e.target.value)} placeholder="Ex: Unimed / Particular" />
+                  <input
+                    type="text"
+                    value={formData.convenio.plano}
+                    onChange={(e) =>
+                      handleNestedChange("convenio", "plano", e.target.value)
+                    }
+                    placeholder="Ex: Unimed / Particular"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Número da Carteira</label>
-                  <input type="text" value={formData.convenio.numero} onChange={(e) => handleNestedChange("convenio", "numero", e.target.value)} placeholder="Nº da carteirinha" />
+                  <input
+                    type="text"
+                    value={formData.convenio.numero}
+                    onChange={(e) =>
+                      handleNestedChange("convenio", "numero", e.target.value)
+                    }
+                    placeholder="Nº da carteirinha"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Validade do Plano</label>
-                  <input type="date" value={formData.convenio.data} onChange={(e) => handleNestedChange("convenio", "data", e.target.value)} />
+                  <input
+                    type="date"
+                    value={formData.convenio.data}
+                    onChange={(e) =>
+                      handleNestedChange("convenio", "data", e.target.value)
+                    }
+                  />
                 </div>
               </div>
             </fieldset>
@@ -280,15 +419,51 @@ function CadastroDePacientesAdmin() {
               <div className="form-row3">
                 <div className="input-group">
                   <label>Tipo Sanguíneo</label>
-                  <input type="text" value={formData.dadosClinicos.tipoSanguineo} onChange={(e) => handleNestedChange("dadosClinicos", "tipoSanguineo", e.target.value)} placeholder="Ex: O+" maxLength={3} />
+                  <input
+                    type="text"
+                    value={formData.dadosClinicos.tipoSanguineo}
+                    onChange={(e) =>
+                      handleNestedChange(
+                        "dadosClinicos",
+                        "tipoSanguineo",
+                        e.target.value,
+                      )
+                    }
+                    placeholder="Ex: O+"
+                    maxLength={3}
+                  />
                 </div>
                 <div className="input-group">
                   <label>Altura (m)</label>
-                  <input type="number" step="0.01" value={formData.dadosClinicos.altura} onChange={(e) => handleNestedChange("dadosClinicos", "altura", e.target.value)} placeholder="Ex: 1.82" />
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.dadosClinicos.altura}
+                    onChange={(e) =>
+                      handleNestedChange(
+                        "dadosClinicos",
+                        "altura",
+                        e.target.value,
+                      )
+                    }
+                    placeholder="Ex: 1.82"
+                  />
                 </div>
                 <div className="input-group">
                   <label>Peso (kg)</label>
-                  <input type="number" step="0.01" value={formData.dadosClinicos.peso} onChange={(e) => handleNestedChange("dadosClinicos", "peso", e.target.value)} placeholder="Ex: 69.90" />
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.dadosClinicos.peso}
+                    onChange={(e) =>
+                      handleNestedChange(
+                        "dadosClinicos",
+                        "peso",
+                        e.target.value,
+                      )
+                    }
+                    placeholder="Ex: 69.90"
+                  />
                 </div>
               </div>
             </fieldset>
@@ -297,10 +472,8 @@ function CadastroDePacientesAdmin() {
               Concluir Cadastro do Paciente
             </button>
             {mensagem && (
-            <p style={{ marginTop: "10px" }}>
-              {mensagem}
-            </p>
-          )}
+              <p style={{ marginTop: "10px", color: "blue" }}>{mensagem}</p>
+            )}
           </form>
         </section>
       </main>

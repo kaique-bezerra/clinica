@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { RotaProtegida } from "./pages/segurity/RotaProtegidaProps";
 // IMPORT DA SUA TELA DE LOGIN UNIFICADA
-import LoginRecepcionista from "./pages/Recepcionista/Login/LoginRecepcionista"; 
+import LoginRecepcionista from "./pages/Recepcionista/Login/LoginRecepcionista";
 
 // IMPORTS DA RECEPCIONISTA
 import Dashboard from "./pages/Recepcionista/Dashboard/Dashboard";
@@ -25,7 +25,7 @@ import CadastroDeRecepcionistaAdmin from "./pages/Administrador/cadastroDeUsuari
 import MedicosAdmin from "./pages/Administrador/gerenciamentodeMedicos.tsx/Medicos-admin";
 import CadastroDeAgendaPadrao from "./pages/Administrador/agendaMedico/CadastroDeAgendaPadrao";
 import HorarioBloqueado from "./pages/Administrador/agendaMedico/horarioBloqueado";
-
+import Auditoria from "./pages/Administrador/logAuditoria/Auditoria";
 
 // IMPORTS DO PACIENTE
 import DashboardPaciente from "./pages/Paciente/Dashboard/DashboardPaciente";
@@ -41,12 +41,11 @@ function App() {
       <Routes>
         {/* 🔓 ROTAS PÚBLICAS */}
         <Route path="/" element={<LoginRecepcionista />} />
-        
+
         {/* Mantive as rotas antigas redirecionando para a raiz caso alguém tente entrar nelas */}
         <Route path="/perfil-medico" element={<Navigate to="/" replace />} />
         <Route path="/perfil-admin" element={<Navigate to="/" replace />} />
         <Route path="/login-paciente" element={<Navigate to="/" replace />} />
-
 
         {/* 🔐 ROTAS PROTEGIDAS: RECEPCIONISTA */}
         <Route element={<RotaProtegida perfisPermitidos={["RECEPCIONISTA"]} />}>
@@ -56,7 +55,6 @@ function App() {
           <Route path="/calendario" element={<Calendario />} />
         </Route>
 
-
         {/* 🔐 ROTAS PROTEGIDAS: MÉDICO */}
         <Route element={<RotaProtegida perfisPermitidos={["MEDICO"]} />}>
           <Route path="/dashboard-medico" element={<DashboardM />} />
@@ -64,36 +62,51 @@ function App() {
           <Route path="/prontuario-medico" element={<ProntuarioM />} />
         </Route>
 
-
         {/* 🔐 ROTAS PROTEGIDAS: ADMINISTRADOR */}
         <Route element={<RotaProtegida perfisPermitidos={["ADMINISTRADOR"]} />}>
-          <Route path="/dashboard-admin" element={<DashboardAdmin/>}/>
-          <Route path="/calendario-admin" element={<CalendarioAdmin/>}/>
-          <Route path="/prontuario-admin" element={<ProntuarioAdmin/>} />
-          <Route path="/agendamento-admin" element={<AgendamentoDeConsultaAdmin/>} />
-          <Route path="/cadastroDePacientes-admin" element={<CadastroDePacientesAdmin/>} />
-          <Route path="/cadastroDeUsuarios-admin" element={<CadastroDeUsuarioAdmin/>} />
-          <Route path="/cadastroDeMedicos-admin" element={<MedicosAdmin/>} />
-          <Route path="/cadastroDeRecepcionista-admin" element={<CadastroDeRecepcionistaAdmin/>} />
-          <Route path="/cadastroDeAgendaPadrao-admin" element={<CadastroDeAgendaPadrao />} />
+          <Route path="/dashboard-admin" element={<DashboardAdmin />} />
+          <Route path="/calendario-admin" element={<CalendarioAdmin />} />
+          <Route path="/prontuario-admin" element={<ProntuarioAdmin />} />
+          <Route
+            path="/agendamento-admin"
+            element={<AgendamentoDeConsultaAdmin />}
+          />
+          <Route
+            path="/cadastroDePacientes-admin"
+            element={<CadastroDePacientesAdmin />}
+          />
+          <Route
+            path="/cadastroDeUsuarios-admin"
+            element={<CadastroDeUsuarioAdmin />}
+          />
+          <Route path="/cadastroDeMedicos-admin" element={<MedicosAdmin />} />
+          <Route
+            path="/cadastroDeRecepcionista-admin"
+            element={<CadastroDeRecepcionistaAdmin />}
+          />
+          <Route
+            path="/cadastroDeAgendaPadrao-admin"
+            element={<CadastroDeAgendaPadrao />}
+          />
           <Route path="/horario-bloqueado" element={<HorarioBloqueado />} />
+          <Route path="/auditoria" element={<Auditoria />} />
         </Route>
-
 
         {/* 🔐 ROTAS PROTEGIDAS: PACIENTE */}
         <Route element={<RotaProtegida perfisPermitidos={["PACIENTE"]} />}>
           <Route path="/dashboard-paciente" element={<DashboardPaciente />} />
           <Route path="/calendario-paciente" element={<CalendarioPaciente />} />
           <Route path="/exames-paciente" element={<ExamesPaciente />} />
-          <Route path="/prescricoes-paciente" element={<PrescricoesPaciente />} />
+          <Route
+            path="/prescricoes-paciente"
+            element={<PrescricoesPaciente />}
+          />
           <Route path="/perfil-paciente" element={<PerfilPaciente />} />
           <Route path="/conversas-paciente" element={<ConversasPaciente />} />
         </Route>
 
-
         {/* 🔄 REDIRECIONA QUALQUER ROTA INVÁLIDA PARA O LOGIN */}
         <Route path="*" element={<Navigate to="/" replace />} />
-
       </Routes>
     </BrowserRouter>
   );

@@ -215,7 +215,7 @@ function CadastroDeUsuarioAdmin() {
             </button>
 
             {mensagem && (
-            <p style={{ marginTop: "10px" }}>
+            <p style={{ marginTop: "10px", color:"blue" }}>
               {mensagem}
             </p>
             )}
