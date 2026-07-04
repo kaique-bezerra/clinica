@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 public class HorarioBloqueadoController {
 
     private final HorarioBloqueadoService bloqueioService;
-
-    @PreAuthorize("hasAuthority('ROLE_ADMINISTRADOR')")
+    
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')")
     @PostMapping
     public ResponseEntity<HorarioBloqueado> cadastrar(
             @RequestBody HorarioBloqueadoRequestDTO dto) {

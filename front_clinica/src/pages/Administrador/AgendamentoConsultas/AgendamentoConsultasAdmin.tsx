@@ -18,6 +18,11 @@ interface Paciente {
   email: string;
 }
 
+// Interface para tipar os horários vindos da busca de disponibilidade
+interface HorarioDisponivel {
+  hora: string;
+}
+
 function AgendamentoConsultasAdmin() {
   const [menuAberto, setMenuAberto] = useState(false);
   
@@ -30,6 +35,10 @@ function AgendamentoConsultasAdmin() {
   const [termoBuscaPaciente, setTermoBuscaPaciente] = useState("");
   const [sugestoesFiltradas, setSugestoesFiltradas] = useState<Paciente[]>([]);
   const [mostrarSugestoes, setMostrarSugestoes] = useState(false);
+
+  // Novos estados para a lógica de horários disponíveis
+  const [horariosDisponiveis, setHorariosDisponiveis] = useState<HorarioDisponivel[]>([]);
+  const [carregandoHorarios, setCarregandoHorarios] = useState(false);
 
   // Estado do formulário que será enviado ao Spring Boot
   const [formData, setFormData] = useState({
@@ -75,6 +84,46 @@ function AgendamentoConsultasAdmin() {
 
     carregarDados();
   }, []);
+
+  // --- BUSCA AUTOMÁTICA DE HORÁRIOS DISPONÍVEIS ---
+  useEffect(() => {
+    async function buscarHorarios() {
+      if (!formData.idMedico || !formData.dataConsulta) {
+        setHorariosDisponiveis([]);
+        return;
+      }
+
+      setCarregandoHorarios(true);
+      const token = localStorage.getItem("token");
+
+      try {
+        const res = await fetch(
+          `http://localhost:8080/disponibilidade/medico/${formData.idMedico}/dia/${formData.dataConsulta}`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          }
+        );
+
+        if (res.ok) {
+          const horarios = await res.json();
+          setHorariosDisponiveis(horarios);
+        } else {
+          setHorariosDisponiveis([]);
+        }
+      } catch (err) {
+        console.error("Erro ao buscar horários disponíveis:", err);
+        setHorariosDisponiveis([]);
+      } finally {
+        setCarregandoHorarios(false);
+      }
+    }
+
+    buscarHorarios();
+  }, [formData.idMedico, formData.dataConsulta]);
 
   // --- LOGICA DE FILTRO DO AUTOCOMPLETE ---
   function handleBuscaPacienteChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -130,6 +179,11 @@ function AgendamentoConsultasAdmin() {
       return;
     }
 
+    if (!formData.horaConsulta) {
+      alert("Por favor, selecione um horário válido.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     const formatarHora = (hora: string) => {
@@ -167,6 +221,7 @@ function AgendamentoConsultasAdmin() {
       alert("Consulta agendada com sucesso! 🎉🗓️");
       setFormData({ idPaciente: "", idMedico: "", dataConsulta: "", horaConsulta: "" });
       setTermoBuscaPaciente("");
+      setHorariosDisponiveis([]);
         
     } catch (error) {
       console.error("Erro na requisição:", error);
@@ -191,7 +246,7 @@ function AgendamentoConsultasAdmin() {
               <legend>Dados do Agendamento</legend>
               
               <div className="form-row">
-                {/* CAMPO DE BUSCA COM TABELA FLUTUANTE */}
+                {/* CAMPO DE BUSCA COM TABELA FLUTUANTE (MANTIDO 100% INALTERADO) */}
                 <div className="input-group" style={{ position: "relative" }}>
                   <label>Paciente (Nome ou CPF)</label>
                   <input 
@@ -260,14 +315,39 @@ function AgendamentoConsultasAdmin() {
               </div>
 
               <div className="form-row">
+                {/* DATA DA CONSULTA */}
                 <div className="input-group">
                   <label>Data da Consulta</label>
                   <input type="date" name="dataConsulta" value={formData.dataConsulta} onChange={handleChange} required />
                 </div>
 
+                {/* HORÁRIO DA CONSULTA ALTERADO PARA SELECT DINÂMICO */}
                 <div className="input-group">
                   <label>Horário da Consulta</label>
-                  <input type="time" name="horaConsulta" value={formData.horaConsulta} onChange={handleChange} required />
+                  <select
+                    name="horaConsulta"
+                    value={formData.horaConsulta}
+                    onChange={handleChange}
+                    disabled={!formData.idMedico || !formData.dataConsulta || carregandoHorarios}
+                    required
+                  >
+                    {carregandoHorarios ? (
+                      <option value="">Buscando horários disponíveis...</option>
+                    ) : !formData.idMedico || !formData.dataConsulta ? (
+                      <option value="">Selecione médico e data primeiro</option>
+                    ) : horariosDisponiveis.length === 0 ? (
+                      <option value="">Nenhum horário livre para este dia</option>
+                    ) : (
+                      <>
+                        <option value="">Selecione um horário vago</option>
+                        {horariosDisponiveis.map((item) => (
+                          <option key={item.hora} value={item.hora}>
+                            {item.hora.substring(0, 5)}
+                          </option>
+                        ))}
+                      </>
+                    )}
+                  </select>
                 </div>
               </div>
 

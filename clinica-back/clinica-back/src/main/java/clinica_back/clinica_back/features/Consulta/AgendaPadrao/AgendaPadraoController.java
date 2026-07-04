@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AgendaPadraoController {
 
     private final AgendaPadraoService agendaService;
-    @PreAuthorize("hasAuthority('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR')")
     @PostMapping
     public ResponseEntity<AgendaPadrao> cadastrar(
             @RequestBody @Valid AgendaPadraoRequestDTO dto) {

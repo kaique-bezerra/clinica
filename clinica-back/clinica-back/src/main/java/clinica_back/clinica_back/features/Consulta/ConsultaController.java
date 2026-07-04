@@ -22,7 +22,7 @@ public class ConsultaController {
 
     private final ConsultaService consultaService;
 
-    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO') or hasRole('PACIENTE')")
+    @PreAuthorize("hasRole('RECEPCIONISTA') or hasRole('ADMINISTRADOR') or hasRole('MEDICO')")
     @PostMapping
     public ResponseEntity<Consulta> cadastrar(
             @RequestBody @Valid ConsultaRequestDTO dto) {

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public interface HorarioBloqueadoRepository extends JpaRepository<HorarioBloqueado,Long> {
 
@@ -13,5 +14,9 @@ public interface HorarioBloqueadoRepository extends JpaRepository<HorarioBloquea
             LocalDate data,
             LocalTime horaInicio,
             LocalTime horaFim
+    );
+    List<HorarioBloqueado> findByMedicoAndData(
+            Medico medico,
+            LocalDate data
     );
 }

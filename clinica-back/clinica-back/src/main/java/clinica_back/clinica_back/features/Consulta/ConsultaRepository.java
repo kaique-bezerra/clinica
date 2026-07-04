@@ -16,6 +16,10 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
             LocalDate dataConsulta,
             LocalTime horaConsulta
     );
+    List<Consulta> findByMedicoAndDataConsulta(
+            Medico medico,
+            LocalDate dataConsulta
+    );
 
     @Query("""
     SELECT c

@@ -5,7 +5,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
+import clinica_back.clinica_back.features.Consulta.Disponibilidade.DisponibilidadeService;
 import org.springframework.stereotype.Service;
+
 
 import clinica_back.clinica_back.features.Auditoria.AcaoAuditoriaEnum;
 import clinica_back.clinica_back.features.Auditoria.LogAuditoriaService;
@@ -33,6 +35,8 @@ public class ConsultaService {
         private final MedicoRepository medicoRepository;
         private final AgendaPadraoRepository agendaRepository;
         private final HorarioBloqueadoRepository bloqueioRepository;
+        private final DisponibilidadeService disponibilidadeService;
+
 
         public Consulta cadastrar(ConsultaRequestDTO dto) {
 
@@ -83,6 +87,17 @@ public class ConsultaService {
                         throw new RegraNegocioException(
                                         "Já existe uma consulta nesse horário");
                 }
+                boolean horarioLivre = disponibilidadeService
+                        .listarHorariosDisponiveis(
+                                dto.getIdMedico(),
+                                dto.getDataConsulta())
+                        .stream()
+                        .anyMatch(h -> h.getHora().equals(dto.getHoraConsulta()));
+
+                if (!horarioLivre) {
+                        throw new RegraNegocioException(
+                                "Esse horário não está disponível.");
+                }
 
                 Consulta consulta = new Consulta();
 
@@ -92,13 +107,22 @@ public class ConsultaService {
                 consulta.setHoraConsulta(dto.getHoraConsulta());
                 consulta.setStatusConsulta(StatusConsulta.AGENDADO);
 
-                logAuditoriaService.registrar(AcaoAuditoriaEnum.CREATE, "CONSULTA", consulta.getIdConsulta(),
-                                "Consulta de Paciente " + consulta.getPaciente().getNome() + " "
-                                                + consulta.getPaciente().getSobrenome() + " Com o médico: "
-                                                + consulta.getMedico().getNome() + " "
-                                                + consulta.getMedico().getSobrenome());
-                return consultaRepository.save(consulta);
+                // 1. Salva primeiro no banco de dados para gerar o ID da consulta
+                Consulta consultaSalva = consultaRepository.save(consulta);
 
+                // 2. Agora que consultaSalva possui o ID populado, passamos para a auditoria
+                logAuditoriaService.registrar(
+                        AcaoAuditoriaEnum.CREATE,
+                        "CONSULTA",
+                        consultaSalva.getIdConsulta(), // <-- Agora não é mais nulo!
+                        "Consulta de Paciente " + consultaSalva.getPaciente().getNome() + " "
+                                + consultaSalva.getPaciente().getSobrenome() + " Com o médico: "
+                                + consultaSalva.getMedico().getNome() + " "
+                                + consultaSalva.getMedico().getSobrenome()
+                );
+
+                // 3. Retorna a consulta que já foi salva
+                return consultaSalva;
         }
 
         public Consulta statusConsulta(Long idConsulta) {
