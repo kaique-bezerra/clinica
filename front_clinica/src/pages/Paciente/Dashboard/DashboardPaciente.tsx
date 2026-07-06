@@ -114,7 +114,7 @@ function DashboardPaciente() {
               <img src={imagem} alt="Logo da Clínica" />
             </div>
 
-            <h1>Olá 👋</h1>
+            <h1>Olá, Bem Vindo 👋 </h1>
 
             <p>
               Aqui você pode acompanhar suas consultas,

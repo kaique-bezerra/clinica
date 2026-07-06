@@ -19,6 +19,7 @@ import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.Alergia.dto.AlergiaResponseDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.dto.DoencaCronicaRequestDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.DadosClinicos.DoencaCronica.dto.DoencaCronicaResponseDTO;
+import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteCompletoResponseDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestCadastrarDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteRequestUpdateDTO;
 import clinica_back.clinica_back.features.Usuario.Paciente.dto.PacienteResponseDTO;
@@ -46,9 +47,9 @@ public class PacienteController {
         return ResponseEntity.ok(pacienteService.listarTodos());
     }
 
-    @PreAuthorize("hasAuthority('ROLE_RECEPCIONISTA') or hasAuthority('ROLE_ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('ROLE_RECEPCIONISTA') or hasAuthority('ROLE_ADMINISTRADOR') or hasAuthority('ROLE_PACIENTE')")
     @GetMapping("/{id}")
-    public ResponseEntity<PacienteResponseDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<PacienteCompletoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(pacienteService.buscarPorId(id));
     }
 
