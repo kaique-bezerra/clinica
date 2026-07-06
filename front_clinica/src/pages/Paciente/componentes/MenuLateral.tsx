@@ -7,6 +7,8 @@ const MenuLateral = ({
   menuAberto: boolean;
   setMenuAberto: any;
 }) => {
+
+  
   return (
     <div>
       <button
