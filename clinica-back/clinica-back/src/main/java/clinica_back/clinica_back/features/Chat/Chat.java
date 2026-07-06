@@ -28,7 +28,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "chat_ia")
+@Table(name = "chat")
 public class Chat {
 
     @Id

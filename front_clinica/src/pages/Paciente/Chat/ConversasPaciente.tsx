@@ -1,123 +1,96 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MenuLateral from "../componentes/MenuLateral";
 import "./ConversasPaciente.css";
 
 interface Mensagem {
-  texto: string;
-  tipo: "ia" | "usuario";
+  id: number;
+  conteudo: string;
+  papel: "USER" | "ASSISTANT";
+  dataHora: string;
 }
 
 function ConversasPaciente() {
-  const [menuAberto, setMenuAberto] =
-    useState<boolean>(false);
+  const [menuAberto, setMenuAberto] = useState<boolean>(false);
+  const [mensagemInput, setMensagemInput] = useState<string>("");
+  const [mensagens, setMensagens] = useState<Mensagem[]>([]);
 
-  const [mensagens, setMensagens] =
-    useState<Mensagem[]>([
-      {
-        texto: "Olá! Como posso ajudar?",
-        tipo: "ia",
+  useEffect(() => {
+    carregarMensagens();
+  }, []);
+
+  async function carregarMensagens() {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:8080/chat", {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    ]);
+    });
 
-  const [mensagemInput, setMensagemInput] =
-    useState<string>("");
+    if (!response.ok) return;
+
+    const dados = await response.json();
+
+    setMensagens(dados);
+  }
 
   async function enviarMensagem() {
     if (!mensagemInput.trim()) return;
 
     const token = localStorage.getItem("token");
 
-    const novaMensagemUsuario: Mensagem = {
-      texto: mensagemInput,
-      tipo: "usuario",
-    };
-
-    setMensagens((prev) => [
-      ...prev,
-      novaMensagemUsuario,
-    ]);
-
     const pergunta = mensagemInput;
 
     setMensagemInput("");
 
     try {
-      const response = await fetch(
-        "http://localhost:8080/chat",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            pergunta: pergunta,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost:8080/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          pergunta,
+        }),
+      });
 
       if (!response.ok) {
-        throw new Error(
-          "Erro ao buscar resposta da IA."
-        );
+        throw new Error();
       }
 
-      const respostaIa = await response.text();
-
-      setMensagens((prev) => [
-        ...prev,
-        {
-          texto: respostaIa,
-          tipo: "ia",
-        },
-      ]);
+      await carregarMensagens();
     } catch (error) {
-      setMensagens((prev) => [
-        ...prev,
-        {
-          texto:
-            "Erro ao conectar com o assistente.",
-          tipo: "ia",
-        },
-      ]);
-
       console.error(error);
     }
   }
 
   return (
     <div className="conversas-container">
-      <MenuLateral
-        menuAberto={menuAberto}
-        setMenuAberto={setMenuAberto}
-      />
+      <MenuLateral menuAberto={menuAberto} setMenuAberto={setMenuAberto} />
 
-      <main
-        className={`main-content ${
-          menuAberto ? "expanded" : ""
-        }`}
-      >
+      <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
         <section className="chat-layout">
           <aside className="lista-conversas">
             <h2>Conversas</h2>
 
-            <div className="contato ativo">
-              🤖 Assistente Virtual
-            </div>
+            <div className="contato ativo">🤖 Assistente Virtual</div>
           </aside>
 
           <section className="chat-area">
-            <div className="chat-header">
-              🤖 Assistente Virtual
-            </div>
+            <div className="chat-header">🤖 Assistente Virtual</div>
 
             <div className="mensagens">
-              {mensagens.map((msg, index) => (
+              {mensagens.map((mensagem) => (
                 <div
-                  key={index}
-                  className={`msg ${msg.tipo}`}
+                  key={mensagem.id}
+                  className={
+                    mensagem.papel === "USER"
+                      ? "mensagem usuario"
+                      : "mensagem ia"
+                  }
                 >
-                  {msg.texto}
+                  {mensagem.conteudo}
                 </div>
               ))}
             </div>
@@ -127,9 +100,7 @@ function ConversasPaciente() {
                 type="text"
                 placeholder="Digite uma mensagem..."
                 value={mensagemInput}
-                onChange={(e) =>
-                  setMensagemInput(e.target.value)
-                }
+                onChange={(e) => setMensagemInput(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     enviarMensagem();
@@ -137,9 +108,7 @@ function ConversasPaciente() {
                 }}
               />
 
-              <button onClick={enviarMensagem}>
-                Enviar
-              </button>
+              <button onClick={enviarMensagem}>Enviar</button>
             </div>
           </section>
         </section>
@@ -147,5 +116,4 @@ function ConversasPaciente() {
     </div>
   );
 }
-
 export default ConversasPaciente;
