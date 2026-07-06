@@ -30,7 +30,6 @@ import Auditoria from "./pages/Administrador/logAuditoria/Auditoria";
 // IMPORTS DO PACIENTE
 import DashboardPaciente from "./pages/Paciente/Dashboard/DashboardPaciente";
 import CalendarioPaciente from "./pages/Paciente/CalendarioDeConsultas/CalendarioPaciente";
-import PrescricoesPaciente from "./pages/Paciente/Prescricoes/PrescricoesPaciente";
 import PerfilPaciente from "./pages/Paciente/perfil/PerfilPaciente";
 import ConversasPaciente from "./pages/Paciente/Chat/ConversasPaciente";
 
@@ -95,10 +94,6 @@ function App() {
         <Route element={<RotaProtegida perfisPermitidos={["PACIENTE"]} />}>
           <Route path="/dashboard-paciente" element={<DashboardPaciente />} />
           <Route path="/calendario-paciente" element={<CalendarioPaciente />} />
-          <Route
-            path="/prescricoes-paciente"
-            element={<PrescricoesPaciente />}
-          />
           <Route path="/perfil-paciente" element={<PerfilPaciente />} />
           <Route path="/conversas-paciente" element={<ConversasPaciente />} />
         </Route>

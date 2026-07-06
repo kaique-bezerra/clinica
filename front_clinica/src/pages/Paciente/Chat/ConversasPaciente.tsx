@@ -104,18 +104,6 @@ function ConversasPaciente() {
             <div className="contato ativo">
               🤖 Assistente Virtual
             </div>
-
-            <div className="contato">
-              👨‍⚕️ Dr. João
-            </div>
-
-            <div className="contato">
-              👩‍⚕️ Dra. Ana
-            </div>
-
-            <div className="contato">
-              🏥 Recepção
-            </div>
           </aside>
 
           <section className="chat-area">

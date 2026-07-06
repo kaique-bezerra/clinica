@@ -32,7 +32,7 @@ const MenuLateral = ({
             </Link>
 
             <Link className="link" to="/prontuario-admin">
-              <li>prontuário</li>
+              <li>prontuários</li>
             </Link>
 
             <Link className="link" to="/agendamento-admin">
@@ -40,7 +40,7 @@ const MenuLateral = ({
             </Link>
 
             <Link className="link" to="/cadastroDePacientes-admin">
-              <li>Cadastro de pacientes</li>
+              <li>Cadastro de paciente</li>
             </Link>
 
             <Link className="link" to="/cadastroDeUsuarios-admin">
@@ -48,10 +48,6 @@ const MenuLateral = ({
             </Link>
             <Link className="link" to="/cadastroDeRecepcionista-admin">
               <li>Cadastro de Recepcionista</li>
-            </Link>
-
-            <Link className="link" to="/cadastroDeMedicos-admin">
-              <li>Gerenciamento de Médicos</li>
             </Link>
 
             <Link className="link" to="/cadastroDeAgendaPadrao-admin">

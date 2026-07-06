@@ -35,10 +35,6 @@ const MenuLateral = ({
               <li>Calendário de Consultas</li>
             </Link>
 
-            <Link className="link" to="/prescricoes-paciente">
-              <li>Prescrição</li>
-            </Link>
-
             <Link className="link" to="/conversas-paciente">
               <li>Chat</li>
             </Link>

@@ -1,12 +1,12 @@
 .conversas-container {
   min-height: 100vh;
-
   background: #f1f5f9;
 }
 
 .chat-layout {
   display: flex;
 
+  margin-top: 40px;
   height: 80vh;
 
   background: white;
