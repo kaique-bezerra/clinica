@@ -4,11 +4,12 @@ import clinica_back.clinica_back.features.Usuario.Medico.Medico;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.DayOfWeek;
-import java.util.Optional;
+
+import java.util.List;
 
 public interface AgendaPadraoRepository extends JpaRepository<AgendaPadrao, Long> {
 
-    Optional<AgendaPadrao> findByMedicoAndDiaSemana(
+    List<AgendaPadrao> findByMedicoAndDiaSemana(
             Medico medico,
             DayOfWeek diaSemana
     );

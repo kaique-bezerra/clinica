@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MenuLateral from "../componentes/MenuLateral";
 import "./ConversasPaciente.css";
 
@@ -14,9 +14,18 @@ function ConversasPaciente() {
   const [mensagemInput, setMensagemInput] = useState<string>("");
   const [mensagens, setMensagens] = useState<Mensagem[]>([]);
 
+  const mensagensRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     carregarMensagens();
   }, []);
+
+  useEffect(() => {
+    mensagensRef.current?.scrollTo({
+      top: mensagensRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [mensagens]);
 
   async function carregarMensagens() {
     const token = localStorage.getItem("token");
@@ -38,7 +47,6 @@ function ConversasPaciente() {
     if (!mensagemInput.trim()) return;
 
     const token = localStorage.getItem("token");
-
     const pergunta = mensagemInput;
 
     setMensagemInput("");
@@ -55,9 +63,7 @@ function ConversasPaciente() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error();
-      }
+      if (!response.ok) throw new Error();
 
       await carregarMensagens();
     } catch (error) {
@@ -67,20 +73,27 @@ function ConversasPaciente() {
 
   return (
     <div className="conversas-container">
-      <MenuLateral menuAberto={menuAberto} setMenuAberto={setMenuAberto} />
+      <MenuLateral
+        menuAberto={menuAberto}
+        setMenuAberto={setMenuAberto}
+      />
 
       <main className={`main-content ${menuAberto ? "expanded" : ""}`}>
         <section className="chat-layout">
           <aside className="lista-conversas">
             <h2>Conversas</h2>
 
-            <div className="contato ativo">🤖 Assistente Virtual</div>
+            <div className="contato ativo">
+              🤖 Assistente Virtual
+            </div>
           </aside>
 
           <section className="chat-area">
-            <div className="chat-header">🤖 Assistente Virtual</div>
+            <div className="chat-header">
+              🤖 Assistente Virtual
+            </div>
 
-            <div className="mensagens">
+            <div className="mensagens" ref={mensagensRef}>
               {mensagens.map((mensagem) => (
                 <div
                   key={mensagem.id}
@@ -108,7 +121,9 @@ function ConversasPaciente() {
                 }}
               />
 
-              <button onClick={enviarMensagem}>Enviar</button>
+              <button onClick={enviarMensagem}>
+                Enviar
+              </button>
             </div>
           </section>
         </section>
@@ -116,4 +131,5 @@ function ConversasPaciente() {
     </div>
   );
 }
+
 export default ConversasPaciente;

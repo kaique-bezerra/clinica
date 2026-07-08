@@ -1,7 +1,6 @@
 package clinica_back.clinica_back.features.Consulta;
 
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import clinica_back.clinica_back.features.Auditoria.AcaoAuditoriaEnum;
 import clinica_back.clinica_back.features.Auditoria.LogAuditoriaService;
-import clinica_back.clinica_back.features.Consulta.AgendaPadrao.AgendaPadrao;
 import clinica_back.clinica_back.features.Consulta.AgendaPadrao.AgendaPadraoRepository;
 import clinica_back.clinica_back.features.Consulta.AgendaPadrao.HorarioBloqueado.HorarioBloqueadoRepository;
 import clinica_back.clinica_back.features.Consulta.DTOs.ConsultaRequestDTO;
@@ -41,52 +39,11 @@ public class ConsultaService {
         public Consulta cadastrar(ConsultaRequestDTO dto) {
 
                 Paciente paciente = pacienteRepository.findById(dto.getIdPaciente())
-                                .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente não encontrado"));
+                        .orElseThrow(() -> new RecursoNaoEncontradoException("Paciente não encontrado"));
 
                 Medico medico = medicoRepository.findById(dto.getIdMedico())
-                                .orElseThrow(() -> new RecursoNaoEncontradoException("Médico não encontrado"));
+                        .orElseThrow(() -> new RecursoNaoEncontradoException("Médico não encontrado"));
 
-                DayOfWeek diaSemana = dto.getDataConsulta().getDayOfWeek();
-
-                AgendaPadrao agenda = agendaRepository
-                                .findByMedicoAndDiaSemana(medico, diaSemana)
-                                .orElseThrow(() -> new RecursoNaoEncontradoException("O médico não atende nesse dia"));
-
-                if (dto.getHoraConsulta().isBefore(agenda.getHoraInicio())
-                                || dto.getHoraConsulta().isAfter(agenda.getHoraFim())) {
-                        throw new RegraNegocioException("Horário fora da agenda do médico");
-                }
-
-                long minutosEntre = Duration.between(
-                                agenda.getHoraInicio(),
-                                dto.getHoraConsulta()).toMinutes();
-
-                if (minutosEntre % agenda.getIntervaloMinutos() != 0) {
-                        throw new RegraNegocioException(
-                                        "Horário inválido para o intervalo da agenda.");
-                }
-
-                boolean horarioBloqueado = bloqueioRepository
-                                .existsByMedicoAndDataAndHoraInicioLessThanEqualAndHoraFimGreaterThanEqual(
-                                                medico,
-                                                dto.getDataConsulta(),
-                                                dto.getHoraConsulta(),
-                                                dto.getHoraConsulta());
-
-                if (horarioBloqueado) {
-                        throw new RegraNegocioException("Esse horário está bloqueado");
-                }
-
-                boolean consultaExistente = consultaRepository
-                                .existsByMedicoAndDataConsultaAndHoraConsulta(
-                                                medico,
-                                                dto.getDataConsulta(),
-                                                dto.getHoraConsulta());
-
-                if (consultaExistente) {
-                        throw new RegraNegocioException(
-                                        "Já existe uma consulta nesse horário");
-                }
                 boolean horarioLivre = disponibilidadeService
                         .listarHorariosDisponiveis(
                                 dto.getIdMedico(),
@@ -95,8 +52,28 @@ public class ConsultaService {
                         .anyMatch(h -> h.getHora().equals(dto.getHoraConsulta()));
 
                 if (!horarioLivre) {
-                        throw new RegraNegocioException(
-                                "Esse horário não está disponível.");
+                        throw new RegraNegocioException("Esse horário não está disponível.");
+                }
+
+                boolean horarioBloqueado = bloqueioRepository
+                        .existsByMedicoAndDataAndHoraInicioLessThanEqualAndHoraFimGreaterThanEqual(
+                                medico,
+                                dto.getDataConsulta(),
+                                dto.getHoraConsulta(),
+                                dto.getHoraConsulta());
+
+                if (horarioBloqueado) {
+                        throw new RegraNegocioException("Esse horário está bloqueado");
+                }
+
+                boolean consultaExistente = consultaRepository
+                        .existsByMedicoAndDataConsultaAndHoraConsulta(
+                                medico,
+                                dto.getDataConsulta(),
+                                dto.getHoraConsulta());
+
+                if (consultaExistente) {
+                        throw new RegraNegocioException("Já existe uma consulta nesse horário");
                 }
 
                 Consulta consulta = new Consulta();
@@ -113,8 +90,10 @@ public class ConsultaService {
                         AcaoAuditoriaEnum.CREATE,
                         "CONSULTA",
                         consultaSalva.getIdConsulta(),
-                        "Consulta de Paciente " + consultaSalva.getPaciente().getNome() + " "
-                                + consultaSalva.getPaciente().getSobrenome() + " Com o médico: "
+                        "Consulta de Paciente "
+                                + consultaSalva.getPaciente().getNome() + " "
+                                + consultaSalva.getPaciente().getSobrenome()
+                                + " Com o médico: "
                                 + consultaSalva.getMedico().getNome() + " "
                                 + consultaSalva.getMedico().getSobrenome()
                 );

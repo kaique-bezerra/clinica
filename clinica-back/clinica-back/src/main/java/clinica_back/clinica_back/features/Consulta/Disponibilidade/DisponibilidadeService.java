@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.springframework.stereotype.Service;
 
@@ -36,18 +38,25 @@ public class DisponibilidadeService {
                 .orElseThrow(() ->
                         new RecursoNaoEncontradoException("Médico não encontrado"));
 
+
         DayOfWeek diaSemana = data.getDayOfWeek();
 
-        AgendaPadrao agenda = agendaRepository
-                .findByMedicoAndDiaSemana(medico, diaSemana)
-                .orElseThrow(() ->
-                        new RecursoNaoEncontradoException("Médico não atende nesse dia"));
+        List<AgendaPadrao> agendas = agendaRepository
+                .findByMedicoAndDiaSemana(medico, diaSemana);
 
-        List<LocalTime> slots = gerarSlots(
-                agenda.getHoraInicio(),
-                agenda.getHoraFim(),
-                agenda.getIntervaloMinutos()
-        );
+        if (agendas.isEmpty()) {
+            throw new RecursoNaoEncontradoException("Médico não atende nesse dia");
+        }
+
+        Set<LocalTime> slots = new TreeSet<>();
+
+        for (AgendaPadrao agenda : agendas) {
+            slots.addAll(gerarSlots(
+                    agenda.getHoraInicio(),
+                    agenda.getHoraFim(),
+                    agenda.getIntervaloMinutos()
+            ));
+        }
 
         List<Consulta> consultas = consultaRepository
                 .findByMedicoAndDataConsulta(medico, data);
