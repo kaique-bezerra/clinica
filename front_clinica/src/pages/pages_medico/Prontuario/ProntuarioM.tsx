@@ -81,7 +81,6 @@ function Prontuario() {
 
       const token = localStorage.getItem("token");
 
-      // SALVA O PRONTUÁRIO
       const response = await fetch("http://localhost:8080/prontuarios", {
         method: "POST",
         headers: {
@@ -102,7 +101,6 @@ function Prontuario() {
         throw new Error(erro);
       }
 
-      // ALTERA STATUS PARA REALIZADO
       const atualizarStatus = await fetch(
         `http://localhost:8080/consultas/${consultaSelecionada}/status`,
         {
@@ -123,14 +121,12 @@ function Prontuario() {
 
       setMensagem("Prontuário salvo com sucesso!");
 
-      // REMOVE DA LISTA DE PRÓXIMOS AGENDAMENTOS
       setConsultas((prev) =>
         prev.filter(
           (consulta) => consulta.idConsulta !== Number(consultaSelecionada)
         )
       );
 
-      // LIMPA FORMULÁRIO
       setQueixa("");
       setDiagnostico("");
       setPrescricao("");

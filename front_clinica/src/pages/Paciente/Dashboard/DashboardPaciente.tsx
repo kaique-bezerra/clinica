@@ -75,7 +75,7 @@ function DashboardPaciente() {
           )
         );
       } catch (error) {
-        console.log(error);
+      
       }
     }
 

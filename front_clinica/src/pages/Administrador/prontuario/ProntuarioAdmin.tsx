@@ -48,7 +48,7 @@ function ProntuarioAdmin() {
         consulta: {
           idConsulta: Number(formData.idConsulta)
         }
-      }; console.log(payloadValido);
+      }; 
       try{
         const response= await fetch("http://localhost:8080/prontuarios", {
           method: "POST",
@@ -65,12 +65,10 @@ function ProntuarioAdmin() {
           }
         
           if (response.status === 409) {
-            // Se a API envia o texto direto (ex: "CPF já cadastrado!")
             const msgServidor = await response.text(); 
             throw new Error(msgServidor || "Registro Duplicado");
           }
 
-        // Captura o corpo do erro genérico enviado pelo Spring Boot
         const erroGenerico = await response.text();
         throw new Error(`Erro ao cadastrar prontuário: ${erroGenerico}`);
       }

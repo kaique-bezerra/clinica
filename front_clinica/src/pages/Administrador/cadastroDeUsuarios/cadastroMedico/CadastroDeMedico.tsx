@@ -58,7 +58,6 @@ function CadastroDeUsuarioAdmin() {
       .substring(0, 9);
   };
 
-  // --- HANDLERS DE ALTERAÇÃO ---
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
@@ -95,14 +94,11 @@ function CadastroDeUsuarioAdmin() {
     }
     carregarMedicos();
   }, []);
-  // --- SUBMIT CONECTADO AO SPRING BOOT ---
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // Recupera o token salvo no login
     const token = localStorage.getItem("token");
 
-    // CORREÇÃO 1: Monta o payload convertendo o campo número para Number
     const payloadValido = {
       ...formData,
       numero: Number(formData.numero),
@@ -115,7 +111,6 @@ function CadastroDeUsuarioAdmin() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        // CORREÇÃO 2: Adicionado o body contendo o payload serializado em JSON
         body: JSON.stringify(payloadValido),
       });
 
@@ -137,7 +132,6 @@ function CadastroDeUsuarioAdmin() {
 
       setMensagem("Médico cadastrado com sucesso!");
 
-      // Reseta o formulário
       setFormData({
         nome: "",
         sobrenome: "",

@@ -51,8 +51,7 @@ public class LogAuditoria {
     @Column(nullable = false, name = "id_afetado")
     private Long idAfetado;
 
-    // updatable evita q a hora possa ser alterada depois q for criada...
-    @CreationTimestamp // O hibernate adc a data e hora automaticamente, com o horário atual...
+    @CreationTimestamp 
     @Column(nullable = false, name = "data_hora", updatable = false)
     private LocalDateTime dataHora;
 

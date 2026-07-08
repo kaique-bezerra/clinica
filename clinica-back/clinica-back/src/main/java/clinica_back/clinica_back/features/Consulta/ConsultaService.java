@@ -107,21 +107,18 @@ public class ConsultaService {
                 consulta.setHoraConsulta(dto.getHoraConsulta());
                 consulta.setStatusConsulta(StatusConsulta.AGENDADO);
 
-                // 1. Salva primeiro no banco de dados para gerar o ID da consulta
                 Consulta consultaSalva = consultaRepository.save(consulta);
 
-                // 2. Agora que consultaSalva possui o ID populado, passamos para a auditoria
                 logAuditoriaService.registrar(
                         AcaoAuditoriaEnum.CREATE,
                         "CONSULTA",
-                        consultaSalva.getIdConsulta(), // <-- Agora não é mais nulo!
+                        consultaSalva.getIdConsulta(),
                         "Consulta de Paciente " + consultaSalva.getPaciente().getNome() + " "
                                 + consultaSalva.getPaciente().getSobrenome() + " Com o médico: "
                                 + consultaSalva.getMedico().getNome() + " "
                                 + consultaSalva.getMedico().getSobrenome()
                 );
 
-                // 3. Retorna a consulta que já foi salva
                 return consultaSalva;
         }
 

@@ -34,7 +34,6 @@ function CadastroDePacientesAdmin() {
     },
   });
 
-  // --- MÁSCARAS DE INPUT ---
   const aplicarMarcaraCPF = (value: string) => {
     return value
       .replace(/\D/g, "")
@@ -59,7 +58,6 @@ function CadastroDePacientesAdmin() {
       .substring(0, 9);
   };
 
-  // --- HANDLERS DE ALTERAÇÃO ---
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) {
@@ -90,7 +88,6 @@ function CadastroDePacientesAdmin() {
     }));
   }
 
-  // --- SUBMIT CONECTADO AO SPRING BOOT ---
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -121,13 +118,12 @@ function CadastroDePacientesAdmin() {
     const payloadValido = {
       ...formData,
       numero: Number(formData.numero),
-      // Se não tem convênio, envia null. Se tem, envia o objeto.
-      // Isso evita que campos de data/numero vazios cheguem ao banco.
+
       convenio: temConvenio
         ? {
             plano: formData.convenio.plano,
-            numero: formData.convenio.numero || null, // Se vazio, vira null no banco
-            data: formData.convenio.data || null, // Se vazio, vira null no banco
+            numero: formData.convenio.numero || null, 
+            data: formData.convenio.data || null, 
           }
         : null,
       dadosClinicos: {
@@ -152,12 +148,10 @@ function CadastroDePacientesAdmin() {
         }
 
         if (response.status === 409) {
-          // Se a API envia o texto direto (ex: "CPF já cadastrado!")
           const msgServidor = await response.text();
           throw new Error(msgServidor || "Registro Duplicado");
         }
 
-        // Captura o corpo do erro genérico enviado pelo Spring Boot
         const erroGenerico = await response.text();
         throw new Error(`Erro ao cadastrar paciente: ${erroGenerico}`);
       }

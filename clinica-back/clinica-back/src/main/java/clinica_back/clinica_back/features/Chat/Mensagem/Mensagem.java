@@ -45,7 +45,7 @@ public class Mensagem {
     @Column(nullable = false, length = 255)
     private String conteudo;
 
-    @CreationTimestamp // O hibernate adc a data e hora automaticamente, com o horário atual...
+    @CreationTimestamp 
     @Column(nullable = false, name = "data_hora", updatable = false)
     private LocalDateTime dataHora;
 

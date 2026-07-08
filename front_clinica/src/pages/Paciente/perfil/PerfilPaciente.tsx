@@ -45,7 +45,6 @@ function PerfilPaciente() {
       try {
         const token = localStorage.getItem("token");
 
-        console.log("Iniciando requisição...");
 
         const response = await fetch(
           `http://localhost:8080/paciente/${idPaciente}`,
@@ -56,16 +55,12 @@ function PerfilPaciente() {
           },
         );
 
-        console.log("Status:", response.status);
 
         const dados = await response.json();
 
-        console.log("Dados recebidos:");
-        console.log(dados);
 
         setPaciente(dados);
 
-        console.log("Paciente salvo no state");
       } catch (erro) {
         console.error("ERRO:", erro);
       }

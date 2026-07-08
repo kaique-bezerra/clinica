@@ -32,7 +32,7 @@ public class AdministradorRequestDTO {
     @Size(max = 50)
     private String email;
 
-    @NotBlank // A senha passa pelo dto antes de virar hash
+    @NotBlank
     @Size(min = 6, max = 255)
     private String senha;
 

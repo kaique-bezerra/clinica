@@ -81,22 +81,22 @@ public class Usuario implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return true; // Conta não expirada
+    return true; 
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return true; // Conta não bloqueada
+    return true; 
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return true; // Credenciais não expiradas
+    return true; 
   }
 
   @Override
   public boolean isEnabled() {
-    return true; // Usuário ativo/habilitado
+    return true; 
   }
 
 }

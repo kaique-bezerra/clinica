@@ -41,8 +41,7 @@ public class Chat {
     @JoinColumn(name = "id_usuario_pac", nullable = false)
     private Paciente paciente;
 
-    // updatable evita q a hora possa ser alterada depois q for criada...
-    @CreationTimestamp // O hibernate adc a data e hora automaticamente, com o horário atual...
+    @CreationTimestamp 
     @Column(nullable = false, name = "hora_criacao", updatable = false)
     private LocalDateTime horaCriacao;
 

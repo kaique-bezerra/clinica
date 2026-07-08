@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react"; // Removido o FormEvent daqui
+import { useEffect, useState } from "react"; 
 import logo from "../../../assets/heart-pulse-solid-full.svg";
 import "./LoginRecepcionista.css"; 
 import { EmailIcon, LockIcon, SecurityIcon } from "../../../components/Icones";
@@ -19,8 +19,6 @@ function Login() {
     }
   }, []);
 
-  // Mudamos o 'e' para 'e: any' se for TypeScript, ou apenas 'e' se for JavaScript.
-  // Para garantir que funcione em ambos, deixamos como 'e: any'
   const handleLogin = async (e: any) => {
     e.preventDefault();
     setErro("");

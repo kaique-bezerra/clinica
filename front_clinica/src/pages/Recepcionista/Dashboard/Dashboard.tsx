@@ -70,13 +70,11 @@ function DashboardRecepcionista() {
     carregarDashboard();
   }, []);
 
-  // Canceladas da semana
   const consultasCanceladasSemana = consultasSemana.filter(
     (consulta) => consulta.statusConsulta === "CANCELADO"
   );
 
-  // Próximos agendamentos:
-  // somente AGENDADOS e ordenados do horário mais próximo
+
   const proximosAgendamentos = [...consultasHoje]
     .filter((consulta) => consulta.statusConsulta === "AGENDADO")
     .sort((a, b) => {

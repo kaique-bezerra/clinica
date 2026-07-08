@@ -41,7 +41,6 @@ const ChatFlutuante = () => {
 
     const dados = await response.json();
 
-    console.log(dados);
 
     setMensagens(dados);
   }

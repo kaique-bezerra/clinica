@@ -34,7 +34,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                // 1. Ativa a configuração de CORS que criamos abaixo
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
@@ -45,18 +44,14 @@ public class SecurityConfig {
                 .build();
     }
 
-    // 2. Método que libera o acesso para o seu Frontend rodando no Vite (porta 5173)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Origem do seu frontend
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
 
-        // Métodos permitidos
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        // Cabeçalhos permitidos (Crucial para enviar o "Authorization: Bearer <token>")
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Cache-Control"));
 
         configuration.setAllowCredentials(true);

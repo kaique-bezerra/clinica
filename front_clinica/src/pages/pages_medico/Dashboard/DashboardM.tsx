@@ -83,8 +83,7 @@ function DashboardM() {
     (c) => c.statusConsulta === "CANCELADO"
   );
 
-  // AQUI ESTÁ A ALTERAÇÃO:
-  // Só mostra AGENDADO nos próximos agendamentos
+
   const proximosAgendamentos = consultas.filter(
     (c) => c.statusConsulta === "AGENDADO"
   );

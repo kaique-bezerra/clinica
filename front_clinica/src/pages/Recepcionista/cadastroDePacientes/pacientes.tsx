@@ -37,7 +37,6 @@ function Pacientes() {
     }
   });
 
-  // --- MÁSCARAS DE INPUT ---
   const aplicarMarcaraCPF = (value: string) => {
     return value
       .replace(/\D/g, "")           
@@ -62,7 +61,6 @@ function Pacientes() {
       .substring(0, 9);
   };
 
-  // --- HANDLERS DE ALTERAÇÃO ---
   function handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = event.target;
 
@@ -87,7 +85,6 @@ function Pacientes() {
     }));
   }
 
-  // --- SUBMIT CONECTADO AO SPRING BOOT ---
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -97,20 +94,17 @@ function Pacientes() {
       setMensagem("Preencha os campos obrigatórios!");
       return;
     }
-    // Recupera o token salvo no login
     const token = localStorage.getItem("token");
     const temConvenio = formData.convenio.plano.trim() !== "";
 
-    // Monta o payload definitivo convertendo o que é número de verdade
     const payloadValido = {
     ...formData,
     numero: Number(formData.numero),
-    // Se não tem convênio, envia null. Se tem, envia o objeto.
-    // Isso evita que campos de data/numero vazios cheguem ao banco.
+
     convenio: temConvenio ? {
       plano: formData.convenio.plano,
-      numero: formData.convenio.numero || null, // Se vazio, vira null no banco
-      data: formData.convenio.data || null      // Se vazio, vira null no banco
+      numero: formData.convenio.numero || null, 
+      data: formData.convenio.data || null      
     } : null,
     dadosClinicos: {
       ...formData.dadosClinicos,
@@ -123,31 +117,26 @@ function Pacientes() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // 1. INJEÇÃO DO TOKEN: Envia as credenciais que o Spring Security exige
           "Authorization": `Bearer ${token}` 
         },
         body: JSON.stringify(payloadValido),
       });
 
-      // 2. CORREÇÃO: Trata respostas de erro antes de executar o .json() vazio
       if (!response.ok) {
         if (response.status === 403) {
           throw new Error("Sem permissão ou token expirado.");
         }
         
         if (response.status === 409) {
-          // Se a API envia o texto direto (ex: "CPF já cadastrado!")
           const msgServidor = await response.text(); 
           throw new Error(msgServidor || "Registro Duplicado");
         }
 
-        // Captura o corpo do erro genérico enviado pelo Spring Boot
         const erroGenerico = await response.text();
         throw new Error(`Erro ao cadastrar paciente: ${erroGenerico}`);
         }
 
       setMensagem("Paciente cadastrado com sucesso!");
-      // Opcional: Resetar formulário aqui
     } catch (error: any) {
       console.error(error);
       setMensagem(error.message || "Erro ao conectar ao servidor.");
@@ -167,8 +156,7 @@ function Pacientes() {
         <section className="form-section">
           <form className="patient-form" onSubmit={handleSubmit}>
             
-            {/* Bloco 1: Dados Pessoais */}
-            <fieldset className="form-group-box">
+=            <fieldset className="form-group-box">
               <legend>Dados Pessoais</legend>
               <div className="form-row">
                 <div className="input-group">
@@ -224,7 +212,6 @@ function Pacientes() {
               </div>
             </fieldset>
 
-            {/* Bloco 2: Endereço */}
             <fieldset className="form-group-box">
               <legend>Endereço Residencial</legend>
               <div className="form-row3">
@@ -258,7 +245,6 @@ function Pacientes() {
               </div>
             </fieldset>
 
-            {/* Bloco 3: Convênio */}
             <fieldset className="form-group-box">
               <legend>Dados do Convênio</legend>
               <div className="form-row3">
@@ -277,7 +263,6 @@ function Pacientes() {
               </div>
             </fieldset>
 
-            {/* Bloco 4: Dados Clínicos */}
             <fieldset className="form-group-box">
               <legend>Informações Clínicas Básicas</legend>
               <div className="form-row3">
