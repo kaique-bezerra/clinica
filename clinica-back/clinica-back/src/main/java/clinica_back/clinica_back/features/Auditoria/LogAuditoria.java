@@ -51,7 +51,7 @@ public class LogAuditoria {
     @Column(nullable = false, name = "id_afetado")
     private Long idAfetado;
 
-    @CreationTimestamp 
+    @CreationTimestamp
     @Column(nullable = false, name = "data_hora", updatable = false)
     private LocalDateTime dataHora;
 

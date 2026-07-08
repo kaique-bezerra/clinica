@@ -97,7 +97,6 @@ function DashboardAdmin() {
           </div>
         </section>
 
-        {/* BOTÕES */}
         <section className="buttons-section">
           <div className="botoes">
             <button
@@ -154,8 +153,6 @@ function DashboardAdmin() {
             </section>
           </div>
         </section>
-
-        {/* BARRA DE PESQUISA */}
 
         <section className="appointments-section">
           <h2>Perfis Cadastrados</h2>

@@ -93,10 +93,9 @@ th, td {
     border-bottom: 1px solid #eee;
 }
 
-/* Container que flutua exatamente abaixo do input sem empurrar o layout */
 .autocomplete-table-container {
   position: absolute;
-  top: 100%; /* Fixa logo abaixo do input */
+  top: 100%; 
   left: 0;
   width: 100%;
   max-height: 250px;
@@ -105,11 +104,10 @@ th, td {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 999; /* Garante que fica por cima de outros inputs */
+  z-index: 999; 
   margin-top: 4px;
 }
 
-/* Estilização da Tabela */
 .autocomplete-table {
   width: 100%;
   border-collapse: collapse;
@@ -117,7 +115,6 @@ th, td {
   text-align: left;
 }
 
-/* Cabeçalho Fixo para não sumir no scroll */
 .autocomplete-table th {
   position: sticky;
   top: 0;
@@ -128,24 +125,21 @@ th, td {
   border-bottom: 2px solid #eef2f3;
 }
 
-/* Linhas de Dados */
 .autocomplete-table td {
   padding: 12px 14px;
   color: #333333;
   border-bottom: 1px solid #f1f1f1;
 }
 
-/* Efeito de Hover moderno ao passar o mouse */
 .autocomplete-row {
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .autocomplete-row:hover {
-  background-color: #f4f7fe; /* Tom sutil de azul/clean */
+  background-color: #f4f7fe; 
 }
 
-/* Customização de colunas específicas para dar contraste visual */
 .cpf-cell {
   font-family: monospace;
   color: #666666;
@@ -156,7 +150,6 @@ th, td {
   font-size: 13px;
 }
 
-/* Caixa de mensagem quando não há resultados */
 .autocomplete-table-container.empty-msg {
   padding: 16px;
   text-align: center;

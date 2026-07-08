@@ -16,7 +16,6 @@
   font-size: 2rem;
 }
 
-/* Card da tabela */
 
 .tabela-container {
   background: white;
@@ -60,14 +59,12 @@
   border-bottom: none;
 }
 
-/* Descrição */
 
 .tabela-auditoria td:last-child {
   max-width: 350px;
   word-break: break-word;
 }
 
-/* Páginação */
 
 .paginacao {
   margin-top: 25px;
@@ -106,14 +103,12 @@
   color: #444;
 }
 
-/* Loading */
 
 .main-content p {
   font-size: 18px;
   color: #555;
 }
 
-/* Responsividade */
 
 @media (max-width: 1000px) {
   .main-content {

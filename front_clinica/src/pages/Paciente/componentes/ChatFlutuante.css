@@ -82,7 +82,6 @@
   opacity: 0.9;
 }
 
-/* Efeito de brilho */
 
 .syncia-button::before {
   content: "";

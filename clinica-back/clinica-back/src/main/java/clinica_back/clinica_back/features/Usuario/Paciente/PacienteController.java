@@ -34,7 +34,7 @@ public class PacienteController {
 
     private final PacienteService pacienteService;
 
-    @PreAuthorize("hasAuthority('RECEPCIONISTA') or hasAuthority('ADMINISTRADOR')")
+    @PreAuthorize("hasAuthority('RECEPCIONISTA') or hasAuthority('ROLE_ADMINISTRADOR')")
     @PostMapping
     public ResponseEntity<PacienteResponseDTO> cadastrar(@Valid @RequestBody PacienteRequestCadastrarDTO dto) {
         PacienteResponseDTO paciente = pacienteService.cadastrar(dto);

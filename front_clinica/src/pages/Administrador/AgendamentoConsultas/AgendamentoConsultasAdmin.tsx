@@ -262,7 +262,6 @@ function AgendamentoConsultasAdmin() {
               <legend>Dados do Agendamento</legend>
 
               <div className="form-row">
-                {/* CAMPO DE BUSCA COM TABELA FLUTUANTE (MANTIDO 100% INALTERADO) */}
                 <div className="input-group" style={{ position: "relative" }}>
                   <label>Paciente (Nome ou CPF)</label>
                   <input
@@ -276,7 +275,6 @@ function AgendamentoConsultasAdmin() {
                     required
                   />
 
-                  {/* ALTERAÇÃO: Tabela organizada flutuante em vez de lista simples */}
                   {mostrarSugestoes && sugestoesFiltradas.length > 0 && (
                     <div className="autocomplete-table-container">
                       <table className="autocomplete-table">
@@ -315,7 +313,6 @@ function AgendamentoConsultasAdmin() {
                     )}
                 </div>
 
-                {/* SELEÇÃO DO MÉDICO DINÂMICO */}
                 <div className="input-group">
                   <label>Médico</label>
                   <select
@@ -340,7 +337,6 @@ function AgendamentoConsultasAdmin() {
               </div>
 
               <div className="form-row">
-                {/* DATA DA CONSULTA */}
                 <div className="input-group">
                   <label>Data da Consulta</label>
                   <input
@@ -352,7 +348,6 @@ function AgendamentoConsultasAdmin() {
                   />
                 </div>
 
-                {/* HORÁRIO DA CONSULTA ALTERADO PARA SELECT DINÂMICO */}
                 <div className="input-group">
                   <label>Horário da Consulta</label>
                   <select

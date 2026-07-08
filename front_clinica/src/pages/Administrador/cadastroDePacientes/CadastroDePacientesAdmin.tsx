@@ -122,8 +122,8 @@ function CadastroDePacientesAdmin() {
       convenio: temConvenio
         ? {
             plano: formData.convenio.plano,
-            numero: formData.convenio.numero || null, 
-            data: formData.convenio.data || null, 
+            numero: formData.convenio.numero || null,
+            data: formData.convenio.data || null,
           }
         : null,
       dadosClinicos: {
@@ -157,6 +157,33 @@ function CadastroDePacientesAdmin() {
       }
 
       setMensagem("Paciente cadastrado com sucesso!");
+      setFormData({
+        nome: "",
+        sobrenome: "",
+        telefone: "",
+        cpf: "",
+        email: "",
+        senha: "",
+        rua: "",
+        numero: "",
+        bairro: "",
+        cidade: "",
+        estado: "",
+        cep: "",
+        sexo: "",
+        profissao: "",
+        dataNascimento: "",
+        convenio: {
+          plano: "",
+          numero: "",
+          data: "",
+        },
+        dadosClinicos: {
+          tipoSanguineo: "",
+          altura: "",
+          peso: "",
+        },
+      });
     } catch (error: any) {
       console.error(error);
       setMensagem(error.message || "Erro ao conectar ao servidor.");
@@ -175,7 +202,6 @@ function CadastroDePacientesAdmin() {
 
         <section className="form-section">
           <form className="patient-form" onSubmit={handleSubmit}>
-            {/* Bloco 1: Dados Pessoais */}
             <fieldset className="form-group-box">
               <legend>Dados Pessoais</legend>
               <div className="form-row">
@@ -291,7 +317,6 @@ function CadastroDePacientesAdmin() {
               </div>
             </fieldset>
 
-            {/* Bloco 2: Endereço */}
             <fieldset className="form-group-box">
               <legend>Endereço Residencial</legend>
               <div className="form-row3">
@@ -368,7 +393,6 @@ function CadastroDePacientesAdmin() {
               </div>
             </fieldset>
 
-            {/* Bloco 3: Convênio */}
             <fieldset className="form-group-box">
               <legend>Dados do Convênio</legend>
               <div className="form-row3">
@@ -407,7 +431,6 @@ function CadastroDePacientesAdmin() {
               </div>
             </fieldset>
 
-            {/* Bloco 4: Dados Clínicos */}
             <fieldset className="form-group-box">
               <legend>Informações Clínicas Básicas</legend>
               <div className="form-row3">

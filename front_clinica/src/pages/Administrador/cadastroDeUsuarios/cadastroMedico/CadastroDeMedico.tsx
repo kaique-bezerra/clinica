@@ -168,7 +168,6 @@ function CadastroDeUsuarioAdmin() {
 
         <section className="form-section">
           <form className="patient-form" onSubmit={handleSubmit}>
-            {/* Bloco 1: Dados Pessoais */}
             <fieldset className="form-group-box">
               <legend>Dados Pessoais</legend>
               <div className="form-row">
